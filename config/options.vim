@@ -25,7 +25,7 @@ set wildmode=full
 
 set nofoldenable "Disable fold
 set splitbelow " sohw preview window at bottom
-
+set equalalways
 " indent
 set expandtab
 set shiftround
@@ -46,7 +46,7 @@ set noswapfile
 set nobackup
 
 "" misc
-set number
+" set number
 set autoread "Automatically read file again which has been changed outside of Vim
 set backspace=indent,eol,start "Working of <BS>,<Del>,CTRL-W,CTRL-U
 set display=lastline "Display as much as possible of the last line
@@ -69,6 +69,6 @@ set wrapscan "Searches wrap around the end of the file
 set timeoutlen=1000
 set ttimeoutlen=50
 
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 set wildcharm=<C-z>

@@ -90,3 +90,7 @@ endfunction
 " statusline
 let g:statline_fugitive = 1
 let g:statline_filename_relative = 1
+
+" buffers
+nmap <BS> :b<Space>
+nmap ,l :<C-u>ls<CR>:<C-u>b

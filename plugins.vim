@@ -1,7 +1,7 @@
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  autocmd vimrc VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 silent! if plug#begin('~/.vim/plugged')
@@ -11,7 +11,6 @@ Plug 'scrooloose/nerdtree'
 Plug 'francoiscabrol/ranger.vim'
 
 " Theme
-Plug 'icymind/NeoSolarized'
 Plug 'millermedeiros/vim-statline'
 
 " Git
@@ -35,6 +34,12 @@ Plug 'junegunn/vim-easy-align'
 Plug 'Raimondi/delimitMate'
 Plug 'kana/vim-niceblock'
 Plug 'thirtythreeforty/lessspace.vim'
+
+" Async commands
+Plug 'skywind3000/asyncrun.vim'
+
+" Search
+Plug 'skwp/greplace.vim'
 
 " Autocomple
 Plug 'Shougo/neocomplete.vim'
