@@ -23,6 +23,7 @@ Plug 'pearofducks/ansible-vim'
 Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'othree/csscomplete.vim'
 Plug 'qbbr/vim-twig'
+Plug 'gabrielelana/vim-markdown'
 Plug 'chr4/nginx.vim'
 Plug 'pangloss/vim-javascript'
 
