@@ -23,5 +23,5 @@ asyncrun:
   do whatever command like in shell but in vim command line.
   Ex: AsyncRun git status, run command async,
 and show output in quickfix window. F9 or q or Ctrl-q close that window.
+F9 toggle quickfix window.
 ```
-
