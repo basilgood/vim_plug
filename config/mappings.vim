@@ -94,3 +94,7 @@ let g:statline_filename_relative = 1
 " buffers
 nmap <BS> :b<Space>
 nmap ,l :<C-u>ls<CR>:<C-u>b
+
+" asyncrun
+nmap <F9> :call asyncrun#quickfix_toggle(8)<cr>
+
