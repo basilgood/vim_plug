@@ -104,3 +104,7 @@ nmap <F5> :AsyncRun! git status<CR>
 nmap <F6> :AsyncRun! git add .
 nmap <F7> :AsyncRun! git commit -m ''<Left>
 nmap <F8> :AsyncRun! git push
+
+" pairs
+let g:delimitMate_expand_cr = 1
+let g:delimitMate_expand_space = 1
