@@ -17,7 +17,7 @@ endif
 
 " Enable true color
 if exists('+termguicolors')
-  set notermguicolors
+  set termguicolors
 endif
 
 colorscheme apprentice
