@@ -21,7 +21,6 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 " Syntax
 Plug 'pearofducks/ansible-vim'
 Plug 'Glench/Vim-Jinja2-Syntax'
-Plug 'othree/csscomplete.vim'
 Plug 'qbbr/vim-twig'
 Plug 'gabrielelana/vim-markdown'
 Plug 'chr4/nginx.vim'
@@ -31,6 +30,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-rsi'
 Plug 'junegunn/vim-easy-align'
 Plug 'Raimondi/delimitMate'
 Plug 'kana/vim-niceblock'
@@ -44,6 +44,7 @@ Plug 'skwp/greplace.vim'
 
 " Autocomple
 Plug 'Shougo/neocomplete.vim'
+" Plug 'maralla/completor.vim'
 
 " Lint
 Plug 'w0rp/ale'

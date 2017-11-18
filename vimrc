@@ -18,7 +18,6 @@ if has('vim_starting')
   \ | echomsg 'startuptime: ' . reltimestr(g:startuptime)
 endif
 
-
 source ~/.vim/plugins.vim
 
 source ~/.vim/config/theme.vim
