@@ -11,11 +11,11 @@ set concealcursor=nv
 
 " completion
 set completeopt&
-set completeopt+=preview
+set completeopt=preview
 " set completeopt+=longest
-set completeopt+=menuone
-set completeopt+=noinsert
-set completeopt+=noselect
+set completeopt=menuone
+set completeopt=noinsert
+set completeopt=noselect
 set omnifunc=csscomplete#CompleteCSS
 
 set infercase "Ignore case on insert completion
