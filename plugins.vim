@@ -16,7 +16,7 @@ Plug 'millermedeiros/vim-statline'
 " Git
 Plug 'airblade/vim-gitgutter'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 
 " Syntax
 Plug 'pearofducks/ansible-vim'
