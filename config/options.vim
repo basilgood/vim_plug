@@ -46,7 +46,7 @@ set noswapfile
 set nobackup
 
 "" misc
-" set number
+set number
 set autoread "Automatically read file again which has been changed outside of Vim
 set backspace=indent,eol,start "Working of <BS>,<Del>,CTRL-W,CTRL-U
 set display=lastline "Display as much as possible of the last line
@@ -55,12 +55,10 @@ set hidden "Display another buffer when current buffer isn't saved.
 set history=1024 "Amount of Command history
 set keywordprg=:help "Open Vim internal help by K command
 set laststatus=2 "Always display statusline
-set matchpairs+=<:> "Characters that form pairs
 set matchtime=1 "Tenths of a second to show the matching paren
 set modeline "Set Vim local buffer option to specific file
 set noerrorbells "Don't ring the bell for error messages
 set novisualbell "Don't use visual bell instead of beeping
-set nrformats-=octal "Bases Vim will consider for numbers(Ctrl-a,Ctrl-x)
 set shortmess+=I "Don't give the message when starting Vim :intro
 set virtualedit=block "Cursor can be positioned virtually when Visual-block mode
 set whichwrap=b,s,h,l,[,],<,> "Allow specified keys to move to the previous/next line
