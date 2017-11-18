@@ -11,5 +11,7 @@ save with Ctrl-s in normal and insert mode
 Ctrl-z in insert mode with every sequence
 show numbers ,n
 close window (buffer delete) q or Ctrl-q
+statusline show mixed indentatins(spaces + tabs)
+statusline show if we have trailling spaces
 ```
 
