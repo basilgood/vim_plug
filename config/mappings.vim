@@ -92,11 +92,15 @@ let g:statline_fugitive = 1
 let g:statline_filename_relative = 1
 
 " buffers
-nmap <BS> :b<Space>
+nmap <BS> :b<Space><tab><CR>
 nmap ,l :<C-u>ls<CR>:<C-u>b
 
 " asyncrun
 nmap <F9> :call asyncrun#quickfix_toggle(8)<cr>
-nmap <F2> :AsyncRun grep -R<Space>
-nmap <F3> :AsyncRun grep -R <cword><CR>
+nmap <F2> :AsyncRun! grep -R<Space>
+nmap <F3> :AsyncRun! grep -R <cword><CR>
 nmap <F4> :AsyncStop<CR>
+nmap <F5> :AsyncRun! git status<CR>
+nmap <F6> :AsyncRun! git add .<CR>
+nmap <F7> :AsyncRun! git commit -m ''<Left>
+nmap <F8> :AsyncRun! git push<CR>
