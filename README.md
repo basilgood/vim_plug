@@ -13,5 +13,6 @@ show numbers ,n
 close window (buffer delete) q or Ctrl-q
 statusline show mixed indentations(spaces + tabs)
 statusline show if we have trailling spaces
+reload window with ,,
 ```
 
