@@ -97,4 +97,6 @@ nmap ,l :<C-u>ls<CR>:<C-u>b
 
 " asyncrun
 nmap <F9> :call asyncrun#quickfix_toggle(8)<cr>
-
+nmap <F2> :AsyncRun grep -R<Space>
+nmap <F3> :AsyncRun grep -R <cword><CR>
+nmap <F4> :AsyncStop<CR>
