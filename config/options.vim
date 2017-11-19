@@ -26,6 +26,7 @@ set wildmode=full
 
 set nofoldenable "Disable fold
 set splitbelow " sohw preview window at bottom
+set splitright
 set equalalways
 " indent
 set expandtab
