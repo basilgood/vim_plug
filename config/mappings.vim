@@ -71,6 +71,7 @@ nmap <leader>- :NERDTreeFind<CR>
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeMouseMode = 3
+let g:NERDTreeWinSize = 24
 
 " ansible
 let g:ansible_unindent_after_newline = 1
