@@ -24,4 +24,6 @@ asyncrun:
   Ex: AsyncRun git status, run command async,
 and show output in quickfix window. F9 or q or Ctrl-q close that window.
 F9 toggle quickfix window.
+in normal mode <BS> show buffers in wildmenu and
+with tab or arrows(left, right) switch to the desired buffer.
 ```
