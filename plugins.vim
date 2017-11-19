@@ -35,6 +35,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'Raimondi/delimitMate'
 Plug 'kana/vim-niceblock'
 Plug 'thirtythreeforty/lessspace.vim'
+Plug 'editorconfig/editorconfig-vim'
 
 " Async commands
 Plug 'skywind3000/asyncrun.vim'

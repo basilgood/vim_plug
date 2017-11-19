@@ -117,3 +117,9 @@ endfunction
 
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>
 vnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>
+
+" autoalign
+vmap <CR> :EasyAlign<CR>
+
+" editorconfig
+let g:EditorConfig_core_mode = 'python_builtin'
