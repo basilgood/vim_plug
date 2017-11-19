@@ -29,9 +29,10 @@ set splitbelow " sohw preview window at bottom
 set equalalways
 " indent
 set expandtab
-set shiftround
+set tabstop=2
 set shiftwidth=2
-let &softtabstop = &tabstop
+set softtabstop=2
+set shiftround
 
 " lang
 set spelllang=en "Spell checking language
