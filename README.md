@@ -26,4 +26,10 @@ and show output in quickfix window. F9 or q or Ctrl-q close that window.
 F9 toggle quickfix window.
 in normal mode <BS> show buffers in wildmenu and
 with tab or arrows(left, right) switch to the desired buffer.
+
+<F5> show git status in quickfix window
+with q or Ctrl-q or <F9> close quickfix window
+<F6> git add .(hit enter if want to add all or edit)
+<F7> git commit -m '' (put the message between quotes and hit enter)
+<F8> git push (hit enter or edit)
 ```
