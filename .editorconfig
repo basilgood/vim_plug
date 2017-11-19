@@ -43,3 +43,11 @@ indent_size = 2
 [*.scss]
 indent_style = space
 indent_size = 2
+
+[*.yaml]
+indent_style = space
+indent_size = 2
+
+[*.ansible]
+indent_style = space
+indent_size = 2
