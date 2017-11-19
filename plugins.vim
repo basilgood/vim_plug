@@ -42,7 +42,7 @@ Plug 'skywind3000/asyncrun.vim'
 " Search
 Plug 'skwp/greplace.vim'
 
-" Autocomple
+" Autocompletion
 Plug 'Shougo/neocomplete.vim'
 " Plug 'maralla/completor.vim'
 
