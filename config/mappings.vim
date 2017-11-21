@@ -29,7 +29,7 @@ xnoremap < <gv
 
 " quick save, quit and undo
 nnoremap <silent> <c-s> :<C-u>update<CR>
-nnoremap <silent> <c-q> :<C-u>bd<CR>
+nnoremap <silent> <c-q> :<C-u>bw<CR>
 inoremap <silent> <c-s> <Esc>:<C-u>update<CR>
 imap <silent> <c-z> <c-o>u
 
@@ -66,12 +66,11 @@ vnoremap . :normal .<CR>
 noremap ,n :set invnumber<CR>
 
 " nerdtree
-nmap - :NERDTreeToggle<CR>
-nmap <leader>- :NERDTreeFind<CR>
+nmap <S-Tab> :NERDTreeToggle<CR>
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeMouseMode = 3
-let g:NERDTreeWinSize = 24
+let g:NERDTreeWinSize = 27
 
 " ansible
 let g:ansible_unindent_after_newline = 1
