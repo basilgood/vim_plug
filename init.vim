@@ -108,6 +108,10 @@ nnoremap <F9> :set wrap!<cr>
 nnoremap <Leader>w :%s/\s\+$//e<CR>
 
 "Plugins"
+"editorconfig"
+let g:editorconfig_root_chdir = 1
+let g:editorconfig_verbose = 1
+"nerdtree"
 nnoremap - :NERDTreeToggle<CR>
 nnoremap <Leader>- :NERDTreeFind<CR>
 let g:NERDTreeShowHidden = 1
