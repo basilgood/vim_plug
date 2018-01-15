@@ -33,6 +33,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'w0rp/ale'
 Plug 'shougo/deoplete.nvim'
+Plug 'gabesoft/vim-ags'
 call plug#end()
 
 "Colours"
@@ -135,10 +136,10 @@ nmap ]a <Plug>(ale_next_wrap)
 nmap [a <Plug>(ale_previous_wrap)
 
 " autocomplete
+let g:deoplete#enable_at_startup = 1
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-let g:deoplete#enable_at_startup = 1
 
 " star search
 nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*:call winrestview(stay_star_view)<cr>
@@ -158,6 +159,10 @@ if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
   let g:ctrlp_use_caching = 0
 endif
+
+"ags search"
+nnoremap ,f :Ags<CR>
+nnoremap ,g :Ags<Space>
 
 " autocommands
 AutoCmd BufEnter * :syntax sync fromstart
