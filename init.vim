@@ -43,7 +43,6 @@ let g:airline_theme='gruvbox'
 let g:gruvbox_invert_selection = 0
 let g:gruvbox_invert_indent_guides = 1
 set background=dark
-highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
 
 "Options"
 set shell=/bin/sh
