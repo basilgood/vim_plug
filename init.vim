@@ -167,6 +167,9 @@ if executable('ag')
 endif
 
 "ags search"
+let g:ags_agexe = 'ag'
+let g:ags_agcontext = 0
+let g:ags_enable_async = 1
 nnoremap ,f :Ags<CR>
 nnoremap ,g :Ags<Space>
 
