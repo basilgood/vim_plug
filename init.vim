@@ -43,6 +43,7 @@ let g:airline_theme='gruvbox'
 let g:gruvbox_invert_selection = 0
 let g:gruvbox_invert_indent_guides = 1
 set background=dark
+highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
 
 "Options"
 set shell=/bin/sh
@@ -72,6 +73,7 @@ set numberwidth=1
 set cursorline
 set nowrap
 set showbreak=\\\
+set whichwrap=<>,h,l
 set smarttab
 set smartindent
 set autoindent
@@ -185,6 +187,5 @@ AutoCmd FileType twig setlocal commentstring={#\ %s\ \#}
 AutoCmd FileType twig.html setlocal commentstring={#\ %s\ \#}
 AutoCmd FileType dosini setlocal commentstring=#\ %s
 AutoCmd FileType editorconfig setlocal commentstring=#\ %s
-AutoCmd BufRead,BufNewFile *.sql set list! cursorline!
 AutoCmd BufRead *.yamllint setlocal filetype=yaml
 AutoCmd BufRead *.editorconfig setlocal filetype=dosini
