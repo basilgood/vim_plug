@@ -81,7 +81,7 @@ set shiftwidth=2
 set expandtab
 set clipboard=unnamedplus
 set list listchars=space:·,tab:▸\ ,eol:¬,trail:~,extends:>,precedes:<,nbsp:•
-" set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
 "Mappings"
 nnoremap <Esc><Esc> :nohlsearch<CR>
@@ -183,3 +183,5 @@ AutoCmd FileType twig.html setlocal commentstring={#\ %s\ \#}
 AutoCmd FileType dosini setlocal commentstring=#\ %s
 AutoCmd FileType editorconfig setlocal commentstring=#\ %s
 AutoCmd BufRead,BufNewFile *.sql set list! cursorline!
+AutoCmd BufRead *.yamllint setlocal filetype=yaml
+AutoCmd BufRead *.editorconfig setlocal filetype=dosini
