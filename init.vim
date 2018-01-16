@@ -46,6 +46,8 @@ set background=dark
 
 "Options"
 set shell=/bin/sh
+set autoread
+set noswapfile
 set mouse=a
 set hidden
 set nofoldenable
