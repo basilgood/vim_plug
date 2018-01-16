@@ -106,7 +106,7 @@ nnoremap vv viw
 vnoremap <Space> <esc>
 vnoremap . :normal .<CR>
 nnoremap ,n :set invnumber<CR>
-nnoremap <F9> :set wrap!<cr>
+nnoremap ,w :set wrap!<cr>
 nnoremap <Leader>w :%s/\s\+$//e<CR>
 
 "Plugins"
