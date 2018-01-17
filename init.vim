@@ -11,6 +11,7 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
 endif
 call plug#begin()
 Plug 'morhetz/gruvbox'
+" Plug 'rafi/vim-tinyline'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'sgur/vim-editorconfig'
