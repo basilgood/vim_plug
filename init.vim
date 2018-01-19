@@ -11,7 +11,7 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
 endif
 call plug#begin()
 Plug 'morhetz/gruvbox'
-Plug 'freeo/vim-kalisi'
+Plug 'basilgood/Apprentice'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'sgur/vim-editorconfig'
@@ -41,9 +41,8 @@ call plug#end()
 set termguicolors
 colorscheme apprentice
 " colorscheme gruvbox
-let g:airline_theme='gruvbox'
-let g:gruvbox_invert_selection = 0
-let g:gruvbox_invert_indent_guides = 1
+" let g:gruvbox_invert_selection = 0
+" let g:gruvbox_invert_indent_guides = 1
 set background=dark
 
 "Options"
