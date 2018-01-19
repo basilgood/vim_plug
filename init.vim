@@ -11,7 +11,7 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
 endif
 call plug#begin()
 Plug 'morhetz/gruvbox'
-" Plug 'rafi/vim-tinyline'
+Plug 'freeo/vim-kalisi'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'sgur/vim-editorconfig'
@@ -39,7 +39,8 @@ call plug#end()
 
 "Colours"
 set termguicolors
-colorscheme gruvbox
+colorscheme apprentice
+" colorscheme gruvbox
 let g:airline_theme='gruvbox'
 let g:gruvbox_invert_selection = 0
 let g:gruvbox_invert_indent_guides = 1
@@ -60,7 +61,7 @@ set fillchars+=diff:⣿
 set diffopt=vertical
 set diffopt+=filler
 set diffopt+=iwhite
-set complete=.,w,b,u,t,i
+set complete=.,w,b,u,t,i,k
 set completeopt+=noselect
 set completeopt+=noinsert
 set omnifunc=syntaxcomplete#Complete
@@ -71,16 +72,15 @@ set hlsearch|nohlsearch
 set number
 set numberwidth=1
 set cursorline
-set nowrap
+set wrap
 set showbreak=\\\
 set whichwrap=<>,h,l
-set smarttab
-set smartindent
 set autoindent
+set smartindent
+set expandtab
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
-set expandtab
 set clipboard=unnamedplus
 set list listchars=space:·,tab:▸\ ,eol:¬,trail:~,extends:>,precedes:<,nbsp:•
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
