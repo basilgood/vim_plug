@@ -1,3 +1,12 @@
+if !v:vim_did_enter && has('reltime')
+  let g:startuptime = reltime()
+  augroup vimrc-startuptime
+    autocmd! VimEnter * let g:startuptime = reltime(g:startuptime)
+          \                 | redraw
+          \                 | echomsg 'startuptime: ' . reltimestr(g:startuptime)
+  augroup END
+endif
+
 scriptencoding utf-8
 augroup MyVimrc
   autocmd!
@@ -10,15 +19,13 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
   AutoCmd VimEnter * PlugInstall
 endif
 call plug#begin()
-Plug 'morhetz/gruvbox'
-Plug 'basilgood/Apprentice'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'mhinz/vim-startify'
 Plug 'sgur/vim-editorconfig'
 Plug 'tpope/vim-fugitive'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
-Plug 'Shougo/context_filetype.vim'
 Plug 'Glench/Vim-Jinja2-Syntax', { 'for': 'jinja' }
 Plug 'othree/html5.vim', { 'for': 'html' }
 Plug 'lumiliet/vim-twig', { 'for': ['twig', 'html.twig'] }
@@ -33,27 +40,29 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'w0rp/ale'
-Plug 'shougo/deoplete.nvim'
+Plug 'Shougo/deoplete.nvim'
 Plug 'gabesoft/vim-ags'
 call plug#end()
 
 "Colours"
 set termguicolors
-colorscheme apprentice
-" colorscheme gruvbox
-" let g:gruvbox_invert_selection = 0
-" let g:gruvbox_invert_indent_guides = 1
 set background=dark
+colorscheme apprentice
+highlight ALEErrorSign guifg=red guibg=NONE
+highlight ALEWarningSign guifg=yellow guibg=NONE
+let g:ale_sign_error = '→'
+let g:ale_sign_warning = '→'
 
 "Options"
 set shell=/bin/sh
-set autoread
 set noswapfile
+set shortmess=atI
 set mouse=a
 set hidden
 set nofoldenable
 set splitbelow
 set splitright
+set switchbuf=useopen,usetab
 set nostartofline
 set equalalways
 set fillchars+=diff:⣿
@@ -63,26 +72,34 @@ set diffopt+=iwhite
 set complete=.,w,b,u,t,i,k
 set completeopt+=noselect
 set completeopt+=noinsert
-set omnifunc=syntaxcomplete#Complete
 set infercase
+set omnifunc=syntaxcomplete#Complete
 set ignorecase
 set smartcase
 set hlsearch|nohlsearch
 set number
 set numberwidth=1
 set cursorline
-set wrap
+set linebreak
 set showbreak=\\\
-set whichwrap=<>,h,l
-set autoindent
+set breakat=\ \	;:,!?
+set whichwrap+=h,l,<,>,[,],b,s,~
+if exists('+breakindent')
+  set breakindent
+  set wrap
+else
+  set nowrap
+endif
 set smartindent
 set expandtab
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
+set shiftround
+set updatetime=1000
 set clipboard=unnamedplus
 set list listchars=space:·,tab:▸\ ,eol:¬,trail:~,extends:>,precedes:<,nbsp:•
-set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+set statusline=%<%f\ %m%r%h%w%r%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']['.&ft.']'}%{fugitive#statusline()}%=%l,%c%V%8P
 
 "Mappings"
 nnoremap <Esc><Esc> :nohlsearch<CR>
@@ -94,7 +111,7 @@ nnoremap <C-s> :<C-u>update<CR>
 nnoremap <C-q> :<C-u>bw<CR>
 inoremap <C-s> <Esc>:<C-u>update<CR>
 vnoremap <C-s> <C-C>:<C-u>update<CR>
-inoremap <C-z> <C-o>u
+inoremap <C-z> <C-O>u
 nnoremap H ^
 nnoremap L $
 vnoremap L g_
@@ -109,7 +126,10 @@ vnoremap . :normal .<CR>
 nnoremap ,n :set invnumber<CR>
 nnoremap ,w :set wrap!<cr>
 nnoremap <Leader>w :%s/\s\+$//e<CR>
-
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
 "Plugins"
 "editorconfig"
 let g:editorconfig_root_chdir = 1
@@ -123,11 +143,8 @@ let g:NERDTreeMinimalUI = 1
 let g:NERDTreeMouseMode = 3
 
 "ale lint"
-let g:ale_fixers = {
-      \   'javascript': ['eslint'],
-      \}
-" let g:ale_set_quickfix = 1
-let g:ale_fix_on_save = 1
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_lint_delay = 600
 let g:ale_linters = {
       \ 'html': ['eslint'],
       \ 'twig': ['eslint'],
@@ -138,11 +155,18 @@ let g:ale_linter_aliases = {
       \ 'twig': 'javascript',
       \ 'html.twig': 'javascript'
       \}
-let g:ale_lint_delay = 1000
+let g:ale_fixers = {
+      \ 'javascript': ['eslint'],
+      \ 'scss': ['prettier'],
+      \ 'css': ['prettier'],
+      \ 'json': ['prettier'],
+      \ 'python': ['autopep8']
+      \ }
+let g:ale_fix_on_save = 1
 nmap ]a <Plug>(ale_next_wrap)
 nmap [a <Plug>(ale_previous_wrap)
 
-" autocomplete
+"autocomplete"
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
@@ -161,11 +185,16 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 
 "ctrlp"
 nnoremap <BS> :CtrlPBuffer<CR>
+nnoremap ,m :CtrlPMRUFiles<CR>
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
+  set grepformat=%f:%l:%c%m
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
   let g:ctrlp_use_caching = 0
 endif
+let g:ctrlp_custom_ignore = {
+      \   'dir': '\v[\/](bower_components|\node_modules|\.git)$',
+      \ }
 
 "ags search"
 let g:ags_agexe = 'ag'
@@ -174,7 +203,25 @@ let g:ags_enable_async = 1
 nnoremap ,f :Ags<CR>
 nnoremap ,g :Ags<Space>
 
-" autocommands
+"startify"
+let g:startify_session_dir = '~/.config/nvim/session'
+let g:startify_list_order = [
+      \ ['   These are my sessions:'],
+      \ 'sessions',
+      \ ['   These are my bookmarks:'],
+      \ 'bookmarks',
+      \ ['   These are my commands:'],
+      \ 'commands',
+      \ ]
+let g:startify_change_to_dir = 1
+let g:startify_session_persistence = 1
+let g:startify_fortune_use_unicode = 0
+let g:startify_custom_header =[]
+let g:startify_bookmarks = ['~/.config/nvim/init.vim',]
+" AutoCmd User Startified set buftype=
+nnoremap <Leader>s :Startify<CR>
+
+"autocommands
 AutoCmd BufEnter * :syntax sync fromstart
 AutoCmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | exe 'normal! g`"zz' | endif
 if !has('gui_running')
@@ -188,3 +235,4 @@ AutoCmd FileType dosini setlocal commentstring=#\ %s
 AutoCmd FileType editorconfig setlocal commentstring=#\ %s
 AutoCmd BufRead *.yamllint setlocal filetype=yaml
 AutoCmd BufRead *.editorconfig setlocal filetype=dosini
+AutoCmd BufRead,BufNewFile *.html set filetype=html
