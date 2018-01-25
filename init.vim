@@ -99,7 +99,7 @@ set shiftround
 set updatetime=1000
 set clipboard=unnamedplus
 set list listchars=space:·,tab:▸\ ,eol:¬,trail:~,extends:>,precedes:<,nbsp:•
-set statusline=%<%f\ %m%r%h%w%r%y%=%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%{fugitive#statusline()}%5l,%c%V%5P
+set statusline=%<%f\ %m%r%h%w%r%y%=%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%{fugitive#statusline()}%5l,%c%V%5L
 
 "Mappings"
 nnoremap <Esc><Esc> :nohlsearch<CR>
