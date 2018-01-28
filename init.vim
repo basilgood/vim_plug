@@ -8,6 +8,7 @@ if !v:vim_did_enter && has('reltime')
 endif
 
 scriptencoding utf-8
+set shell=/bin/sh
 augroup MyVimrc
   autocmd!
 augroup END
@@ -18,10 +19,11 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
         \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   AutoCmd VimEnter * PlugInstall
 endif
+
 call plug#begin()
+Plug 'itchyny/lightline.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'mhinz/vim-startify'
 Plug 'sgur/vim-editorconfig'
 Plug 'tpope/vim-fugitive'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -35,7 +37,6 @@ Plug 'dag/vim-fish', { 'for': 'fish' }
 Plug 'pocke/iro.vim', { 'for': ['yaml', 'ruby'] }
 Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 Plug 'othree/yajs.vim', { 'for': 'javascript' }
-Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
@@ -47,14 +48,13 @@ call plug#end()
 "Colours"
 set termguicolors
 set background=dark
-colorscheme apprentice
+colorscheme space-vim-dark
 highlight ALEErrorSign guifg=red guibg=NONE
 highlight ALEWarningSign guifg=yellow guibg=NONE
 let g:ale_sign_error = '→'
 let g:ale_sign_warning = '→'
 
 "Options"
-set shell=/bin/sh
 set noswapfile
 set shortmess=atI
 set mouse=a
@@ -82,7 +82,7 @@ set numberwidth=1
 set cursorline
 set linebreak
 set showbreak=\\\
-set breakat=\ \	;:,!?
+set breakat=\ \ ;:,!?
 set whichwrap+=h,l,<,>,[,],b,s,~
 if exists('+breakindent')
   set breakindent
@@ -99,7 +99,7 @@ set shiftround
 set updatetime=1000
 set clipboard=unnamedplus
 set list listchars=space:·,tab:▸\ ,eol:¬,trail:~,extends:>,precedes:<,nbsp:•
-set statusline=%<%f\ %m%r%h%w%r%y%=%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%{fugitive#statusline()}%5l,%c%V%5L
+" set statusline=%<%f\ %m%r%h%w%r%y%=%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%{fugitive#statusline()}%5l,%c%V%5L
 
 "Mappings"
 nnoremap <Esc><Esc> :nohlsearch<CR>
@@ -130,6 +130,16 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
+nnoremap ]t :tabnext<CR>
+nnoremap [t :tabprevious<CR>
+nnoremap ,x :tabnext<CR>
+nnoremap ,z :tabprevious<CR>
+nnoremap ,1 1gt
+nnoremap ,2 2gt
+nnoremap ,3 3gt
+nnoremap ,4 4gt
+nnoremap ,5 5gt
+
 "Plugins"
 "editorconfig"
 let g:editorconfig_root_chdir = 1
@@ -203,23 +213,27 @@ let g:ags_enable_async = 1
 nnoremap ,f :Ags<CR>
 nnoremap ,g :Ags<Space>
 
-"startify"
-let g:startify_session_dir = '~/.config/nvim/session'
-let g:startify_list_order = [
-      \ ['   These are my sessions:'],
-      \ 'sessions',
-      \ ['   These are my bookmarks:'],
-      \ 'bookmarks',
-      \ ['   These are my commands:'],
-      \ 'commands',
-      \ ]
-let g:startify_change_to_dir = 1
-let g:startify_session_persistence = 1
-let g:startify_fortune_use_unicode = 0
-let g:startify_custom_header =[]
-let g:startify_bookmarks = ['~/.config/nvim/init.vim',]
-" AutoCmd User Startified set buftype=
-nnoremap <Leader>s :Startify<CR>
+"lightline"
+let g:lightline = {
+      \   'colorscheme': 'wombat',
+      \   'active': {
+      \     'left':[ [ 'mode', 'paste' ],
+      \              [ 'gitbranch', 'readonly', 'filename', 'modified' ]
+      \     ]
+      \   },
+      \   'component': {
+      \     'lineinfo': ' %3l:%-2v',
+      \   },
+      \   'component_function': {
+      \     'gitbranch': 'fugitive#head',
+      \   }
+      \ }
+let g:lightline.separator = {
+      \   'left': '', 'right': ''
+      \}
+let g:lightline.subseparator = {
+      \   'left': '', 'right': ''
+      \}
 
 "autocommands
 AutoCmd BufEnter * :syntax sync fromstart
