@@ -81,7 +81,6 @@ set linebreak
 set showbreak=\\\
 set breakat=\ \ ;:,!?
 set nowrap
-set smartindent
 set expandtab
 set tabstop=2
 set softtabstop=2
@@ -151,14 +150,10 @@ endif
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_lint_delay = 600
 let g:ale_linters = {
-      \ 'html': ['eslint'],
-      \ 'twig': ['eslint'],
-      \ 'html.twig': ['eslint']
+      \ 'javascript': ['eslint'],
       \}
 let g:ale_linter_aliases = {
-      \ 'html': 'javascript',
-      \ 'twig': 'javascript',
-      \ 'html.twig': 'javascript'
+      \ 'html': 'javascript'
       \}
 let g:ale_fixers = {
       \ 'html': ['eslint'],
@@ -191,7 +186,7 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 if !has('gui_running')
-  AutoCmd BufEnter,CursorHold,CursorHoldI,CursorMoved,CursorMovedI,FocusGained,BufEnter,FocusLost,WinLeave * checktime
+  AutoCmd CursorHold,CursorHoldI,CursorMoved,CursorMovedI,FocusGained,FocusLost,WinLeave * checktime
 endif
 
 AutoCmd BufEnter * packadd vim-repeat
@@ -203,7 +198,7 @@ AutoCmd FileType jinja setlocal commentstring={#\ %s\ \#}
 AutoCmd FileType twig setlocal commentstring={#\ %s\ \#}
 AutoCmd FileType twig.html setlocal commentstring={#\ %s\ \#}
 AutoCmd FileType dosini setlocal commentstring=#\ %s
-AutoCmd FileType vim,javascript,html,yaml,json,twig,ansible,scss packadd ale
+AutoCmd FileType vim,javascript,html,yaml,json,ansible,scss packadd ale
 AutoCmd BufReadPre *.j2 packadd Vim-Jinja2-Syntax
 AutoCmd BufReadPre *.twig packadd vim-twig
 AutoCmd BufReadPre *.html packadd html5.vim
