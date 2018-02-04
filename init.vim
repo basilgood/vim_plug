@@ -24,18 +24,11 @@ silent! packadd minpac
 if exists('*minpac#init')
   call minpac#init()
   call minpac#add('k-takata/minpac', {'type': 'opt'})
-  " theme
   call minpac#add('liuchengxu/space-vim-dark')
-
-  " files
   call minpac#add('scrooloose/nerdtree', {'type': 'opt'})
   call minpac#add('ctrlpvim/ctrlp.vim', {'type': 'opt'})
-
-  " git
   call minpac#add('Xuyuanp/nerdtree-git-plugin')
   call minpac#add('airblade/vim-gitgutter')
-
-  " syntax
   call minpac#add('Glench/Vim-Jinja2-Syntax', {'type': 'opt'})
   call minpac#add('lumiliet/vim-twig', {'type': 'opt'})
   call minpac#add('othree/html5.vim', { 'type': 'opt' })
@@ -45,20 +38,13 @@ if exists('*minpac#init')
   call minpac#add('pocke/iro.vim', { 'type': 'opt' })
   call minpac#add('kchmck/vim-coffee-script', { 'type': 'opt' })
   call minpac#add('othree/yajs.vim', { 'type': 'opt' })
-
-  " enhancemets
   call minpac#add('tpope/vim-surround', {'type': 'opt'})
   call minpac#add('tpope/vim-commentary', {'type': 'opt'})
   call minpac#add('tpope/vim-repeat', {'type': 'opt'})
   call minpac#add('junegunn/vim-easy-align', {'type': 'opt'})
   call minpac#add('sgur/vim-editorconfig')
-
-  " linter
   call minpac#add('w0rp/ale', { 'type': 'opt' })
-
-  " search
-  call minpac#add('gabesoft/vim-ags', { 'type': 'opt' })
-  call minpac#add('eugen0329/vim-esearch')
+  call minpac#add('gabesoft/vim-ags')
 
 endif
 
@@ -183,8 +169,14 @@ let g:ale_fixers = {
       \ 'python': ['autopep8']
       \ }
 let g:ale_fix_on_save = 1
-nmap ]a <Plug>(ale_next_wrap)
-nmap [a <Plug>(ale_previous_wrap)
+nnoremap ]a <Plug>(ale_next_wrap)
+nnoremap [a <Plug>(ale_previous_wrap)
+
+let g:ags_agexe = 'ag'
+let g:ags_agcontext = 0
+let g:ags_enable_async = 1
+nnoremap ,f :Ags<CR>
+nnoremap ,g :Ags<Space>
 
 nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*:call winrestview(stay_star_view)<cr>
 function! s:VSetSearch()
