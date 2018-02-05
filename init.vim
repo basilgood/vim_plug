@@ -56,7 +56,12 @@ set splitbelow
 set splitright
 set switchbuf=useopen,usetab
 set complete=.,w,b,u,t,i,k
+set completeopt=menuone
 set omnifunc=syntaxcomplete#Complete
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor\ --column
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
 set hlsearch|nohlsearch
 set sidescrolloff=5
 set sidescroll=1
@@ -114,8 +119,6 @@ let g:NERDTreeMouseMode = 3
 nnoremap <BS> :CtrlPBuffer<CR>
 nnoremap ,m :CtrlPMRUFiles<CR>
 if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
-  set grepformat=%f:%l:%c%m
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
   let g:ctrlp_use_caching = 0
 endif
