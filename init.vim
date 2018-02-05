@@ -12,8 +12,8 @@ endif
 
 set shell=bash
 
-if empty(glob('~/.vim/pack/minpac/opt/'))
-  silent !git clone https://github.com/k-takata/minpac.git ~/.vim/pack/minpac/opt/minpac
+if empty(glob('~/.config/nvim/pack/minpac/opt/'))
+  silent !git clone https://github.com/k-takata/minpac.git ~/.config/nvim/pack/minpac/opt/minpac
 endif
 
 set packpath^=~/.config/nvim
