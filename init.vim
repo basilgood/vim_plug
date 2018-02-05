@@ -74,7 +74,7 @@ set inccommand=nosplit
 set updatetime=750
 set clipboard^=unnamedplus,unnamed
 set list listchars=tab:▸\ ,eol:¬,trail:~,space:·,extends:>,precedes:<,nbsp:•
-set statusline=%<%f\ %h%m%r%y%=%-14.(%l,%c%V%)\ %P
+set statusline=%<%f\ %h%m%r%y%=%-14.(%l,%c%V%)\ %L
 
 nnoremap <Esc><Esc> :nohlsearch<CR>
 noremap j gj
