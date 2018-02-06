@@ -110,6 +110,7 @@ filetype plugin indent on
 syntax on
 
 colorscheme space-vim-dark
+highlight Normal cterm=NONE ctermbg=17 gui=NONE guibg=#262626
 
 nnoremap - :packadd nerdtree<CR>:NERDTreeToggle<CR>
 nnoremap <Leader>- :packadd nerdtree<CR>:NERDTreeFind<CR>
