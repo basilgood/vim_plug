@@ -164,6 +164,8 @@ endfunction
 vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
 vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 
+nnoremap ,l :ls<CR>:b
+
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 AutoCmd BufEnter,CursorHold,CursorHoldI,CursorMoved,CursorMovedI,FocusGained,BufEnter,FocusLost,WinLeave * checktime
@@ -185,6 +187,7 @@ AutoCmd BufReadPre *.js packadd yajs.vim
 AutoCmd BufReadPre *.md packadd vim-markdown
 AutoCmd BufReadPre *.fish packadd vim-fish
 AutoCmd BufReadPre *.nginx packadd nginx.vim
+AutoCmd BufReadPre *.coffee packadd vim-coffee-script
 AutoCmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | exe 'normal! g`"zz' | endif
 AutoCmd InsertLeave * set nopaste
 AutoCmd BufEnter * syntax sync minlines=99999
