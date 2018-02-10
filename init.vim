@@ -1,4 +1,4 @@
-" scriptencoding utf-8
+scriptencoding utf-8
 set shell=/bin/sh
 
 augroup MyVimrc
