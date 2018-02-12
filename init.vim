@@ -75,59 +75,35 @@ filetype plugin indent on
 syntax on
 silent! colorscheme space-vim-dark
 
-nnoremap - :packadd nerdtree<CR>:NERDTreeToggle<CR>
-nnoremap <Leader>- :packadd nerdtree<CR>:NERDTreeFind<CR>
-let g:NERDTreeShowHidden = 1
-let g:NERDTreeMouseMode = 3
-
-xmap + <Plug>(EasyAlign)
-
-nnoremap <BS> :CtrlPBuffer<CR>
-nnoremap ,m :CtrlPMRUFiles<CR>
-if executable('ag')
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  let g:ctrlp_use_caching = 0
-endif
-let g:ctrlp_custom_ignore = {
-      \   'dir': '\v[\/](bower_components|\node_modules|\.git)$',
-      \ }
-
 let g:editorconfig_root_chdir = 1
 let g:editorconfig_verbose = 1
 
+
+nnoremap - :packadd nerdtree<CR>:NERDTreeToggle<CR>
+let g:NERDTreeMouseMode = 3
+let g:NERDTreeShowHidden = 1
+
+nmap <Leader>f :LustyFilesystemExplorer<CR>
+nmap <Leader>r :LustyFilesystemExplorerFromHere<CR>
+nmap <Leader>b :LustyBufferExplorer<CR>
+nmap <Leader>g :LustyBufferGrep<CR>
+
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+
+nnoremap ,f :Ags<CR>
+nnoremap ,g :Ags<Space>
+
 function! s:VSetSearch()
-  let temp = @@
+  let l:temp = @@
   norm! gvy
   let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
-  let @@ = temp
+  let @@ = l:temp
 endfunction
-vnoremap * :<c-u>call <sid>VSetSearch()<cr>//<cr><c-o>
-vnoremap # :<c-u>call <sid>VSetSearch()<cr>??<cr><c-o>
-
-nnoremap ,l :ls<CR>:b
+vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
+vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>:redraw!<CR>
-command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-xnoremap K "sy:Ag '<C-R>s'<CR>
-
-" let g:neomake_open_list = 2
-let g:neomake_warning_sign = {
-  \ 'text': 'w',
-  \ 'texthl': 'WarningMsg',
-  \ }
-let g:neomake_error_sign = {
-  \ 'text': 'e',
-  \ 'texthl': 'ErrorMsg',
-  \ }
-let g:neomake_serialize = 1
-let g:neomake_serialize_abort_on_error = 1
-nmap <F2> :lfirst<cr>
-nmap <F3> :llast<cr>
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_html_enabled_makers = ['eslint']
-AutoCmd BufReadPost,BufWritePost,CursorHold,CursorHoldI *.yml,.js,.html,.vim,.rb,scss,css,Vagrantfile NeomakeFile
 AutoCmd BufEnter,CursorHold,CursorHoldI,CursorMoved,CursorMovedI,FocusGained,BufEnter,FocusLost,WinLeave * checktime
-AutoCmd BufEnter *.* :syntax sync fromstart
+AutoCmd BufEnter * syntax sync minlines=99999
 AutoCmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | exe 'normal! g`"zz' | endif
