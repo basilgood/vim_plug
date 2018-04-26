@@ -143,13 +143,13 @@ cmd_install() {
       [ "$mode" = "install" ] && continue
       printf "%-8s" "($i/$total)"
       echo "updating '$destdir' from '$repo'"
-      do_update
+      do_update &
       # Install new
     else
       [ "$mode" = "update" ] && continue
       printf "%-8s" "($i/$total)"
       echo "cloning '$repo' to '$destdir'"
-      do_install
+      do_install &
     fi
   done
   # make_helptags
@@ -163,7 +163,7 @@ do_update() {
 }
 
 do_install() {
-  git clone --quiet "git@github.com:$repo" "$destdir" || return
+  git clone --quiet "https://github.com/$repo" "$destdir" || return
   (
   cd "$destdir"
   )
