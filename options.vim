@@ -2,16 +2,14 @@ scriptencoding utf-8
 
 set number
 set mouse=a
-" set cursorline
+set cursorline
 set noswapfile
 set shortmess+=I
 set hidden
 set nowrap
-set nostartofline
 set splitbelow
 set splitright
 set switchbuf=useopen,usetab
-set shada='250,\"100,:100,n~/.config/nvim/shada
 set wildignore+=*/node_modules/*,*/.git/*,*/.hg/*,*/.svn/*,*/.vagrant/*,*/bower_components/*
 set complete=.,w,b,u,t,i,k
 set completeopt=menuone
