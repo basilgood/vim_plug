@@ -4,4 +4,4 @@ if has('termguicolors')
   set termguicolors
 endif
 
-colorscheme monokai-phoenix
+colorscheme base16-onedark
