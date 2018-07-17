@@ -11,22 +11,31 @@ set splitbelow
 set splitright
 set switchbuf=useopen,usetab
 set wildignore+=*/node_modules/*,*/.git/*,*/.hg/*,*/.svn/*,*/.vagrant/*,*/bower_components/*
-set complete=.,w,b,u,t,i,k
-set completeopt=menuone
+set completeopt+=menuone
+set completeopt+=noinsert
+set completeopt+=noselect
 set omnifunc=syntaxcomplete#Complete
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor\ --vimgrep
-  set grepformat^=%f:%l:%c:%m
-endif
+set completefunc=syntaxcomplete#Complete
+set complete=.,w,b,u,U,t,i,d,k
+set pumheight=10
+set omnifunc=syntaxcomplete#Complete
 set hlsearch|nohlsearch
 set sidescrolloff=5
 set sidescroll=1
 set expandtab
+set softtabstop=2
 set shiftwidth=2
-set softtabstop=-1
 set shiftround
 set inccommand=nosplit
 set updatetime=750
-set clipboard^=unnamedplus,unnamed
-set list listchars=tab:▸\ ,eol:¬,trail:~,space:·,extends:>,precedes:<,nbsp:•
-set statusline=%f%m%r%h%w%=%{fugitive#head()}\ (%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)
+set list listchars=tab:▸\ ,eol:¬,trail:~,space:·,extends:»,precedes:«,nbsp:⦸
+set statusline=
+set statusline+=%(%{'help'!=&filetype?'\ \ '.bufnr('%'):''}\ %)
+set statusline+=%{fugitive#head()!=''?'\ \ '.fugitive#head().'\ ':''}
+set statusline+=\ %f
+set statusline+=\ %{&modified?'\ \ +':''}
+set statusline+=\ %{&readonly?'\ \ ':''}
+set statusline+=%=
+set statusline+=\ %{''!=#&filetype?&filetype:'none'}
+set statusline+=\ %5v/%l
+set statusline+=\ %4L
