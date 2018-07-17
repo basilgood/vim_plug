@@ -4,7 +4,7 @@ set number
 set mouse=a
 set cursorline
 set noswapfile
-set shortmess+=I
+set shortmess=Iatc
 set hidden
 set nowrap
 set splitbelow
