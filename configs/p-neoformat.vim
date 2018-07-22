@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 let s:local_prettier_eslint = findfile('node_modules/.bin/prettier-eslint', '.;')
 
 if executable(s:local_prettier_eslint)

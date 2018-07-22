@@ -3,8 +3,9 @@ scriptencoding utf-8
 set number
 set mouse=a
 set cursorline
+set lazyredraw
 set noswapfile
-set shortmess=Iatc
+set shortmess+=I
 set hidden
 set nowrap
 set splitbelow
@@ -18,12 +19,14 @@ set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
 set complete=.,w,b,u,U,t,i,d,k
 set pumheight=10
-set omnifunc=syntaxcomplete#Complete
 set hlsearch|nohlsearch
+set nostartofline
 set sidescrolloff=5
 set sidescroll=1
 set expandtab
+set smarttab
 set softtabstop=2
+set tabstop=2
 set shiftwidth=2
 set shiftround
 set inccommand=nosplit

@@ -9,6 +9,8 @@ nnoremap <C-s> :update<CR>
 inoremap <C-s> <Esc>:update<CR>
 xnoremap <C-s> <C-C>:<C-u>update<CR>
 nnoremap <expr> 0 virtcol('.') - 1 <= indent('.') && col('.') > 1 ? '0' : '_'
+nnoremap <silent> [- :vertical resize +1<CR>
+nnoremap <silent> ]= :vertical resize -1<CR>
 vnoremap . :normal .<CR>
 nnoremap ,w :set wrap!<cr>
 nnoremap <Leader>w :%s/\s\+$//e<CR>
@@ -16,13 +18,17 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
-nnoremap <Leader>s :%s//<left>
+nnoremap <Space>s :%s//<left>
+nnoremap <Leader>r :%s/\<<C-r><C-w>\>/<C-r><C-w>
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 nnoremap <space><space> :tabnew %<CR>
 nnoremap <space>q :tabclose<CR>
 vnoremap <Space>y "+y
-nnoremap <Space>p "+p
-vnoremap <Space>p "+p
+" nnoremap <Space>p "+p
+" vnoremap <Space>p "+p
 nnoremap <Space>P "+P
 vnoremap <Space>P "+P
+map _  <Plug>(operator-replace)
 inoremap <C-v> <ESC>"+gPa
+nmap <Space>p "+_iw
+vmap <Space>p "+_

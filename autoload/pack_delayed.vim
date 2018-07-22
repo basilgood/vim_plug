@@ -1,20 +1,23 @@
 function pack_delayed#plugins(...)
-  packadd nerdtree
-  " packadd vim-html-js
+  packadd vim-operator-user
+  packadd vim-operator-replace
   packadd vim-jsx-improve
+  packadd nerdtree
+  packadd LargeFile
+  packadd vim-repeat
   packadd vim-commentary
   packadd vim-surround
-  packadd vim-repeat
+  packadd vim-easymotion
+  packadd hlyank.vim
+  packadd vim-choosewin
+  packadd ack.vim
+  packadd quickfix-reflector.vim
+  packadd vim-gutentags
+  packadd gutentags_plus
   packadd neoformat
   packadd neoranger
   packadd cmdline-completion
-  packadd vim-choosewin
-  packadd ack.vim
-  packadd QuickBuf
-  packadd quickfix-reflector.vim
-  packadd vim-easymotion
-  packadd hlyank.vim
-  packadd vim-gutentags
   packadd vim-picker
+  packadd QuickBuf
   packadd ale
 endfunction

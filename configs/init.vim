@@ -17,11 +17,11 @@ if has('vim_starting')
   \ | echomsg 'startuptime: ' . reltimestr(g:startuptime)
 endif
 
-runtime! configs/options.vim
-runtime! configs/autocmd.vim
-runtime! configs/mappings.vim
-runtime! configs/theme.vim
+runtime! options.vim
+runtime! autocmd.vim
+runtime! mappings.vim
+runtime! theme.vim
 
-for s:f in glob('$HOME/.config/nvim/configs/p-*.vim', 0, 1)
+for s:f in glob('$HOME/.config/nvim/p-*.vim', 0, 1)
   execute 'source ' . s:f
 endfor
