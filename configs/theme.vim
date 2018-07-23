@@ -5,4 +5,4 @@ if has('termguicolors')
 endif
 
 set background=dark
-silent! colorscheme iceberg
+silent! colorscheme nevfn

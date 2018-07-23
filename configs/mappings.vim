@@ -23,12 +23,10 @@ nnoremap <Leader>r :%s/\<<C-r><C-w>\>/<C-r><C-w>
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 nnoremap <space><space> :tabnew %<CR>
 nnoremap <space>q :tabclose<CR>
+nnoremap <Space>w viw"+p
+nnoremap <Space>p :put+<CR>
+nnoremap <Space>P :put!+<CR>
 vnoremap <Space>y "+y
-" nnoremap <Space>p "+p
-" vnoremap <Space>p "+p
-nnoremap <Space>P "+P
+vnoremap <Space>p "+p
 vnoremap <Space>P "+P
-map _  <Plug>(operator-replace)
-inoremap <C-v> <ESC>"+gPa
-nmap <Space>p "+_iw
-vmap <Space>p "+_
+inoremap <C-v> <C-R>+

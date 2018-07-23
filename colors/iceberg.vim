@@ -47,9 +47,9 @@ hi! FoldColumn ctermbg=235 ctermfg=239 guibg=#1e2132 guifg=#444b71
 hi! Function ctermfg=216 guifg=#e2a478
 hi! Identifier cterm=NONE ctermfg=109 guifg=#89b8c2
 hi! LineNr ctermbg=235 ctermfg=239 guibg=#1e2132 guifg=#444b71
-hi! MatchParen ctermbg=237 ctermfg=255 guibg=#3e445e guifg=#ffffff
+hi! MatchParen ctermbg=237 ctermfg=255 guibg=#NONE guifg=#ffffff gui=underline
 hi! MoreMsg ctermfg=150 guifg=#b4be82
-hi! NonText ctermbg=234 ctermfg=236 guibg=#161821 guifg=#242940
+hi! NonText ctermbg=234 ctermfg=236 guibg=#NONE guifg=#242940
 hi! SpecialKey ctermbg=234 ctermfg=236 guibg=#161821 guifg=#242940
 hi! Normal ctermbg=234 ctermfg=252 guibg=#161821 guifg=#c6c8d1
 hi! Operator ctermfg=110 guifg=#84a0c6

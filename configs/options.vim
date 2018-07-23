@@ -2,7 +2,7 @@ scriptencoding utf-8
 
 set number
 set mouse=a
-set cursorline
+" set cursorline
 set lazyredraw
 set noswapfile
 set shortmess+=I
@@ -19,7 +19,10 @@ set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
 set complete=.,w,b,u,U,t,i,d,k
 set pumheight=10
-set hlsearch|nohlsearch
+if !v:vim_did_enter
+  set hlsearch
+  nohlsearch
+endif
 set nostartofline
 set sidescrolloff=5
 set sidescroll=1
@@ -42,3 +45,4 @@ set statusline+=%=
 set statusline+=\ %{''!=#&filetype?&filetype:'none'}
 set statusline+=\ %5v/%l
 set statusline+=\ %4L
+let c_minlines=500
