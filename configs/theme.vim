@@ -5,4 +5,5 @@ if has('termguicolors')
 endif
 
 set background=dark
-silent! colorscheme nevfn
+silent! colorscheme Tomorrow-Night
+highlight Comment cterm=italic gui=italic

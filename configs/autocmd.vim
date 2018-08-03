@@ -1,5 +1,7 @@
-AutoCmd BufEnter,CursorHold,CursorHoldI,CursorMoved,CursorMovedI,FocusGained,BufEnter,FocusLost,WinLeave * checktime
-AutoCmd BufEnter * syntax sync minlines=200
+scriptencoding utf-8
+
+AutoCmd FocusGained,BufEnter,CursorHold,CursorHoldI * if !bufexists("[Command Line]") | silent! checktime | endif
+" AutoCmd BufEnter * syntax sync minlines=500
 AutoCmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | exe 'normal! g`"zz' | endif
 AutoCmd BufWritePre * call mkdir#Easy()
 AutoCmd BufEnter * call timer_start(300, function('pack_delayed#plugins'))

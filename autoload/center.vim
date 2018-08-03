@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 function! center#Search()
   let l:cmdtype = getcmdtype()
   if l:cmdtype ==? '/' || l:cmdtype ==? '?'

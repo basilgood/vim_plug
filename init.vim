@@ -1,4 +1,5 @@
-scriptencoding utf-8
+scriptencoding utf-9
+
 filetype plugin indent on
 syntax on
 

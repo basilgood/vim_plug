@@ -1,18 +1,20 @@
+scriptencoding utf-8
+
 function! fileinfo#GetFileInfo()
-  let permissions = getfperm(expand('%:p'))
-  echon  &filetype . ", " . GetFileSize() . ", " . permissions
+  let l:permissions = getfperm(expand('%:p'))
+  echon  &filetype . ", " . GetFileSize() . ", " . l:permissions
 endfunction
 function! GetFileSize()
-  let bytes = getfsize(expand('%:p'))
-  if bytes <= 0
+  let l:bytes = getfsize(expand('%:p'))
+  if l:bytes <= 0
      return ""
-  elseif bytes > 1024*1000*1000
+  elseif l:bytes > 1024*1000*1000
     return (bytes / 1024*1000*1000) . "GB"
-  elseif bytes > 1024*1000
-    return (bytes / 1024*1000) . "MB"
-  elseif bytes > 1024
-    return (bytes / 1024) . "KB"
+  elseif l:bytes > 1024*1000
+    return (l:bytes / 1024*1000) . "MB"
+  elseif l:bytes > 1024
+    return (l:bytes / 1024) . "KB"
   else
-     return bytes . "B"
+     return l:bytes . "B"
   endif
 endfunction
