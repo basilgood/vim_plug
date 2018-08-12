@@ -2,7 +2,6 @@ scriptencoding utf-8
 
 set number
 set mouse=a
-set cursorline
 set lazyredraw
 set noswapfile
 set shortmess+=I
