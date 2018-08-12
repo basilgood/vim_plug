@@ -1,4 +1,5 @@
 function pack_delayed#plugins(...)
+  packadd terminus
   packadd vim-jsx-improve
   packadd nerdtree
   packadd LargeFile
