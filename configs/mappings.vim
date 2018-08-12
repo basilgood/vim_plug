@@ -35,3 +35,7 @@ nnoremap <silent> <M-=> :vertical resize +1<CR>
 nnoremap <silent> <M--> :vertical resize -1<CR>
 nnoremap ; :
 nnoremap : ;
+nnoremap / /\v
+nnoremap ? ?\v
+nnoremap n nzzzv
+nnoremap N Nzzzv
