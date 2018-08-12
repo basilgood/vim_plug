@@ -1,4 +1,4 @@
-scriptencoding utf-9
+scriptencoding utf-8
 
 nnoremap <Space>n :nohlsearch<CR>
 nnoremap j gj
@@ -31,8 +31,7 @@ nnoremap <Space>P :put!+<CR>
 vnoremap <Space>y "+y
 vnoremap <Space>p "+p
 vnoremap <Space>P "+P
-inoremap <C-v> <C-R>+
-nnoremap <silent> <Leader>= :vertical resize +1<CR>
-nnoremap <silent> <Leader>- :vertical resize -1<CR>
+nnoremap <silent> <M-=> :vertical resize +1<CR>
+nnoremap <silent> <M--> :vertical resize -1<CR>
 nnoremap ; :
 nnoremap : ;
