@@ -14,4 +14,3 @@ let g:Lf_WildIgnore = {
 nnoremap <Leader>m :LeaderfMru<CR>
 nnoremap <Leader>n :LeaderfMruCwd<CR>
 nnoremap <Leader>k :LeaderfHistoryCmd<CR>
-nnoremap <Leader>p :LeaderfFilePattern<Space>
