@@ -1,8 +1,6 @@
 scriptencoding utf-8
 
-" AutoCmd FocusGained,BufEnter,CursorHold,CursorHoldI * if !bufexists("[Command Line]") | silent! checktime | endif
-" AutoCmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-" AutoCmd WinLeave * setlocal nocursorline
+AutoCmd FileType nerdtree setlocal nolist
 AutoCmd BufEnter * syntax sync minlines=500
 AutoCmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | exe 'normal! g`"zz' | endif
 AutoCmd BufWritePre * call mkdir#Easy()
