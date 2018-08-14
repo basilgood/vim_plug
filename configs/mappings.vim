@@ -33,8 +33,6 @@ vnoremap <Space>p "+p
 vnoremap <Space>P "+P
 nnoremap <silent> <M-=> :vertical resize +1<CR>
 nnoremap <silent> <M--> :vertical resize -1<CR>
-nnoremap ; :
-nnoremap : ;
 nnoremap / /\v
 nnoremap ? ?\v
 nnoremap n nzzzv
