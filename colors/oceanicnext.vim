@@ -84,36 +84,21 @@ hi Tag                        guifg=#fac863 guibg=NONE    cterm=NONE      ctermf
 hi Todo                       guifg=#fac863 guibg=#343d46 cterm=NONE      ctermfg=NONE ctermbg=NONE
 hi Type                       guifg=#fac863 guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
 hi Typedef                    guifg=#fac863 guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
+hi Ignore                     guifg=#dfbf8e guibg=NONE    guisp=NONE    gui=NONE        cterm=NONE
 
 hi SpellBad                   guifg=NONE    guibg=NONE    cterm=undercurl ctermfg=NONE ctermbg=NONE
 hi SpellLocal                 guifg=NONE    guibg=NONE    cterm=undercurl ctermfg=NONE ctermbg=NONE
 hi SpellCap                   guifg=NONE    guibg=NONE    cterm=undercurl ctermfg=NONE ctermbg=NONE
 hi SpellRare                  guifg=NONE    guibg=NONE    cterm=undercurl ctermfg=NONE ctermbg=NONE
 
-hi csClass                    guifg=#fac863 guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
-hi csAttribute                guifg=#fac863 guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
-hi csModifier                 guifg=#c594c5 guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
-hi csType                     guifg=#ec5f67 guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
-hi csUnspecifiedStatement     guifg=#6699cc guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
-hi csContextualStatement      guifg=#c594c5 guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
-hi csNewDecleration           guifg=#ec5f67 guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
-hi cOperator                  guifg=#62b3b2 guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
-hi cPreCondit                 guifg=#c594c5 guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
-
-hi cssColor                   guifg=#62b3b2 guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
-hi cssBraces                  guifg=#c0c5ce guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
-hi cssClassName               guifg=#c594c5 guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
-
-
-hi DiffAdd                    guifg=#99c794 guibg=#343d46 cterm=bold      ctermfg=NONE ctermbg=NONE
-hi DiffChange                 guifg=#65737e guibg=#343d46 cterm=NONE      ctermfg=NONE ctermbg=NONE
-hi DiffDelete                 guifg=#ec5f67 guibg=#343d46 cterm=NONE      ctermfg=NONE ctermbg=NONE
-hi DiffText                   guifg=#6699cc guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
-hi DiffAdded                  guifg=#ffffff guibg=#99c794 cterm=bold      ctermfg=NONE ctermbg=NONE
-hi DiffFile                   guifg=#ec5f67 guibg=#1b2b34 cterm=NONE      ctermfg=NONE ctermbg=NONE
-hi DiffNewFile                guifg=#99c794 guibg=#1b2b34 cterm=NONE      ctermfg=NONE ctermbg=NONE
-hi DiffLine                   guifg=#6699cc guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
-hi DiffRemoved                guifg=#ffffff guibg=#ec5f67 cterm=bold      ctermfg=NONE ctermbg=NONE
+hi diffAdded                  guifg=#a9b665 gui=NONE ctermfg=46  cterm=NONE
+hi diffRemoved                guifg=#ea6962 gui=NONE ctermfg=203 cterm=NONE
+hi link diffSubname Normal
+hi DiffAdd                    guifg=#8ec07c guibg=NONE cterm=NONE
+hi link DiffChange NONE
+hi clear DiffChange
+hi DiffDelete                 guifg=#f93d3d guibg=NONE cterm=NONE
+hi DiffText                   guifg=#FFB86C guibg=NONE gui=NONE cterm=NONE
 
 hi gitCommitOverflow          guifg=#ec5f67 guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
 hi gitCommitSummary           guifg=#99c794 guibg=NONE    cterm=NONE      ctermfg=NONE ctermbg=NONE
