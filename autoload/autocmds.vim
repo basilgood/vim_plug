@@ -40,5 +40,11 @@ autocmd vimRc FocusGained,CursorHold * if !bufexists("[Command Line]") | checkti
 """" mkdir
 autocmd vimRc BufWritePre * call functions#mkdirifnotexist()
 
+"""" remember_position
+autocmd vimRc BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | exe 'normal! g`"zz' | endif
+
+"""" syntax_sync
+autocmd vimRc CursorHold * syntax sync minlines=300
+
 function! autocmds#autocmds() abort
 endfunction
