@@ -1,0 +1,68 @@
+{
+
+  "suggest.autoTrigger": "always",
+  "suggest.triggerAfterInsertEnter": true,
+  "suggest.timeout": 5000,
+  "suggest.triggerCompletionWait": 300,
+  "suggest.minTriggerInputLength": 2,
+  "suggest.noselect": true,
+  "suggest.enablePreview": true,
+  "suggest.preferCompleteThanJumpPlaceholder": true,
+  "suggest.detailField":"abbr",
+  "suggest.acceptSuggestionOnCommitCharacter": true,
+  "suggest.keepCompleteopt": true,
+
+  //prettier
+  "prettier.requireConfig": true,
+  "prettier.statusItemText": "ⓟ ",
+  "prettier.eslintIntegration": true,
+  "prettier.tslintIntegration": true,
+  "prettier.stylelintIntegration": true,
+
+  // eslint
+  "eslint.filetypes": ["javascript", "javascript.jsx", "javascriptreact"],
+  "eslint.autoFix": true,
+  "eslint.autoFixOnSave": true,
+
+  // Tslint on save
+  "tslint.exclude": ["node_modules"],
+  "tslint.autoFixOnSave": true,
+  "tslint.configFile": "./tslint.json",
+
+  // Run prettier (and others)
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "markdown",
+    "Markdown",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+
+  // yaml
+  "yaml.format.enable": true,
+  "yaml.format.singleQuote": true,
+  "yaml.format.bracketSpacing": true,
+  "yaml.hover": true,
+  "yaml.completion": true,
+
+  // diagnostic
+  "diagnostic.signOffset": 9999999,
+  "diagnostic.displayByAle": false,
+  "diagnostic.refreshOnInsertMode": true,
+  "diagnostic.errorSign": "_e",
+  "diagnostic.warningSign": "_w",
+  "diagnostic.infoSign": "_i",
+  "diagnostic.hintSign": "_h",
+
+  // git
+  "git.enableGutters": true,
+  "git.branchCharacter":"\uf408",
+
+  // emmet
+  "emmet.includeLanguages": {"vue-html": "html", "javascript": "javascriptreact", "twig": "html"}
+
+}
+
+// vim: ft=jsonc
