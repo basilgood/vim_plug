@@ -101,18 +101,6 @@ function! functions#changedfiles() abort
   endfor
 endfunction
 
-"""" runner
-function! RedrawScreen(channel)
-    redraw!
-endfunction
-
-function! functions#runner(cmd) abort
-  let x_file = expand('%:p')
-  let x_cmd = a:cmd . x_file
-  let job = job_start(['/bin/sh', '-c', x_cmd],
-        \ {'close_cb': 'RedrawScreen'})
-endfunction
-
 " netrw
 function! functions#innetrw() abort
   nnoremap <buffer> D <Nop>

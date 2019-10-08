@@ -1,15 +1,5 @@
 scriptencoding utf-8
 
-" file types.
-augroup vimrc_filetype
-  autocmd!
-  autocmd BufWritePost * nested
-        \ if &l:filetype ==# '' || exists('b:ftdetect')
-        \ |   unlet! b:ftdetect
-        \ |   filetype detect
-        \ | endif
-augroup END
-
 """" If a file is large, disable syntax highlighting, filetype etc
 let g:LargeFile = 20*1024*1024 " 20MB
 autocmd vimRc BufReadPre *
@@ -28,9 +18,6 @@ autocmd vimRc CmdwinEnter * nnoremap <silent><buffer> gq :<C-u>quit<CR>
 autocmd vimRc FileType qf wincmd J
 autocmd vimRc BufWinEnter * if &ft == 'help' | wincmd J | end
 
-"""" completion
-autocmd vimRc FileType * execute 'setlocal dictionary+='.expand($HOME.'/.vim/dict/'.&filetype.'.dict')
-
 """" update diff
 autocmd vimRc InsertLeave * if &l:diff | diffupdate | endif
 
@@ -45,6 +32,11 @@ autocmd vimRc BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\""
 
 """" syntax_sync
 autocmd vimRc CursorHold * syntax sync minlines=300
+
+"""" filetype
+autocmd BufNewFile,BufRead *.nix set filetype=nix
+autocmd BufNewFile,BufRead *.twig set filetype=html.twig
+autocmd BufNewFile,BufRead *.svelte set filetype=svelte
 
 function! autocmds#autocmds() abort
 endfunction

@@ -22,19 +22,18 @@ call commands#commands()
 call autocmds#autocmds()
 call diff#diff()
 
-" sytax enable.
-call vimrc#on_filetype()
+" call vimrc#on_filetype()
 
 set background=dark
-silent! colorscheme oceanicnext
-highlight ParenMatch guifg=#85EB6A guibg=#135B00 gui=NONE   cterm=NONE term=reverse ctermbg=11
-hi! Comment    guifg=#5c6370 guibg=NONE    gui=italic cterm=italic
-hi! Normal guifg=NONE guibg=NONE
+silent! colorscheme blame
+hi! Normal guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE
 hi! EndOfBuffer guifg=NONE guibg=NONE
 hi! NonText ctermbg=NONE guibg=NONE
 hi! SignColumn ctermbg=NONE guibg=NONE
 hi! LineNr ctermbg=NONE guibg=NONE
 hi! VertSplit ctermbg=NONE guibg=NONE
 hi! CursorLineNr ctermbg=NONE guibg=NONE guifg=#c1c1c1
+hi! ParenMatch guifg=#85EB6A guibg=#135B00 gui=NONE   cterm=NONE term=reverse ctermbg=11
+hi! Comment    guifg=#5c6370 guibg=NONE    gui=italic cterm=italic
 
 set secure

@@ -3,7 +3,7 @@
 set background=dark
 highlight clear
 
-let g:colors_name = 'test'
+let g:colors_name = 'simple'
 if exists('syntax_on')
   syntax reset
 endif

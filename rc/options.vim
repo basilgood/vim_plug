@@ -1,13 +1,13 @@
 scriptencoding utf-8
 
-set termguicolors
+" set termguicolors
 set number
 set mouse=a
 set cursorline
 set lazyredraw
 set noswapfile
 set shortmess+=Icm
-set noshowmode
+" set noshowmode
 set nowrap
 set splitbelow
 set splitright
