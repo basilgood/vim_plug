@@ -17,3 +17,4 @@ Pac 'kchmck/vim-coffee-script', {'type': 'opt', 'ft': 'coffee'}
 Pac 'elzr/vim-json', {'type': 'opt', 'ft': 'json'}
 Pac 'stephpy/vim-yaml', {'type': 'opt', 'ft': ['yml', 'yaml']}
 Pac 'burner/vim-svelte', {'type': 'opt', 'ft': 'svelte'}
+Pac 'amadeus/vim-css', {'type': 'opt', 'ft': ['javascript', 'css', 'scss']}

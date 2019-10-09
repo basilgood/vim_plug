@@ -145,10 +145,14 @@ highlight! SpellLocal             guifg=#4a5265  guibg=NONE     gui=undercurl  c
 highlight! SpellRare              guifg=#4a5265  guibg=NONE     gui=undercurl  ctermfg=8     ctermbg=NONE  cterm=undercurl
 highlight! SpellCap               guifg=#5c8097  guibg=NONE     gui=undercurl  ctermfg=4     ctermbg=NONE  cterm=undercurl
 
-hi! DiffAdd ctermbg=29 ctermfg=158 guibg=#45493e guifg=#c0c5b9
-hi! DiffChange ctermbg=23 ctermfg=159 guibg=#384851 guifg=#b3c3cc
-hi! DiffDelete ctermbg=95 ctermfg=224 guibg=#53343b guifg=#ceb0b6
-hi! DiffText cterm=NONE ctermbg=30 ctermfg=195 gui=NONE guibg=#5b7881 guifg=#c6c8d1
+highlight diffAdded                  guifg=#8ec07c gui=NONE ctermfg=46  cterm=NONE
+highlight diffRemoved                guifg=#ea6962 gui=NONE ctermfg=203 cterm=NONE
+highlight link diffSubname Normal
+highlight DiffAdd                    guifg=#8ec07c guibg=NONE cterm=NONE
+highlight link DiffChange NONE
+highlight clear DiffChange
+highlight DiffDelete                 guifg=#f93d3d guibg=NONE cterm=NONE
+highlight DiffText                   guifg=#FFB86C guibg=NONE gui=NONE cterm=NONE
 
 let g:terminal_color_foreground = '#c1c9d4'
 let g:terminal_color_background = '#2b3240'
@@ -172,28 +176,6 @@ let g:terminal_color_15         = '#c1c9d4'
 "=======================================================================================================================
 "  BLAME STYLEFIXES:
 "=======================================================================================================================
-
-" Elixir
-highlight link elixirDefine                 Keyword
-highlight link elixirPrivateDefine          Keyword
-highlight link elixirModuleDefine           Keyword
-highlight link elixirProtocolDefine         Keyword
-highlight link elixirImplDefine             Keyword
-highlight link elixirRecordDefine           Keyword
-highlight link elixirPrivateRecordDefine    Keyword
-highlight link elixirMacroDefine            Keyword
-highlight link elixirPrivateMacroDefine     Keyword
-highlight link elixirDelegateDefine         Keyword
-highlight link elixirOverridableDefine      Keyword
-highlight link elixirExceptionDefine        Keyword
-highlight link elixirCallbackDefine         Keyword
-highlight link elixirStructDefine           Keyword
-highlight link elixirExUnitMacro            Keyword
-
-highlight link elixirAtom                   String
-highlight link elixirBoolean                Define
-
-highlight link elixirFunctionDeclaration    Define
 
 " Javascript
 highlight link jsStorageClass               Keyword
