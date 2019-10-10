@@ -6,8 +6,8 @@
 
 " Plugin:
 " Use minpac. {{{1
-set packpath^=$CACHE_HOME
-let s:package_home = $CACHE_HOME . '/pack/packages'
+set packpath^=$CACHE_NVIM
+let s:package_home = $CACHE_NVIM . '/pack/packages'
 let s:minpac_dir = s:package_home . '/opt/minpac'
 let s:minpac_download = 0
 if has('vim_starting')
@@ -22,7 +22,7 @@ endif
 let s:plugins = []
 function! PackInit() abort
   packadd minpac
-  call minpac#init({'dir': $CACHE_HOME, 'package_name': 'packages'})
+  call minpac#init({'dir': $CACHE_NVIM, 'package_name': 'packages'})
   call minpac#add('k-takata/minpac', {'type': 'opt'})
 
   for plugin in s:plugins
@@ -80,19 +80,6 @@ endfunction
 aug lazy_load_bundle
   au vimRc VimEnter * call timer_start(0, 'PackAddHandler', {'repeat': len(s:lazy_plugs)})
 aug END
-
-" Plugin list. {{{1
-source $NVIM_PATH/start.vim
-source $NVIM_PATH/opt.vim
-source $NVIM_PATH/lazy.vim
-
-" Plugin settings. {{{1
-source $NVIM_PATH/rc/git.vim
-source $NVIM_PATH/rc/navigation.vim
-source $NVIM_PATH/rc/edit.vim
-" source $NVIM_PATH/rc/lint.vim
-source $NVIM_PATH/rc/misc.vim
-source $NVIM_PATH/rc/coc.vim
 
 " Define user commands for updating/cleaning the plugins. {{{1
 " Each of them loads minpac, reloads .vimrc to register the
