@@ -3,17 +3,17 @@
 " Maintainer:   vim-javascript community
 " URL:          https://github.com/pangloss/vim-javascript
 
-if !exists('main_syntax')
-  if v:version < 600
+if !exists("main_syntax")
+  if version < 600
     syntax clear
-  elseif exists('b:current_syntax')
+  elseif exists("b:current_syntax")
     finish
   endif
   let main_syntax = 'javascript'
 endif
 
 " Dollar sign is permitted anywhere in an identifier
-if (v:version > 704 || v:version ==# 704 && has('patch1142')) && main_syntax ==# 'javascript'
+if (v:version > 704 || v:version == 704 && has('patch1142')) && main_syntax == 'javascript'
   syntax iskeyword @,48-57,_,192-255,$
 else
   setlocal iskeyword+=$
@@ -220,15 +220,15 @@ syntax region  jsCommentRepeat      contained start=+/\*+ end=+\*/+ contains=jsC
 syntax match   jsDecorator                    /^\s*@/ nextgroup=jsDecoratorFunction
 syntax match   jsDecoratorFunction  contained /\h[a-zA-Z0-9_.]*/ nextgroup=jsParenDecorator
 
-if exists('javascript_plugin_jsdoc')
+if exists("javascript_plugin_jsdoc")
   runtime extras/jsdoc.vim
   " NGDoc requires JSDoc
-  if exists('javascript_plugin_ngdoc')
+  if exists("javascript_plugin_ngdoc")
     runtime extras/ngdoc.vim
   endif
 endif
 
-if exists('javascript_plugin_flow')
+if exists("javascript_plugin_flow")
   runtime extras/flow.vim
 endif
 
@@ -238,8 +238,8 @@ syntax cluster jsAll         contains=@jsExpression,jsStorageClass,jsConditional
 " Define the default highlighting.
 " For version 5.7 and earlier: only when not done already
 " For version 5.8 and later: only when an item doesn't have highlighting yet
-if v:version >= 508 || !exists('did_javascript_syn_inits')
-  if v:version < 508
+if version >= 508 || !exists("did_javascript_syn_inits")
+  if version < 508
     let did_javascript_syn_inits = 1
     command -nargs=+ HiLink hi link <args>
   else
@@ -247,17 +247,13 @@ if v:version >= 508 || !exists('did_javascript_syn_inits')
   endif
   HiLink jsComment              Comment
   HiLink jsEnvComment           PreProc
-  HiLink jsParen                Type
   HiLink jsParensIfElse         jsParens
   HiLink jsParensRepeat         jsParens
   HiLink jsParensSwitch         jsParens
   HiLink jsParensCatch          jsParens
   HiLink jsCommentTodo          Todo
   HiLink jsString               String
-  HiLink jsObjectKey            Label
   HiLink jsObjectKeyString      String
-  HiLink jsObjectValue          Function
-  HiLink jsObjectProp           Label
   HiLink jsTemplateString       String
   HiLink jsObjectStringKey      String
   HiLink jsClassStringKey       String
@@ -287,7 +283,7 @@ if v:version >= 508 || !exists('did_javascript_syn_inits')
   HiLink jsAsyncKeyword         Keyword
   HiLink jsForAwait             Keyword
   HiLink jsArrowFunction        Type
-  HiLink jsFunction             Type
+  HiLink jsFunction             Repeat
   HiLink jsGenerator            jsFunction
   HiLink jsArrowFuncArgs        jsFuncArgs
   HiLink jsFuncName             Function
@@ -300,7 +296,7 @@ if v:version >= 508 || !exists('did_javascript_syn_inits')
   HiLink jsOperatorKeyword      jsOperator
   HiLink jsOperator             Operator
   HiLink jsOf                   Operator
-  HiLink jsStorageClass         StorageClass
+  HiLink jsStorageClass         Repeat
   HiLink jsClassKeyword         Keyword
   HiLink jsExtendsKeyword       Keyword
   HiLink jsThis                 Special
@@ -310,8 +306,8 @@ if v:version >= 508 || !exists('did_javascript_syn_inits')
   HiLink jsUndefined            Type
   HiLink jsNumber               Number
   HiLink jsFloat                Float
-  HiLink jsBooleanTrue          Type
-  HiLink jsBooleanFalse         Type
+  HiLink jsBooleanTrue          Boolean
+  HiLink jsBooleanFalse         Boolean
   HiLink jsObjectColon          jsNoise
   HiLink jsNoise                Noise
   HiLink jsDot                  Noise
@@ -391,7 +387,7 @@ syntax cluster  javaScriptExpression contains=@jsAll
 " Vim's default html.vim highlights all javascript as 'Special'
 hi! def link javaScript              NONE
 
-let b:current_syntax = 'javascript'
-if main_syntax ==# 'javascript'
+let b:current_syntax = "javascript"
+if main_syntax == 'javascript'
   unlet main_syntax
 endif
