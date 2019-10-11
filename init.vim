@@ -261,7 +261,7 @@ set nowrap
 set splitbelow
 set splitright
 set switchbuf=useopen,usetab
-set signcolumn=auto
+set signcolumn=yes
 set tabline=%!functions#tabline()
 set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
@@ -301,8 +301,8 @@ augroup END
 
 let &g:statusline=''
 let &g:statusline.='%{expand("%:p:h:t")}/%t'
-let &g:statusline.='%10(%c҇҇͢:%l%) '
-let &g:statusline.='%h%r'
+let &g:statusline.='%8c:%l'
+let &g:statusline.=' %h%r'
 let &g:statusline.='%{exists("g:did_coc_loaded")?coc#status():""}'
 let &g:statusline.=' %#incsearch#%{&mod?" ✚✚✚ ":""}'
 let &g:statusline.='%*'
@@ -507,7 +507,7 @@ call autocmds#autocmds()
 call commands#commands()
 
 set background=dark
-silent! colorscheme blame
+silent! colorscheme kolor
 function! MyHighlights() abort
   "   hi! Normal       ctermbg=NONE  guibg=NONE
   "   hi! EndOfBuffer  ctermbg=NONE  guibg=NONE
