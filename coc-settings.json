@@ -27,11 +27,6 @@
   "eslint.autoFixOnSave": true,
   "eslint.nodePath": "./node_modules/.bin/eslint",
 
-  // Tslint on save
-  "tslint.exclude": ["node_modules"],
-  "tslint.autoFixOnSave": true,
-  "tslint.configFile": "./tslint.json",
-
   // Run prettier (and others)
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
