@@ -327,7 +327,6 @@ nnoremap }   }zz
 nnoremap {   {zz
 
 " windows
-" nnoremap <silent> <Tab> :wincmd w<CR>
 nnoremap <silent> <Tab> :call functions#nextwindow()<CR>
 nnoremap <silent> <S-Tab> :call functions#previouswindowortab()<CR>
 
