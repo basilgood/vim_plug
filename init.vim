@@ -26,10 +26,17 @@ let g:loaded_man                = 1
 let $CACHE      = expand('$HOME/.cache/')
 let $CACHE_NVIM = expand('$CACHE/nvim')
 let $NVIM_PATH  = expand('~/.config/nvim')
+let $PACKPATH = $NVIM_PATH . '/pack/Bundle'
 
-source $HOME/.config/nvim/minpac.vim
+if !exists('$GIT_PROTOCOL')
+  let $GIT_PROTOCOL = 'https'
+  let $GITHUB_COM = $GIT_PROTOCOL.'://github.com/'
+endif
 
-Pac 'neoclide/coc.nvim', {'type': 'opt', 'branch': 'release', 'lazy': 1}
+let s:plugins = {'start': [], 'opt': []}
+
+" coc.nvim
+call add(s:plugins.opt, '-b release ' .$GITHUB_COM.'neoclide/coc.nvim')
 let g:coc_global_extensions = [
       \ 'coc-tsserver',
       \ 'coc-emmet',
@@ -59,7 +66,6 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-" completion
 inoremap <silent><expr> <Tab>
       \ pumvisible() ? "\<C-n>" :
       \ functions#check_back_space() ? "\<Tab>" :
@@ -82,7 +88,45 @@ omap af <Plug>(coc-funcobj-a)
 
 command! -nargs=0 Format :call CocAction('format')
 
-Pac 'mhinz/vim-startify'
+" vinegar
+call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-vinegar')
+let g:netrw_bufsettings         = 'nomodifiable nomodified relativenumber nowrap readonly nobuflisted hidden'
+let g:netrw_sort_dotfiles_first = 1
+let g:netrw_altfile             = 1
+let g:netrw_dirhistmax          = 0
+autocmd vimRc FileType netrw call functions#innetrw()
+
+" fzf
+call add(s:plugins.opt, $GITHUB_COM.'junegunn/fzf')
+call add(s:plugins.opt, $GITHUB_COM.'junegunn/fzf.vim')
+nnoremap <c-p> :Files<cr>
+nnoremap <bs> :Buffers<cr>
+call fz_f#fzf()
+
+" fugitive
+call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-fugitive')
+nnoremap [fugitive]  <Nop>
+nmap <space>g [fugitive]
+nnoremap <silent> [fugitive]s :<C-u>vertical Gstatus<CR>
+nnoremap <silent> [fugitive]c :<C-u>Gcommit<CR>
+nnoremap <silent> [fugitive]C :<C-u>Gcommit --amend<CR>
+nnoremap <silent> [fugitive]a :<C-u>Dispatch! git add %<CR>
+nnoremap <silent> [fugitive]r :<C-u>Dispatch! git reset %<CR>
+nnoremap <silent> [fugitive]D :<C-u>Dispatch! git checkout -- %<CR>
+nnoremap <silent> [fugitive]p :<C-u>Dispatch! git push<CR>
+nnoremap <silent> [fugitive]P :<C-u>Dispatch! git push -f<CR>
+nnoremap <silent> [fugitive]d :<C-u>Gvdiffsplit<CR>
+nnoremap <silent> [fugitive]l :<C-u>Gitv --all<CR>
+
+function! InFugitive() abort
+  nmap <buffer> zp :<c-u>Dispatch! git push<CR>
+  nmap <buffer> zf :<c-u>Dispatch! git push -f<CR>
+endfunction
+
+autocmd vimRc FileType fugitive call InFugitive()
+
+" startify
+call add(s:plugins.start, $GITHUB_COM.'mhinz/vim-startify')
 nnoremap [Space]q :SC<cr>
 let g:startify_files_number        = 5
 let g:startify_change_to_dir       = 0
@@ -104,112 +148,41 @@ endfunction
 
 autocmd BufNewFile,BufAdd,BufDelete,BufLeave * call s:save_session()
 
-Pac 'tpope/vim-vinegar', { 'type': 'opt', 'lazy': 1 }
-let g:netrw_bufsettings         = 'nomodifiable nomodified relativenumber nowrap readonly nobuflisted hidden'
-let g:netrw_sort_dotfiles_first = 1
-let g:netrw_altfile             = 1
-let g:netrw_dirhistmax          = 0
-autocmd vimRc FileType netrw call functions#innetrw()
-
-Pac 'junegunn/fzf', { 'type': 'opt', 'cmd': ['Files', 'Buffers'] }
-Pac 'junegunn/fzf.vim', { 'type': 'opt', 'cmd': ['Files', 'Buffers'] }
-nnoremap <c-p> :Files<cr>
-nnoremap <bs> :Buffers<cr>
-call fz_f#fzf()
-
-Pac 'mhinz/vim-startify'
-Pac 'tpope/vim-fugitive', { 'type': 'opt' }
-nnoremap [fugitive]  <Nop>
-nmap <space>g [fugitive]
-nnoremap <silent> [fugitive]s :<C-u>Gstatus<CR>
-nnoremap <silent> [fugitive]c :<C-u>Gcommit<CR>
-nnoremap <silent> [fugitive]C :<C-u>Gcommit --amend<CR>
-nnoremap <silent> [fugitive]a :<C-u>Dispatch! git add %<CR>
-nnoremap <silent> [fugitive]r :<C-u>Dispatch! git reset %<CR>
-nnoremap <silent> [fugitive]D :<C-u>Dispatch! git checkout -- %<CR>
-nnoremap <silent> [fugitive]p :<C-u>Dispatch! git push<CR>
-nnoremap <silent> [fugitive]P :<C-u>Dispatch! git push -f<CR>
-nnoremap <silent> [fugitive]d :<C-u>Gvdiffsplit<CR>
-nnoremap <silent> [fugitive]l :<C-u>Gitv --all<CR>
-
-function! InFugitive() abort
-  nmap <buffer> zp :<c-u>Dispatch! git push<CR>
-  nmap <buffer> zf :<c-u>Dispatch! git push -f<CR>
-endfunction
-
-autocmd vimRc FileType fugitive call InFugitive()
-
-Pac 'gregsexton/gitv', { 'type': 'opt', 'cmd': 'Gitv' }
-Pac 'hotwatermorning/auto-git-diff', { 'type': 'opt' }
-Pac 'Tiancheng-Luo/conflict3', { 'type': 'opt' }
-function! s:enable_git_plugins() abort
-  if system('git rev-parse --is-inside-work-tree') =~# '\m\C^true'
-    packadd vim-fugitive
-    packadd gitv
-    packadd auto-git-diff
-    packadd conflict3
-  endif
-endfunction
-autocmd! vimRc BufReadPre * call s:enable_git_plugins()
-
-Pac 'sgur/vim-editorconfig', { 'type': 'opt', 'lazy': 1 }
-
-let g:editorconfig_root_chdir = 1
-let g:editorconfig_verbose    = 1
-let g:editorconfig_blacklist  = {
-      \ 'filetype': ['git.*', 'fugitive'],
-      \ 'pattern': ['\.un~$']}
-autocmd vimRc BufReadPre * silent execute 'packadd' . ' vim-editorconfig'
-
-Pac 'tpope/vim-repeat', { 'type': 'opt', 'lazy': 1 }
-Pac 'tpope/vim-dispatch', { 'type': 'opt', 'lazy': 1 }
-Pac 'tomtom/tcomment_vim', { 'type': 'opt', 'lazy': 1 }
-
-Pac 'tpope/vim-surround', { 'type': 'opt', 'lazy': 1 }
+" utils
+call add(s:plugins.opt, $GITHUB_COM.'tomtom/tcomment_vim')
+call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-repeat')
+call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-dispatch')
+call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-surround')
 let g:surround_no_insert_mappings = 1
 let surround_indent=1
 nmap S ysiw
-autocmd vimRc BufRead * silent execute 'packadd' . ' vim-surround'
-
-Pac 'embear/vim-localvimrc', { 'type': 'opt', 'lazy': 1 }
+call add(s:plugins.opt, $GITHUB_COM.'embear/vim-localvimrc')
 let g:localvimrc_ask = 0
-
-Pac 'junegunn/vim-easy-align', { 'type': 'opt', 'lazy': 1 }
+call add(s:plugins.opt, $GITHUB_COM.'junegunn/vim-easy-align')
 nmap ga <Plug>(EasyAlign)
 xmap ga <Plug>(EasyAlign)
-
-Pac 'itchyny/vim-parenmatch', { 'type': 'opt', 'lazy': 1 }
-
-Pac 'wellle/targets.vim', { 'type': 'opt', 'lazy': 1 }
-Pac 'delphinus/vim-auto-cursorline', { 'type': 'opt', 'lazy': 1 }
-Pac 'gcmt/wildfire.vim', { 'type': 'opt', 'lazy': 1 }
+call add(s:plugins.opt, $GITHUB_COM.'itchyny/vim-parenmatch')
+call add(s:plugins.opt, $GITHUB_COM.'wellle/targets.vim')
+call add(s:plugins.opt, $GITHUB_COM.'delphinus/vim-auto-cursorline')
+call add(s:plugins.opt, $GITHUB_COM.'gcmt/wildfire.vim')
 let g:wildfire_objects = [ 'iw', 'il', "i'", "a'", 'i"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i<', 'a<', 'ip', 'it']
 let g:wildfire_fuel_map = '+'
 let g:wildfire_water_map = '-'
 nmap <leader>s <Plug>(wildfire-quick-select)
-
-Pac 'stefandtw/quickfix-reflector.vim', { 'type': 'opt', 'lazy': 1 }
-
-Pac 'haya14busa/vim-edgemotion', { 'type': 'opt', 'lazy': 1 }
+call add(s:plugins.opt, $GITHUB_COM.'stefandtw/quickfix-reflector.vim')
+call add(s:plugins.opt, $GITHUB_COM.'haya14busa/vim-edgemotion')
 map <C-j> <Plug>(edgemotion-j)
 map <C-k> <Plug>(edgemotion-k)
-
-Pac 'michaeljsmith/vim-indent-object', { 'type': 'opt', 'lazy': 1 }
-
-Pac 'sgur/cmdline-completion', { 'type': 'opt' }
-autocmd vimRc CmdlineEnter * packadd cmdline-completion
-
-Pac 'gabesoft/vim-ags', { 'type': 'opt', 'cmd': 'Ags' }
+call add(s:plugins.opt, $GITHUB_COM.'michaeljsmith/vim-indent-object')
+call add(s:plugins.opt, $GITHUB_COM.'sgur/cmdline-completion')
+call add(s:plugins.opt, $GITHUB_COM.'gabesoft/vim-ags')
 let g:ags_winplace = 'right'
-
-Pac 'mbbill/undotree', { 'type': 'opt', 'cmd': 'UndotreeToggle' }
+call add(s:plugins.opt, $GITHUB_COM.'mbbill/undotree')
 let g:undotree_WindowLayout = 4
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_ShortIndicators = 1
 nnoremap <leader>u :UndotreeToggle<cr>
-autocmd vimRc BufRead * silent execute 'packadd' . ' undotree'
-
-Pac 'kana/vim-submode', {'type': 'opt'}
+call add(s:plugins.opt, $GITHUB_COM.'kana/vim-submode')
 function! SubMode()
   call submode#enter_with('resize', 'n', '', '<C-W>>', '<C-W>>')
   call submode#enter_with('resize', 'n', '', '<C-W><', '<C-W><')
@@ -229,18 +202,129 @@ function! SubMode()
   call submode#map('scroll-h', 'n', '', 'L', 'zL')
   call submode#map('scroll-h', 'n', '', 'H', 'zH')
 endfunction
-autocmd vimRc BufReadPre * packadd vim-submode | call SubMode()
 
-Pac 'neoclide/jsonc.vim'
-Pac 'lumiliet/vim-twig', {'type': 'opt', 'ft': 'twig'}
-Pac 'lepture/vim-jinja', {'type': 'opt', 'ft': 'jinja2'}
-Pac 'MaxMEllon/vim-jsx-pretty', {'type': 'opt', 'ft': ['javascript', 'javascript.jsx']}
-Pac 'HerringtonDarkholme/yats.vim', {'type': 'opt', 'ft': ['typescript', 'typescript.tsx']}
-Pac 'plasticboy/vim-markdown', {'type': 'opt', 'ft': 'markdown'}
-Pac 'kchmck/vim-coffee-script', {'type': 'opt', 'ft': 'coffee'}
-Pac 'elzr/vim-json', {'type': 'opt', 'ft': 'json'}
-Pac 'stephpy/vim-yaml', {'type': 'opt', 'ft': ['yml', 'yaml']}
-Pac 'evanleck/vim-svelte', {'type': 'opt', 'ft': 'svelte'}
+" editorconfig
+call add(s:plugins.opt, $GITHUB_COM.'sgur/vim-editorconfig')
+let g:editorconfig_root_chdir = 1
+let g:editorconfig_verbose    = 1
+let g:editorconfig_blacklist  = {
+      \ 'filetype': ['git.*', 'fugitive'],
+      \ 'pattern': ['\.un~$']}
+
+" filetype
+call add(s:plugins.opt, $GITHUB_COM.'pangloss/vim-javascript')
+call add(s:plugins.opt, $GITHUB_COM.'lumiliet/vim-twig')
+call add(s:plugins.opt, $GITHUB_COM.'lepture/vim-jinja')
+call add(s:plugins.opt, $GITHUB_COM.'MaxMEllon/vim-jsx-pretty')
+call add(s:plugins.opt, $GITHUB_COM.'HerringtonDarkholme/yats.vim')
+call add(s:plugins.opt, $GITHUB_COM.'plasticboy/vim-markdown')
+call add(s:plugins.opt, $GITHUB_COM.'kchmck/vim-coffee-script')
+call add(s:plugins.opt, $GITHUB_COM.'elzr/vim-json')
+call add(s:plugins.opt, $GITHUB_COM.'stephpy/vim-yaml')
+call add(s:plugins.opt, $GITHUB_COM.'evanleck/vim-svelte')
+call add(s:plugins.opt, $GITHUB_COM.'neoclide/jsonc.vim')
+
+function! s:has_plugin(name)
+  return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
+        \ || globpath(&runtimepath, 'autoload/' . a:name . '.vim') !=# ''
+endfunction
+
+function! s:mkdir_if_not_exists(path)
+  if !isdirectory(a:path)
+    call mkdir(a:path, 'p')
+  endif
+endfunction
+
+function! s:create_helptags(path)
+    if isdirectory(a:path)
+        execute 'helptags ' . a:path
+    endif
+endfunction
+
+function! InstallPackPlugins()
+    for key in keys(s:plugins)
+        let dir = expand($PACKPATH . '/' . key)
+        call s:mkdir_if_not_exists(dir)
+
+        for url in s:plugins[key]
+            let dst = expand(dir . '/' . split(url, '/')[-1])
+            if isdirectory(dst)
+                " plugin is already installed
+                continue
+            endif
+
+            echo 'installing: ' . dst
+            let cmd = printf('git clone --recursive %s %s', url, dst)
+            call system(cmd)
+            call s:create_helptags(expand(dst . '/doc/'))
+        endfor
+    endfor
+endfunction
+
+function! UpdateHelpTags()
+    for key in keys(s:plugins)
+        let dir = expand($PACKPATH . '/' . key)
+
+        for url in s:plugins[key]
+            let dst = expand(dir . '/' . split(url, '/')[-1])
+            if !isdirectory(dst)
+                " plugin is not installed
+                continue
+            endif
+
+            echomsg 'helptags: ' . dst
+            call s:create_helptags(expand(dst . '/doc/'))
+        endfor
+    endfor
+endfunction
+
+function! UpdatePackPlugins()
+    topleft split
+    edit `='[update plugins]'`
+    setlocal buftype=nofile
+
+    let s:pidx = 0
+    call timer_start(100, 'PluginUpdateHandler', {'repeat': len(s:plugins.opt)})
+endfunction
+
+function! PluginUpdateHandler(timer)
+    let dir = expand($PACKPATH . '/' . 'opt')
+    let url = s:plugins.opt[s:pidx]
+    let dst = expand(dir . '/' . split(url, '/')[-1])
+
+    let cmd = printf('git -C %s pull --ff --ff-only', dst)
+    call jobstart(cmd, {'out_io': 'buffer', 'out_name': '[update plugins]'})
+
+    let s:pidx += 1
+    if s:pidx == len(s:plugins.opt)
+        call UpdateHelpTags()
+    endif
+endfunction
+
+let s:pidx = 0
+function! PackAddHandler(timer)
+    let plugin_name = split(s:plugins.opt[s:pidx], '/')[-1]
+
+    let plugin_path = expand($PACKPATH . '/opt/' . plugin_name)
+    if isdirectory(plugin_path)
+        execute 'packadd ' . plugin_name
+    endif
+
+    let s:pidx += 1
+    if s:pidx == len(s:plugins.opt)
+        " for filetype plugin
+        doautocmd FileType
+        " fugitive.vim requires do autocmd
+        doautocmd fugitive BufReadPost
+        call SubMode()
+    endif
+endfunction
+
+if has('vim_starting') && has('timers')
+  autocmd vimRc VimEnter * call timer_start(1, 'PackAddHandler', {'repeat': len(s:plugins.opt)})
+endif
+
+filetype plugin indent on
 
 " general settings / options
 set path=.,**

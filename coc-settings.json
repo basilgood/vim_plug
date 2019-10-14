@@ -11,25 +11,14 @@
   "suggest.detailField":"abbr",
   "suggest.acceptSuggestionOnCommitCharacter": true,
   "suggest.keepCompleteopt": true,
+
   "coc.preferences.hoverTarget": "float",
   "coc.preferences.enableFloatHighlight": true,
-
-  //prettier
-  "prettier.requireConfig": true,
-  "prettier.statusItemText": "ⓟ ",
-  "prettier.eslintIntegration": true,
-  "prettier.tslintIntegration": true,
-  "prettier.stylelintIntegration": true,
-
-  // eslint
-  "eslint.filetypes": ["javascript", "javascript.jsx", "javascriptreact"],
-  "eslint.autoFix": true,
-  "eslint.autoFixOnSave": true,
-  "eslint.nodePath": "./node_modules/.bin/eslint",
-
-  // Run prettier (and others)
+  "coc.preferences.formatOnType": false,
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
+    "html",
+    "yaml",
     "markdown",
     "Markdown",
     "javascript",
@@ -38,12 +27,46 @@
     "typescriptreact"
   ],
 
+  "tsserver.enable": true,
+  "tsserver.enableJavascript": true,
+  "tsserver.formatOnType": false,
+  "tsserver.typingsCacheLocation": "~/.cache/tsserver",
+  "tsserver.log": "normal",
+
+  //prettier
+  "prettier.requireConfig": true,
+  "prettier.statusItemText": "ⓟ ",
+  "prettier.eslintIntegration": true,
+  "prettier.stylelintIntegration": true,
+
+  // eslint
+  // "eslint.filetypes": ["javascript", "javascript.jsx", "javascriptreact"],
+  // "eslint.autoFix": true,
+  // "eslint.autoFixOnSave": true,
+  // "eslint.options": {"configFile": "./.eslintrc.json"},
+  // "eslint.nodePath": "./node_modules/.bin/eslint",
+
   // yaml
   "yaml.format.enable": true,
   "yaml.format.singleQuote": true,
   "yaml.format.bracketSpacing": true,
   "yaml.hover": true,
   "yaml.completion": true,
+
+  "languageserver": {
+    "bash": {
+      "command": "bash-language-server",
+      "filetypes": ["sh"],
+      "args": ["start"]
+    },
+    "dockerfile": {
+      "command": "docker-langserver",
+      "filetypes": ["dockerfile"],
+      "args": ["--stdio"],
+      "initializationOptions": {},
+      "settings": {}
+    },
+  },
 
   // diagnostic
   "diagnostic.signOffset": 9999999,
