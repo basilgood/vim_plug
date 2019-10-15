@@ -223,6 +223,7 @@ call add(s:plugins.opt, $GITHUB_COM.'elzr/vim-json')
 call add(s:plugins.opt, $GITHUB_COM.'stephpy/vim-yaml')
 call add(s:plugins.opt, $GITHUB_COM.'evanleck/vim-svelte')
 call add(s:plugins.opt, $GITHUB_COM.'neoclide/jsonc.vim')
+call add(s:plugins.opt, $GITHUB_COM.'LnL7/vim-nix')
 
 function! s:has_plugin(name)
   return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
