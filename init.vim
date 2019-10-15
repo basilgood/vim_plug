@@ -591,7 +591,7 @@ call autocmds#autocmds()
 call commands#commands()
 
 set background=dark
-silent! colorscheme kolor
+silent! colorscheme apprentice
 function! MyHighlights() abort
   "   hi! Normal       ctermbg=NONE  guibg=NONE
   "   hi! EndOfBuffer  ctermbg=NONE  guibg=NONE
