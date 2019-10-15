@@ -92,8 +92,8 @@ highlight Directory       guifg=#e6987a    guibg=NONE       gui=none
 highlight IncSearch       guifg=#d9d1af    guibg=#b0507c    gui=NONE
 highlight QuickFixLine    guifg=#d9d1af    guibg=NONE       guisp=NONE    gui=NONE        cterm=NONE
 highlight LineNr          guifg=#484848    guibg=#272829    gui=none
-highlight StatusLine      guifg=#818596    guibg=#17171b    gui=none
-highlight StatusLineNC    guifg=#17171b    guibg=#818596    gui=none
+highlight StatusLine      guifg=#17171b    guibg=#818596    gui=none
+highlight StatusLineNC    guifg=#818596    guibg=#17171b    gui=none
 highlight VertSplit       guifg=#17171b    guibg=#17171b    gui=none
 highlight Visual          guifg=#e2e2e2    guibg=#5c5c5c    gui=none
 highlight VisualNOS       guifg=#e2e2e2    guibg=NONE       gui=underline
