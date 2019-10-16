@@ -117,7 +117,7 @@ nnoremap <silent> [fugitive]D :<C-u>Dispatch! git checkout -- %<CR>
 nnoremap <silent> [fugitive]p :<C-u>Dispatch! git push<CR>
 nnoremap <silent> [fugitive]P :<C-u>Dispatch! git push -f<CR>
 nnoremap <silent> [fugitive]d :<C-u>Gvdiffsplit<CR>
-nnoremap <silent> [fugitive]l :<C-u>Gitv --all<CR>
+nnoremap <silent> [fugitive]l :<C-u>GV --all<CR>
 
 function! InFugitive() abort
   nmap <buffer> zp :<c-u>Dispatch! git push<CR>
@@ -126,8 +126,12 @@ endfunction
 
 autocmd vimRc FileType fugitive call InFugitive()
 
-" gitv
-call add(s:plugins.opt, $GITHUB_COM.'gregsexton/gitv')
+" git
+call add(s:plugins.opt, $GITHUB_COM.'junegunn/gv.vim')
+call add(s:plugins.opt, $GITHUB_COM.'Tiancheng-Luo/conflict3')
+call add(s:plugins.opt, $GITHUB_COM.'hotwatermorning/auto-git-diff')
+call add(s:plugins.opt, $GITHUB_COM.'tonchis/vim-to-github')
+call add(s:plugins.opt, $GITHUB_COM.'wincent/vcs-jump')
 
 " startify
 call add(s:plugins.start, $GITHUB_COM.'mhinz/vim-startify')
@@ -239,7 +243,7 @@ endfunction
 function! InstallPackPlugins()
     for key in keys(s:plugins)
         let dir = expand($PACKPATH . '/' . key)
-        call functions#mkdir()
+        call functions#mkdir('dir')
 
         for url in s:plugins[key]
             let dst = expand(dir . '/' . split(url, '/')[-1])
