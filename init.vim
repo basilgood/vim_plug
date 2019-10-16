@@ -23,10 +23,11 @@ let g:loaded_getscriptPlugin    = 1
 let g:loaded_logipat            = 1
 let g:loaded_man                = 1
 
+let s:mkdir     = function('mkdir')
 let $CACHE      = expand('$HOME/.cache/')
 let $CACHE_NVIM = expand('$CACHE/nvim')
 let $NVIM_PATH  = expand('~/.config/nvim')
-let $PACKPATH = $NVIM_PATH . '/pack/Bundle'
+let $PACKPATH   = $NVIM_PATH . '/pack/Bundle'
 
 if !exists('$GIT_PROTOCOL')
   let $GIT_PROTOCOL = 'https'
@@ -228,17 +229,7 @@ call add(s:plugins.opt, $GITHUB_COM.'evanleck/vim-svelte')
 call add(s:plugins.opt, $GITHUB_COM.'neoclide/jsonc.vim')
 call add(s:plugins.opt, $GITHUB_COM.'LnL7/vim-nix')
 
-function! s:has_plugin(name)
-  return globpath(&runtimepath, 'plugin/' . a:name . '.vim') !=# ''
-        \ || globpath(&runtimepath, 'autoload/' . a:name . '.vim') !=# ''
-endfunction
-
-function! s:mkdir_if_not_exists(path)
-  if !isdirectory(a:path)
-    call mkdir(a:path, 'p')
-  endif
-endfunction
-
+" plugins manager
 function! s:create_helptags(path)
     if isdirectory(a:path)
         execute 'helptags ' . a:path
@@ -248,7 +239,7 @@ endfunction
 function! InstallPackPlugins()
     for key in keys(s:plugins)
         let dir = expand($PACKPATH . '/' . key)
-        call s:mkdir_if_not_exists(dir)
+        call functions#mkdir()
 
         for url in s:plugins[key]
             let dst = expand(dir . '/' . split(url, '/')[-1])
@@ -374,7 +365,7 @@ set helplang=en
 set nospell
 set spelllang=en_us
 set fileformats=unix,dos,mac
-let s:mkdir = function('mkdir')
+set wildcharm=<C-Z>
 set undodir=~/.cache/nvim/undo
 call s:mkdir(&undodir, 'p')
 set undofile
@@ -462,7 +453,7 @@ vnoremap * :<c-u>let @/=functions#get_search_pat()<cr><esc><s-n>
 nnoremap <leader><leader> q:
 
 " grep
-nnoremap gr :<C-u>Grep<Space>
+nnoremap gs :<C-u>Grep<Space>
 
 " commands history
 nnoremap <leader>] :CmdHist<cr>
