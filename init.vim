@@ -525,57 +525,17 @@ nnoremap <silent> <expr> [Space]dt ":\<C-u>"."windo ".(&diff?"diffoff":"diffthis
 " sessions
 nnoremap [Space]s :call sessions#load()<cr>
 
-" hlsearch
-augroup hlsearch
-  autocmd!
-  " trigger when hlsearch is toggled
-  autocmd OptionSet hlsearch call <SID>toggle(v:option_old, v:option_new)
-augroup END
-
-function! s:StartHL()
-  silent! if v:hlsearch && !search('\%#\zs'.@/,'cnW')
-  call <SID>StopHL()
-endif
-endfunction
-
-function! s:StopHL()
-  if ! v:hlsearch || mode() !=? 'n'
-    return
-  else
-    silent call feedkeys("\<Plug>(StopHL)", 'm')
-  endif
-endfunction
-
-function! s:toggle(old, new)
-  if a:old == 0 && a:new == 1
-    " nohls --> hls
-    "   set up
-    noremap  <expr> <Plug>(StopHL) execute('nohlsearch')[-1]
-    noremap! <expr> <Plug>(StopHL) execute('nohlsearch')[-1]
-
-    autocmd hlsearch CursorMoved * call <SID>StartHL()
-    autocmd hlsearch InsertEnter * call <SID>StopHL()
-  elseif a:old == 1 && a:new == 0
-    " hls --> nohls
-    "   tear down
-    nunmap <expr> <Plug>(StopHL)
-    unmap! <expr> <Plug>(StopHL)
-
-    autocmd! hlsearch CursorMoved
-    autocmd! hlsearch InsertEnter
-  else
-    " nohls --> nohls
-    "   do nothing
-    return
-  endif
-endfunction
-
-call <SID>toggle(0, &hlsearch)
-
-" hlnext
+" hlsearch hlnext
 nnoremap <silent> n nzz:call functions#hlnext()<cr>
 nnoremap <silent> N Nzz:call functions#hlnext()<cr>
 nnoremap <silent> [Space]n :nohlsearch<CR>
+
+augroup hlsearch
+  autocmd!
+  autocmd OptionSet hlsearch call functions#toggle(v:option_old, v:option_new)
+augroup END
+
+call functions#toggle(0, &hlsearch)
 
 " autocmds
 call autocmds#autocmds()
@@ -584,13 +544,6 @@ call commands#commands()
 set background=dark
 silent! colorscheme apprentice
 function! MyHighlights() abort
-  "   hi! Normal       ctermbg=NONE  guibg=NONE
-  "   hi! EndOfBuffer  ctermbg=NONE  guibg=NONE
-  "   hi! NonText      ctermbg=NONE  guibg=NONE
-  "   hi! SignColumn   ctermbg=NONE  guibg=NONE
-  "   hi! LineNr       ctermbg=NONE  guibg=NONE
-  "   hi! VertSplit    ctermbg=NONE  guibg=NONE
-  "   hi! CursorLineNr ctermbg=NONE  guibg=NONE guifg=#c1c1c1
   hi! Comment      guifg=#5c6370 guibg=NONE gui=italic cterm=italic
   hi! ParenMatch   guifg=#85EB6A guibg=#135B00 gui=NONE cterm=NONE term=reverse ctermbg=11
 endfunction
