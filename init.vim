@@ -135,6 +135,7 @@ call add(s:plugins.opt, $GITHUB_COM.'hotwatermorning/auto-git-diff')
 call add(s:plugins.opt, $GITHUB_COM.'tonchis/vim-to-github')
 call add(s:plugins.opt, $GITHUB_COM.'wincent/vcs-jump')
 call add(s:plugins.opt, $GITHUB_COM.'idanarye/vim-merginal')
+nnoremap [Space]b :MerginalToggle<cr>
 
 " startify
 call add(s:plugins.start, $GITHUB_COM.'mhinz/vim-startify')
