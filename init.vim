@@ -457,7 +457,7 @@ nnoremap dn :let @/ = '\<'.expand('<cword>').'\>'\|set hlsearch<C-M>cgn
 vnoremap * :<c-u>let @/=functions#get_search_pat()<cr><esc><s-n>
 
 " cmdwinenter
-nnoremap <leader><leader> q:
+nnoremap <leader><leader> q:i
 
 " grep
 nnoremap gs :<C-u>Grep<Space>
