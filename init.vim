@@ -121,7 +121,9 @@ nnoremap <silent> [fugitive]l :<C-u>GV --all<CR>
 
 function! InFugitive() abort
   nmap <buffer> zp :<c-u>Dispatch! git push<CR>
-  nmap <buffer> zf :<c-u>Dispatch! git push -f<CR>
+  nmap <buffer> zF :<c-u>Dispatch! git push -f<CR>
+  nmap <buffer> zf :<c-u>Dispatch! git fetch --all --prune<CR>
+  nmap <buffer> zr :<c-u>Dispatch! git pull --rebase --autostash<CR>
 endfunction
 
 autocmd vimRc FileType fugitive call InFugitive()
