@@ -1,71 +1,43 @@
 scriptencoding utf-8
 
-"""" get file size
-function! functions#getfilesize() abort
-  if &encoding ==# &fileencoding || &fileencoding ==# ''
-    let size = line2byte(line('$') + 1) - 1
-    if !&endofline
-      let size -= 1
-    endif
-  else
-    let size = getfsize(expand('%'))
-  endif
-
-  if size < 0
-    let size = 0
-  endif
-  for unit in ['B', 'KB', 'MB']
-    if size < 1024
-      return size . unit
-    endif
-    let size = size / 1024
-  endfor
-  return size . 'GB'
+" netrw
+function! functions#innetrw() abort
+  nmap <buffer> <right> <cr>
+  nmap <buffer> <left> -
+  nmap <buffer> gq :bn<bar>bd#<cr>
+  nmap <buffer> D .!rm -rf
 endfunction
 
-"""" large file (lifepillar)
-function! functions#large_file(name) abort
-  let b:large_file = 1
-  syntax clear
-  set eventignore+=FileType
-  let &backupskip .= ',' . a:name
-  setlocal foldmethod=manual nofoldenable noswapfile noundofile norelativenumber
-  augroup large_buffer
-    autocmd!
-    autocmd BufWinEnter <buffer> call <sid>restore_eventignore()
-  augroup END
+" grep.
+function! functions#grep(cmd, args) abort
+  let g:grepprg='ag --vimgrep'
+  let args = a:args
+  call s:SearchWithDispatch(a:cmd, args)
 endfunction
 
-function! s:restore_eventignore() abort
-  set eventignore-=FileType
-  autocmd! large_buffer
-  augroup! large_buffer
+function! s:SearchWithDispatch(cmd, args) abort
+  let l:makeprg_bak = &l:makeprg
+  let l:errorformat_bak = &l:errorformat
+
+  try
+    let &l:makeprg = g:grepprg . ' ' . a:args
+    let &l:errorformat = '%f:%l:%c:%m,%f:%l:%m'
+
+    execute 'silent Make'
+  finally
+    let &l:makeprg = l:makeprg_bak
+    let &l:errorformat = l:errorformat_bak
+  endtry
+  copen
+  redraw
 endfunction
 
-"""" highlight
+" highlight
 function! functions#hl() abort
   echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), '/')
 endfunction
 
-"""" mkdir if not exists
-function! functions#mkdirifnotexist() abort
-  let dir = expand('%:p:h')
-  if dir =~# '://'
-    return
-  endif
-  if !isdirectory(dir)
-    call mkdir(dir, 'p')
-    echo 'Created non-existing directory: '.dir
-  endif
-endfunction
-
-function! functions#mkdir(dir) abort
-  if !isdirectory(a:dir)
-    call mkdir(a:dir, 'p')
-  endif
-endfunction
-
-"""" tabline
+" tabline
 function! functions#tabline() abort
   let s = ''
   for i in range(tabpagenr('$'))
@@ -91,126 +63,50 @@ function! functions#tabline() abort
   return s
 endfunction
 
-function! functions#changedfiles() abort
-  only
-  let status = system('git status -s | grep "^ \?\(M\|A\|UU\)" | sed "s/^.\{3\}//"')
-  let filenames = split(status, "\n")
-  exec 'edit ' . filenames[0]
-  for filename in filenames[1:]
-    exec 'e ' . filename
-  endfor
-endfunction
-
-" netrw
-function! functions#innetrw() abort
-  nnoremap <buffer> D <Nop>
-  nmap <buffer> <right> <cr>
-  nmap <buffer> <left> -
-  nmap <buffer> J j<cr>
-  nmap <buffer> K k<cr>
-  nmap <buffer> qq :bn<bar>bd#<cr>
-  nmap <buffer> D .terminal ++close rm -rf
-endfunction
-
-" completion
-function! functions#inserttabwrapper()
-  let col = col('.') - 1
-  if !col || getline('.')[col - 1] !~# '\k'
-    return "\<tab>"
+" fix insert leave
+function! functions#insertleave() abort
+  let cursorPos = col('.')
+  let maxColumn = col('$')
+  if cursorPos < maxColumn && cursorPos != 1
+    return "\<Esc>l"
   else
-    return "\<c-n>"
+    return "\<Esc>"
   endif
 endfunction
 
-"""" visual select
-function! functions#get_selected_text() abort
-  let tmp = @"
-  normal! gvy
-  normal! gv
-  let [tmp, @"] = [@", tmp]
-  return tmp
+" toggle
+function! functions#toggle_option(option_name) abort
+  execute 'setlocal' a:option_name.'!'
+  execute 'setlocal' a:option_name.'?'
 endfunction
 
-function! functions#plain_text_pattern(s) abort
-  return substitute(substitute('\V'.escape(a:s, '\'), '\n', '\\n', 'g'), '\t', '\\t', 'g')
+" highlighting group
+function! functions#hl() abort
+  echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), '/')
 endfunction
 
-function! functions#get_search_pat() abort
-  return functions#plain_text_pattern(functions#get_selected_text())
-endfunction
-
-" search highlight
-function! functions#hlnext() abort
-  let l:higroup = matchend(getline('.'), '\c'.@/, col('.')-1) == col('.')
-        \ ? 'SpellRare' : 'IncSearch'
-  let b:cur_match = matchadd(l:higroup, '\c\%#'.@/, 101)
-  redraw
-  augroup HLNext
-    autocmd CursorMoved <buffer>
-          \   execute 'silent! call matchdelete('.b:cur_match.')'
-          \ | redraw
-          \ | autocmd! HLNext
-  augroup END
-endfunction
-
-function! s:StartHL()
-  silent! if v:hlsearch && !search('\%#\zs'.@/,'cnW')
-  call <SID>StopHL()
-endif
-endfunction
-
-function! s:StopHL()
-  if ! v:hlsearch || mode() !=? 'n'
-    return
-  else
-    silent call feedkeys("\<Plug>(StopHL)", 'm')
+" search
+highlight default link CurrentSearch IncSearch
+command! -bar Nohlsearch ClearCurrentSearch | nohlsearch
+command! -bar ClearCurrentSearch silent! call matchdelete(get(s:, 'current_search_id', -1))
+function! functions#highlight_current() abort
+  ClearCurrentSearch
+  if get(v:, 'hlsearch', 0) == 1
+    let pat = (&ignorecase && (!&smartcase || @/ !~# '\u')  ? '\c' : '\C') . '\m\%#' . (&magic ? '' : '\M') . @/
+    let s:current_search_id = matchadd('CurrentSearch', pat, 10, get(s:, 'current_search_id', -1))
   endif
 endfunction
 
-function! functions#toggle(old, new)
-  if a:old == 0 && a:new == 1
-    " nohls --> hls
-    "   set up
-    noremap  <expr> <Plug>(StopHL) execute('nohlsearch')[-1]
-    noremap! <expr> <Plug>(StopHL) execute('nohlsearch')[-1]
-
-    autocmd hlsearch CursorMoved * call <SID>StartHL()
-    autocmd hlsearch InsertEnter * call <SID>StopHL()
-  elseif a:old == 1 && a:new == 0
-    " hls --> nohls
-    "   tear down
-    nunmap <expr> <Plug>(StopHL)
-    unmap! <expr> <Plug>(StopHL)
-
-    autocmd! hlsearch CursorMoved
-    autocmd! hlsearch InsertEnter
-  else
-    " nohls --> nohls
-    "   do nothing
-    return
-  endif
+" diff mappings
+function! functions#diff_maps()
+  nnoremap <buffer> zp :diffput<CR>
+  nnoremap <buffer> zg :diffget<CR>
+  vnoremap <buffer> zg :diffget<CR>
+  vnoremap <buffer> zp :diffput<CR>
 endfunction
 
-" windows
-function! functions#nextwindow() abort
-  if winnr('$') == 1
-    silent! normal! ``z.
-  else
-    wincmd w
-  endif
-endfunction
-
-function! functions#previouswindowortab()
-  if winnr() > 1
-    wincmd W
-  else
-    tabprevious
-    execute winnr("$") . "wincmd w"
-  endif
-endfunction
-
-" tab completion
-function! functions#check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
+" ale fixers
+function! functions#togglefixonsave() abort
+    let g:ale_fix_on_save = !g:ale_fix_on_save
+    echo g:ale_fix_on_save == 1 ? 'ale_fix_on_save enabled' : 'ale_fix_on_save disabled'
 endfunction

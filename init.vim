@@ -1,419 +1,312 @@
-set encoding=utf-8
 scriptencoding utf-8
 
+" general autogroup
 augroup vimRc
   autocmd!
 augroup END
 
+" neobundle
+let s:plugins_dir = expand('$HOME/.config/nvim/plugins')
 if has('vim_starting')
-  let g:startuptime = reltime()
-  autocmd vimRc VimEnter * let g:startuptime = reltime(g:startuptime) | redraw
-        \ | echomsg 'startuptime: ' . reltimestr(g:startuptime)
-endif
-
-let g:loaded_matchparen         = 1
-let g:loaded_rrhelper           = 1
-let g:did_install_default_menus = 1
-let g:is_bash                   = 1
-let g:sh_noisk                  = 1
-let g:loaded_vimball            = 1
-let g:loaded_vimballPlugin      = 1
-let g:loaded_getscript          = 1
-let g:loaded_getscriptPlugin    = 1
-let g:loaded_logipat            = 1
-let g:loaded_man                = 1
-
-let s:mkdir     = function('mkdir')
-let $CACHE      = expand('$HOME/.cache/')
-let $CACHE_NVIM = expand('$CACHE/nvim')
-let $NVIM_PATH  = expand('~/.config/nvim')
-let $PACKPATH   = $NVIM_PATH . '/pack/Bundle'
-
-if !exists('$GIT_PROTOCOL')
-  let $GIT_PROTOCOL = 'https'
-  let $GITHUB_COM = $GIT_PROTOCOL.'://github.com/'
-endif
-
-let s:plugins = {'start': [], 'opt': []}
-
-" coc.nvim
-call add(s:plugins.opt, '-b release ' .$GITHUB_COM.'neoclide/coc.nvim')
-let g:coc_global_extensions = [
-      \ 'coc-tsserver',
-      \ 'coc-emmet',
-      \ 'coc-css',
-      \ 'coc-stylelintplus',
-      \ 'coc-html',
-      \ 'coc-svelte',
-      \ 'coc-json',
-      \ 'coc-prettier',
-      \ 'coc-git',
-      \ 'coc-eslint',
-      \ 'coc-yaml',
-      \ 'coc-vimlsp',
-      \ 'coc-webpack',
-      \ 'coc-yank'
-      \ ]
-
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-nmap [c <Plug>(coc-git-prevchunk)
-nmap ]c <Plug>(coc-git-nextchunk)
-nmap gs <Plug>(coc-git-chunkinfo)
-nmap gm <Plug>(coc-git-commit)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ functions#check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<cr>"
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
+  if &runtimepath !~# '/neobundle.vim'
+    if ! isdirectory(s:plugins_dir.'/neobundle.vim')
+      execute printf('!git clone %s://github.com/Shougo/neobundle.vim.git',
+            \ (exists('$http_proxy') ? 'https' : 'git'))
+            \ s:plugins_dir.'/neobundle.vim'
+    endif
+    execute 'set runtimepath^='.s:plugins_dir.'/neobundle.vim'
   endif
-endfunction
-
-xmap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap if <Plug>(coc-funcobj-i)
-omap af <Plug>(coc-funcobj-a)
-
-command! -nargs=0 Format :call CocAction('format')
-
-" vinegar
-call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-vinegar')
-let g:netrw_bufsettings         = 'nomodifiable nomodified relativenumber nowrap readonly nobuflisted hidden'
-let g:netrw_sort_dotfiles_first = 1
-let g:netrw_altfile             = 1
-let g:netrw_dirhistmax          = 0
-autocmd vimRc FileType netrw call functions#innetrw()
-
-" fzf
-call add(s:plugins.opt, $GITHUB_COM.'junegunn/fzf')
-call add(s:plugins.opt, $GITHUB_COM.'junegunn/fzf.vim')
-nnoremap <c-p> :Files<cr>
-nnoremap <bs> :Buffers<cr>
-call fz_f#fzf()
-
-" fugitive
-call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-fugitive')
-nnoremap [fugitive]  <Nop>
-nmap <space>g [fugitive]
-nnoremap <silent> [fugitive]s :<C-u>vertical Gstatus<CR>
-nnoremap <silent> [fugitive]c :<C-u>Gcommit<CR>
-nnoremap <silent> [fugitive]C :<C-u>Gcommit --amend<CR>
-nnoremap <silent> [fugitive]a :<C-u>Dispatch! git add %<CR>
-nnoremap <silent> [fugitive]r :<C-u>Dispatch! git reset %<CR>
-nnoremap <silent> [fugitive]D :<C-u>Dispatch! git checkout -- %<CR>
-nnoremap <silent> [fugitive]p :<C-u>Dispatch! git push<CR>
-nnoremap <silent> [fugitive]P :<C-u>Dispatch! git push -f<CR>
-nnoremap <silent> [fugitive]d :<C-u>Gvdiffsplit<CR>
-nnoremap <silent> [fugitive]l :<C-u>GV --all<CR>
-
-function! InFugitive() abort
-  nmap <buffer> zp :<c-u>Dispatch! git push<CR>
-  nmap <buffer> zF :<c-u>Dispatch! git push -f<CR>
-  nmap <buffer> zf :<c-u>Dispatch! git fetch --all --prune<CR>
-  nmap <buffer> zr :<c-u>Dispatch! git pull --rebase --autostash<CR>
-endfunction
-
-autocmd vimRc FileType fugitive call InFugitive()
-
-" git
-call add(s:plugins.opt, $GITHUB_COM.'junegunn/gv.vim')
-call add(s:plugins.opt, $GITHUB_COM.'Tiancheng-Luo/conflict3')
-call add(s:plugins.opt, $GITHUB_COM.'hotwatermorning/auto-git-diff')
-call add(s:plugins.opt, $GITHUB_COM.'tonchis/vim-to-github')
-call add(s:plugins.opt, $GITHUB_COM.'wincent/vcs-jump')
-call add(s:plugins.opt, $GITHUB_COM.'idanarye/vim-merginal')
-nnoremap [Space]b :MerginalToggle<cr>
-
-" startify
-call add(s:plugins.start, $GITHUB_COM.'mhinz/vim-startify')
-nnoremap [Space]q :SC<cr>
-let g:startify_files_number        = 5
-let g:startify_change_to_dir       = 0
-let g:startify_enable_special      = 0
-let g:startify_update_oldfiles     = 1
-let g:startify_session_dir         = '~/.cache/nvim/session'
-let g:startify_bookmarks = []
-let g:startify_custom_header = []
-let g:startify_lists = [
-      \ { 'type': 'dir',       'header': ['   Recent files'] },
-      \ { 'type': 'sessions',  'header': ['   Sessions'], 'indices': ['A','B','C'] },
-      \ ]
-
-function! s:save_session() abort
-  if !empty(v:this_session) && get(g:, 'startify_session_persistence')
-    call startify#session_write(v:this_session)
-  endif
-endfunction
-
-autocmd BufNewFile,BufAdd,BufDelete,BufLeave * call s:save_session()
-
-" utils
-call add(s:plugins.opt, $GITHUB_COM.'tomtom/tcomment_vim')
-call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-repeat')
-call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-dispatch')
-call add(s:plugins.opt, $GITHUB_COM.'tpope/vim-surround')
-let g:surround_no_insert_mappings = 1
-let surround_indent=1
-nmap S ysiw
-call add(s:plugins.opt, $GITHUB_COM.'embear/vim-localvimrc')
-let g:localvimrc_ask = 0
-call add(s:plugins.opt, $GITHUB_COM.'junegunn/vim-easy-align')
-nmap ga <Plug>(EasyAlign)
-xmap ga <Plug>(EasyAlign)
-call add(s:plugins.opt, $GITHUB_COM.'itchyny/vim-parenmatch')
-call add(s:plugins.opt, $GITHUB_COM.'wellle/targets.vim')
-call add(s:plugins.opt, $GITHUB_COM.'delphinus/vim-auto-cursorline')
-call add(s:plugins.opt, $GITHUB_COM.'gcmt/wildfire.vim')
-let g:wildfire_objects = [ 'iw', 'il', "i'", "a'", 'i"', 'i)', 'a)', 'i]', 'a]', 'i}', 'a}', 'i<', 'a<', 'ip', 'it']
-let g:wildfire_fuel_map = '+'
-let g:wildfire_water_map = '-'
-nmap <leader>s <Plug>(wildfire-quick-select)
-call add(s:plugins.opt, $GITHUB_COM.'stefandtw/quickfix-reflector.vim')
-call add(s:plugins.opt, $GITHUB_COM.'haya14busa/vim-edgemotion')
-map <C-j> <Plug>(edgemotion-j)
-map <C-k> <Plug>(edgemotion-k)
-call add(s:plugins.opt, $GITHUB_COM.'michaeljsmith/vim-indent-object')
-call add(s:plugins.opt, $GITHUB_COM.'sgur/cmdline-completion')
-call add(s:plugins.opt, $GITHUB_COM.'gabesoft/vim-ags')
-let g:ags_winplace = 'right'
-call add(s:plugins.opt, $GITHUB_COM.'mbbill/undotree')
-let g:undotree_WindowLayout = 4
-let g:undotree_SetFocusWhenToggle = 1
-let g:undotree_ShortIndicators = 1
-nnoremap <leader>u :UndotreeToggle<cr>
-call add(s:plugins.opt, $GITHUB_COM.'kana/vim-submode')
-function! SubMode()
-  call submode#enter_with('resize', 'n', '', '<C-W>>', '<C-W>>')
-  call submode#enter_with('resize', 'n', '', '<C-W><', '<C-W><')
-  call submode#map('resize', 'n', '', '.', '<C-W>>')
-  call submode#map('resize', 'n', '', ',', '<C-W><')
-  call submode#enter_with('resize', 'n', '', '<C-W>-', '<C-W>-')
-  call submode#enter_with('resize', 'n', '', '<C-W>+', '<C-W>+')
-  call submode#map('resize', 'n', '', '-', '<C-W>-')
-  call submode#map('resize', 'n', '', '=', '<C-W>+')
-  call submode#leave_with('resize', 'n', '', '<Esc>')
-  call submode#enter_with('scroll-h', 'n', '', 'zl', 'zl')
-  call submode#enter_with('scroll-h', 'n', '', 'zh', 'zh')
-  call submode#enter_with('scroll-h', 'n', '', 'zL', 'zL')
-  call submode#enter_with('scroll-h', 'n', '', 'zH', 'zH')
-  call submode#map('scroll-h', 'n', '', 'l', 'zl')
-  call submode#map('scroll-h', 'n', '', 'h', 'zh')
-  call submode#map('scroll-h', 'n', '', 'L', 'zL')
-  call submode#map('scroll-h', 'n', '', 'H', 'zH')
-endfunction
-
-" editorconfig
-call add(s:plugins.opt, $GITHUB_COM.'sgur/vim-editorconfig')
-let g:editorconfig_root_chdir = 1
-let g:editorconfig_verbose    = 1
-let g:editorconfig_blacklist  = {
-      \ 'filetype': ['git.*', 'fugitive'],
-      \ 'pattern': ['\.un~$']}
-
-" filetype
-call add(s:plugins.opt, $GITHUB_COM.'pangloss/vim-javascript')
-call add(s:plugins.opt, $GITHUB_COM.'lumiliet/vim-twig')
-call add(s:plugins.opt, $GITHUB_COM.'lepture/vim-jinja')
-call add(s:plugins.opt, $GITHUB_COM.'MaxMEllon/vim-jsx-pretty')
-call add(s:plugins.opt, $GITHUB_COM.'HerringtonDarkholme/yats.vim')
-call add(s:plugins.opt, $GITHUB_COM.'plasticboy/vim-markdown')
-call add(s:plugins.opt, $GITHUB_COM.'kchmck/vim-coffee-script')
-call add(s:plugins.opt, $GITHUB_COM.'elzr/vim-json')
-call add(s:plugins.opt, $GITHUB_COM.'stephpy/vim-yaml')
-call add(s:plugins.opt, $GITHUB_COM.'evanleck/vim-svelte')
-call add(s:plugins.opt, $GITHUB_COM.'neoclide/jsonc.vim')
-call add(s:plugins.opt, $GITHUB_COM.'LnL7/vim-nix')
-
-" plugins manager
-function! s:create_helptags(path)
-    if isdirectory(a:path)
-        execute 'helptags ' . a:path
-    endif
-endfunction
-
-function! InstallPackPlugins()
-    for key in keys(s:plugins)
-        let dir = expand($PACKPATH . '/' . key)
-        call functions#mkdir('dir')
-
-        for url in s:plugins[key]
-            let dst = expand(dir . '/' . split(url, '/')[-1])
-            if isdirectory(dst)
-                " plugin is already installed
-                continue
-            endif
-
-            echo 'installing: ' . dst
-            let cmd = printf('git clone --recursive %s %s', url, dst)
-            call system(cmd)
-            call s:create_helptags(expand(dst . '/doc/'))
-        endfor
-    endfor
-endfunction
-
-function! UpdateHelpTags()
-    for key in keys(s:plugins)
-        let dir = expand($PACKPATH . '/' . key)
-
-        for url in s:plugins[key]
-            let dst = expand(dir . '/' . split(url, '/')[-1])
-            if !isdirectory(dst)
-                " plugin is not installed
-                continue
-            endif
-
-            echomsg 'helptags: ' . dst
-            call s:create_helptags(expand(dst . '/doc/'))
-        endfor
-    endfor
-endfunction
-
-function! UpdatePackPlugins()
-    topleft split
-    edit `='[update plugins]'`
-    setlocal buftype=nofile
-
-    let s:pidx = 0
-    call timer_start(100, 'PluginUpdateHandler', {'repeat': len(s:plugins.opt)})
-endfunction
-
-function! PluginUpdateHandler(timer)
-    let dir = expand($PACKPATH . '/' . 'opt')
-    let url = s:plugins.opt[s:pidx]
-    let dst = expand(dir . '/' . split(url, '/')[-1])
-
-    let cmd = printf('git -C %s pull --ff --ff-only', dst)
-    call jobstart(cmd, {'out_io': 'buffer', 'out_name': '[update plugins]'})
-
-    let s:pidx += 1
-    if s:pidx == len(s:plugins.opt)
-        call UpdateHelpTags()
-    endif
-endfunction
-
-let s:pidx = 0
-function! PackAddHandler(timer)
-    let plugin_name = split(s:plugins.opt[s:pidx], '/')[-1]
-
-    let plugin_path = expand($PACKPATH . '/opt/' . plugin_name)
-    if isdirectory(plugin_path)
-        execute 'packadd ' . plugin_name
-    endif
-
-    let s:pidx += 1
-    if s:pidx == len(s:plugins.opt)
-        " for filetype plugin
-        doautocmd FileType
-        " fugitive.vim requires do autocmd
-        doautocmd fugitive BufReadPost
-        call SubMode()
-    endif
-endfunction
-
-if has('vim_starting') && has('timers')
-  autocmd vimRc VimEnter * call timer_start(1, 'PackAddHandler', {'repeat': len(s:plugins.opt)})
 endif
 
-" general settings / options
-set path=.,**
-set undofile
-set nobackup
-set noswapfile
-set expandtab shiftwidth=2 softtabstop=-1
-set fileformats=unix,dos
-let g:sh_noisk = 1
-set termguicolors
-set number
-set mouse=a
-set cursorline
-set lazyredraw
-set noswapfile
-set shortmess+=Icm
-set nowrap
-set splitbelow
-set splitright
-set switchbuf=useopen,usetab
-set signcolumn=yes
-set tabline=%!functions#tabline()
-set omnifunc=syntaxcomplete#Complete
-set completefunc=syntaxcomplete#Complete
-set completeopt+=menuone,noselect
-set completeopt-=preview
-set complete=.,w,b,u,U,t,i,d,k
-set pumheight=12
+call neobundle#begin(expand('~/.config/nvim/plugins/'))
+NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundleLazy 'tpope/vim-vinegar', {
+      \   'autoload': {
+      \     'mappings': ['-']}}
+
+NeoBundle 'Yggdroot/LeaderF', {
+      \ 'lazy': 1,
+      \ 'mappings': [['n', '<Plug>', '<c-p>']],
+      \ 'on_cmd': ['Leaderf', 'LeaderfFile', 'LeaderfBuffer'],
+      \ }
+
+NeoBundle 'dense-analysis/ale', {
+      \ 'lazy': 1,
+      \ 'on_ft': ['vim', 'javascript', 'nix', 'html', 'typescript'],
+      \ }
+
+NeoBundleLazy 'Shougo/deoplete.nvim', {
+      \   'on_i': 1,
+      \ }
+
+NeoBundleLazy 'sgur/vim-editorconfig'
+NeoBundleLazy 'tpope/vim-fugitive'
+NeoBundleLazy 'airblade/vim-gitgutter'
+NeoBundleLazy 'tpope/vim-dispatch', {
+      \ 'on_cmd': ['Dispatch', 'Make', 'Start'],
+      \ }
+
+NeoBundle 'tpope/vim-repeat'
+NeoBundleLazy 'tpope/vim-surround', {
+      \ 'mappings': [['n', 'ys', 'ds', 'cs'], ['x', 'S']],
+      \ }
+
+NeoBundle 'tomtom/tcomment_vim', {
+      \ 'lazy': 1,
+      \ 'mappings': [['nx', 'gc', 'gC']],
+      \ }
+
+NeoBundle 'markonm/hlyank.vim'
+NeoBundle 'stefandtw/quickfix-reflector.vim'
+
+NeoBundleLazy 'pangloss/vim-javascript', {
+      \ 'on_ft': 'javascript'
+      \ }
+
+NeoBundleLazy 'jonsmithers/vim-html-template-literals', {
+      \ 'branch': 'dev',
+      \ 'on_ft': 'javascript'
+      \ }
+
+NeoBundleLazy 'LnL7/vim-nix', {
+      \ 'on_ft': 'nix'
+      \ }
+
+NeoBundleLazy 'digitaltoad/vim-pug', {
+      \ 'on_ft': 'pug'
+      \ }
+
+NeoBundleLazy 'dNitro/vim-pug-complete', {
+      \ 'on_ft': 'pug'
+      \ }
+
+call neobundle#end()
+filetype plugin indent on
+
+if neobundle#is_installed('vim-vinegar')
+  let g:netrw_bufsettings = 'nomodifiable nomodified relativenumber nowrap readonly nobuflisted'
+  let g:netrw_altfile             = 1
+  autocmd vimRc FileType netrw call functions#innetrw()
+
+endif
+
+if neobundle#tap('LeaderF')
+  function! neobundle#hooks.on_source(bundle)
+    let g:Lf_ShortcutF = '<C-P>'
+    let g:Lf_ShortcutB = '<BS>'
+    let g:Lf_WindowHeight = 0.25
+    let g:Lf_PreviewInPopup = 1
+    let g:Lf_PreviewHorizontalPosition = 'center'
+    let g:Lf_CursorBlink = 0
+    let g:Lf_ShowHidden = 1
+    let g:Lf_CommandMap = {'<C-K>': ['<Up>'], '<C-J>': ['<Down>']}
+  endfunction
+
+  call neobundle#untap()
+endif
+
+if neobundle#tap('ale')
+  let g:ale_set_signs = 1
+  let g:ale_lint_on_text_changed = 'normal'
+  let g:ale_lint_on_insert_leave = 1
+  let g:ale_lint_delay = 0
+  let g:ale_code_actions_enabled = 1
+  let g:ale_sign_info = '_i'
+  let g:ale_sign_error = '_e'
+  let g:ale_sign_warning = '_w'
+  let g:ale_set_balloons = 1
+  let g:ale_javascript_eslint_use_global = 1
+  let g:ale_javascript_eslint_executable = 'eslint_d'
+  let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5'
+  let g:ale_echo_msg_format = '%linter%: %s %severity%'
+  let g:ale_linters = {
+        \   'jsx': ['eslint'],
+        \   'javascript': ['eslint'],
+        \   'typescript': ['eslint'],
+        \}
+  let g:ale_fixers = {
+        \   'javascript': ['prettier', 'eslint'],
+        \   'html': ['prettier', 'eslint'],
+        \   'yaml': ['prettier'],
+        \   'nix': ['nixpkgs-fmt']
+        \}
+
+  nnoremap [a :ALEPreviousWrap<CR>
+  nnoremap ]a :ALENextWrap<CR>
+
+  call neobundle#untap()
+endif
+
+if neobundle#tap('deoplete.nvim')
+  let g:deoplete#enable_at_startup = 1
+
+  call neobundle#untap()
+endif
+
+if neobundle#tap('vim-surround')
+  let g:surround_no_insert_mappings = 1
+  let surround_indent=1
+  nmap S ysiw
+endif
+
+if neobundle#tap('vim-editorconfig')
+  let g:editorconfig_root_chdir = 1
+  let g:editorconfig_verbose    = 1
+  let g:editorconfig_blacklist  = {
+        \ 'filetype': ['git.*', 'fugitive'],
+        \ 'pattern': ['\.un~$']}
+  function! s:load_editorconfig()
+    if findfile('.editorconfig', '.;') !=# ''
+      NeoBundleSource vim-editorconfig
+    endif
+  endfunction
+
+  autocmd vimRc BufReadPre * call s:load_editorconfig()
+
+  call neobundle#untap()
+endif
+
+if neobundle#tap('vim-fugitive')
+  if finddir('.git/') !=# ''
+    NeoBundleSource vim-fugitive
+  endif
+
+  nnoremap [git]  <Nop>
+  nmap <space>g [git]
+  nnoremap <silent> [git]s :<C-u>vertical Gstatus<CR>
+  nnoremap <silent> [git]d :<C-u>Gvdiffsplit!<CR>
+
+  function! InFugitive() abort
+    nmap <buffer> zp :<c-u>Dispatch! git push<CR>
+    nmap <buffer> zF :<c-u>Dispatch! git push -f<CR>
+  endfunction
+
+  autocmd vimRc FileType fugitive call InFugitive()
+
+  call neobundle#untap()
+endif
+
+if neobundle#tap('vim-gitgutter')
+  if finddir('.git/') !=# ''
+    NeoBundleSource vim-gitgutter
+  endif
+
+  call neobundle#untap()
+endif
+
+if neobundle#tap('vim-html-template-literals')
+  let g:htl_all_templates = 1
+  let g:htl_css_templates = 1
+
+  call neobundle#untap()
+endif
+
+" better defaults
+set path& | let &path .= '**'
 set gdefault
-set hlsearch|nohlsearch
-set nostartofline
-set sidescrolloff=5
-set sidescroll=1
-set expandtab
+set copyindent
+set preserveindent
 set softtabstop=2
 set tabstop=2
 set shiftwidth=2
-set shiftround
-set diffopt+=context:3,indent-heuristic,algorithm:patience
-set inccommand=nosplit
-set timeoutlen=3000
-set updatetime=300
-set wildmode=longest:full,full
-set helplang=en
-set nospell
-set spelllang=en_us
-set fileformats=unix,dos,mac
-set wildcharm=<C-Z>
-set undodir=~/.cache/nvim/undo
-call s:mkdir(&undodir, 'p')
+set expandtab
+set noswapfile
+set nobackup
 set undofile
+set inccommand=nosplit
+set number
+set mouse=a
+set sidescrolloff=10
+set sidescroll=1
+set switchbuf+=useopen,usetab
+set splitbelow
+set splitright
+set omnifunc=syntaxcomplete#Complete
+set completefunc=syntaxcomplete#Complete
+set completeopt-=preview
+set completeopt+=menuone,noselect,noinsert
+set complete=.,w,b,u,U,t,i,d,k
+set pumheight=10
+set diffopt+=context:3,indent-heuristic,algorithm:patience
+set updatetime=50
+set wildignore=
+      \*.png,
+      \*.jpg,
+      \*.gif,
+      \*.gem,
+      \*.swp,
+      \*.zip,
+      \*.gz,
+      \*/.DS_Store/*,
+      \*/tmp/*,
+      \*/node_modules/*,
+      \*/bower_components/*,
+      \*/vendor/*,
+      \*/pack/*,
+      \*/.gem/*,
+      \*/.git/*,
+      \*/.hg/*,
+      \*/.svn/*
+set wildcharm=<C-Z>
+set noshowmode
+set tabline=%!functions#tabline()
 set list
-let &g:listchars = 'tab:▸ ,trail:•,extends:❯,precedes:❮,nbsp:⦸'
-augroup list_trail
-  autocmd InsertEnter * set listchars-=trail:•
-  autocmd InsertLeave * set listchars+=trail:•
-augroup END
+set listchars=tab:›\ ,trail:•,extends:»,precedes:«,nbsp:‡
+autocmd vimRc InsertEnter * set listchars-=trail:•
+autocmd vimRc InsertLeave * set listchars+=trail:•
 
-let &g:statusline=''
-let &g:statusline.='%{expand("%:p:h:t")}/%t'
-let &g:statusline.='%8c:%l'
-let &g:statusline.=' %h%r'
-let &g:statusline.='%{exists("g:did_coc_loaded")?coc#status():""}'
-let &g:statusline.=' %#incsearch#%{&mod?" ✚✚✚ ":""}'
-let &g:statusline.='%*'
-let &g:statusline.='%='
-let &g:statusline.='%{exists("g:loaded_fugitive")?fugitive#head(5):""} '
-let &g:statusline.='[%{&filetype!=#""?&filetype:""}]'
+" grep
+if executable('ag')
+  set grepprg=ag\ --vimgrep
+  set grepformat=%f:%l:%c:%m
+endif
+
+" statusline
+set laststatus=2
+set statusline=
+set statusline+=%<%{toupper(mode())}
+set statusline+=%4c
+set statusline+=\ %{expand('%:p:h:t')}
+set statusline+=/%t
+set statusline+=%h%r
+set statusline+=\ %#error#
+set statusline+=%{&modified?'+++++':''}
+set statusline+=%*
+set statusline+=%=
+set statusline+=%{&filetype!=#''?&filetype:''}
 
 " mappings
-nnoremap j gj
-nnoremap k gk
+nnoremap <silent> j gj
+nnoremap <silent> k gk
+nnoremap > >>
+nnoremap < <<
 vnoremap > >gv
 vnoremap < <gv
-nnoremap <c-s> :<c-u>update<cr>
-inoremap <c-s> <esc>:update<cr>
-xnoremap <c-s> <esc>:<c-u>update<cr>
+nnoremap <C-s> :<c-u>update<cr>
+inoremap <C-s> <esc>:update<cr>
+xnoremap <C-s> <esc>:<C-u>update<cr>
 nnoremap <expr> 0 virtcol('.') - 1 <= indent('.') && col('.') > 1 ? '0' : '_'
-cnoremap <c-a> <Home>
-cnoremap <c-e> <End>
-inoremap <c-a> <Home>
-inoremap <c-e> <End>
-nnoremap }   }zz
-nnoremap {   {zz
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+nnoremap } }zz
+nnoremap { {zz
+
+" tab complete
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr><CR> pumvisible() ? "\<C-Y>" : "\<CR>"
+
+" Smart <C-f>, <C-b>.
+nnoremap <expr> <C-f> max([winheight(0) - 2, 1])
+      \ . "\<C-d>" . (line('w$') >= line('$') ? "L" : "M")
+nnoremap <expr> <C-b> max([winheight(0) - 2, 1])
+      \ . "\<C-u>" . (line('w0') <= 1 ? "H" : "M")
 
 " windows
-nnoremap <silent> <Tab> :call functions#nextwindow()<CR>
-nnoremap <silent> <S-Tab> :call functions#previouswindowortab()<CR>
+nnoremap <silent> <Tab> <c-w>w
+nnoremap <silent> <S-Tab> <c-w>W
 
 " prev and next buffer
 nnoremap ]b :bnext<cr>
@@ -439,119 +332,163 @@ onoremap <silent> il :<C-U>normal! ^vg_<cr>
 xnoremap <silent> ie gg0oG$
 onoremap <silent> ie :<C-U>execute "normal! m`"<Bar>keepjumps normal! ggVG<cr>
 
-" file size
-nnoremap <F3> :echo functions#getfilesize()<cr>
+" Better x
+nnoremap x "_x
 
 " disable EX-mode
 nnoremap Q <Nop>
-nnoremap gQ <Nop>
 
 " execute macro
 nnoremap Q @q
 " Run macro on selected lines
 vnoremap Q :norm Q<cr>
 
-" search and star search
-nnoremap * :let @/ = '\<'.expand('<cword>').'\>'\|set hlsearch<C-M>
-nnoremap cn :let @/ = '\<'.expand('<cword>').'\>'\|set hlsearch<C-M>cgn
-nnoremap dn :let @/ = '\<'.expand('<cword>').'\>'\|set hlsearch<C-M>cgn
-vnoremap * :<c-u>let @/=functions#get_search_pat()<cr><esc><s-n>
-
-" cmdwinenter
-nnoremap <leader><leader> q:i
-
-" grep
-nnoremap gs :<C-u>Grep<Space>
-
-" commands history
-nnoremap <leader>] :CmdHist<cr>
-
-" smart space mapping
-nmap <Space> [Space]
-nnoremap  [Space] <Nop>
-vmap <Space> [Space]
-vnoremap  [Space] <Nop>
-
-" yank from cursor position to end of line
-nnoremap Y y$
-
 " yank to clipboard
-vnoremap [Space]y "+y
+vnoremap <space>y "+y
+
+" yank and keep cursor position
+vnoremap <expr>y "my\"" . v:register . "y`y"
 
 " paste from clipboard
-nnoremap [Space]p :put+<cr>
-vnoremap [Space]p "+p
-nnoremap [Space]P :put!+<cr>
-vnoremap [Space]P "+P
+nnoremap <space>p :put+<cr>
+vnoremap <space>p "+p
+nnoremap <space>P :put!+<cr>
+vnoremap <space>P "+P
 
 " Paste continuously.
-nnoremap [p "0p
 nnoremap ]p viw"0p
 vnoremap P "0p
 
 " replace a word with clipboard
-nnoremap [Space]w viw"+p
+nnoremap <space>w viw"+p
 
-" switch buffers
-nnoremap [Space]1 1<c-w>w
-nnoremap [Space]2 2<c-w>w
+" file finder
+nnoremap <space>f :find<space>
 
-nnoremap [Space]3 3<c-w>w
-nnoremap [Space]4 4<c-w>w
-nnoremap [Space]5 5<c-w>w
-nnoremap [Space]6 6<c-w>w
-nnoremap [Space]7 7<c-w>w
-nnoremap [Space]8 8<c-w>w
-nnoremap [Space]9 9<c-w>w
+" delete buffers
+nnoremap <space>b :ls<cr>:bd<space>
 
 " substitute.
-nnoremap [Substitute]   <Nop>
-nmap   s [Substitute]
-xmap   s [Substitute]
-nnoremap [Substitute]s :%s/
-nnoremap [Substitute]l :s/
-xnoremap [Substitute]  :s/
-nnoremap [Substitute]a :%s/\<<c-r><c-w>\>/<c-r><c-w>
-nnoremap [Substitute]p vip :s/
-nnoremap [Substitute]w :%s/\<<c-r><c-w>\>/
+nnoremap [subst] <Nop>
+nmap   s [subst]
+xmap   s [subst]
+nnoremap [subst]s :%s/
+nnoremap [subst]l :s//<left>
+xnoremap [subst]  :s/
+nnoremap [subst]a :<c-u>%s/\C\<<c-r><c-w>\>/<c-r><c-w>
+nnoremap [subst]p :'{,'}s//<left>
+nnoremap [subst]w :<C-u>%s/\C\<<C-R><C-w>\>//g<Left><Left>
+nnoremap [subst]n *``cgn
 
 " zoom
 nnoremap <C-w>t :tabedit %<cr>
 nnoremap <C-w>z :tabclose<cr>
-nnoremap <silent> <S-tab> :tabnext<CR>
 
 " git commands
-nnoremap <silent> <expr> [Space]dt ":\<C-u>"."windo ".(&diff?"diffoff":"diffthis")."\<CR>"
+nnoremap <silent> <expr> <space>dt ":\<C-u>"."windo ".(&diff?"diffoff":"diffthis")."\<CR>"
 
-" sessions
-nnoremap [Space]s :call sessions#load()<cr>
+" hlsearch
+nnoremap <silent>n n
+nnoremap <silent>N N
 
-" hlsearch hlnext
-nnoremap <silent> n nzz:call functions#hlnext()<cr>
-nnoremap <silent> N Nzz:call functions#hlnext()<cr>
-nnoremap <silent> [Space]n :nohlsearch<CR>
-
-augroup hlsearch
-  autocmd!
-  autocmd OptionSet hlsearch call functions#toggle(v:option_old, v:option_new)
-augroup END
-
-call functions#toggle(0, &hlsearch)
-
-" autocmds
-call autocmds#autocmds()
-call commands#commands()
-
-set background=dark
-silent! colorscheme apprentice
-function! MyHighlights() abort
-  hi! Comment      guifg=#5c6370 guibg=NONE gui=italic cterm=italic
-  hi! ParenMatch   guifg=#85EB6A guibg=#135B00 gui=NONE cterm=NONE term=reverse ctermbg=11
+" star search
+nnoremap <silent> * *``
+function! s:VSetSearch(cmdtype)
+  let temp = @s
+  norm! gv"sy
+  let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
+  let @s = temp
 endfunction
 
-augroup MyColors
-  autocmd!
-  autocmd ColorScheme * call MyHighlights()
-augroup END
+xnoremap * :<C-u>call <SID>VSetSearch('/')<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call <SID>VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
 
-set secure
+" CTRL-L to fix syntax highlight
+nnoremap <silent><expr> <C-l> empty(get(b:, 'current_syntax'))
+      \ ? "\<C-l>"
+      \ : "\<C-l>:syntax sync fromstart\<cr>:nohlsearch<cr>"
+nnoremap <silent> <space>n :Nohlsearch<cr>
+
+" toggles
+nnoremap cos
+      \ :<C-u>call functions#toggle_option('spell')<CR>
+nnoremap cow
+      \ :<C-u>call functions#toggle_option('wrap')<CR>
+nnoremap con
+      \ :<C-u>call functions#toggle_option('relativenumber')<CR>
+nnoremap col
+      \ :<C-u>call functions#toggle_option('cursorline')<CR>
+nnoremap coc
+      \ :<C-u>call functions#toggle_option('cursorcolumn')<CR>
+nnoremap cof
+      \ :<C-u>call functions#togglefixonsave()<CR>
+
+" autocmds
+" If a file is large, disable syntax highlighting, filetype etc
+let g:LargeFile = 20*1024*1024 " 20MB
+autocmd vimRc BufReadPre *
+      \ let s = getfsize(expand("<afile>")) |
+      \ if s > g:LargeFile || s == -2 |
+      \   call functions#large_file(fnamemodify(expand("<afile>"), ":p")) |
+      \ endif
+
+" don't list location-list / quickfix windows
+autocmd vimRc BufReadPost quickfix setlocal nobuflisted
+autocmd vimRc BufReadPost quickfix nnoremap <buffer> gq :bd<CR>
+autocmd vimRc FileType help nnoremap <buffer> gq :bd<CR>
+autocmd vimRc CmdwinEnter * nnoremap <silent><buffer> gq :<C-u>quit<CR>
+
+" grep.
+autocmd vimRc QuickFixCmdPost cgetexpr cwindow
+
+" qf and help keep widow full width
+autocmd vimRc FileType qf wincmd J
+autocmd vimRc BufWinEnter * if &ft == 'help' | wincmd J | end
+
+" update diff
+autocmd vimRc InsertLeave * if &l:diff | diffupdate | endif
+autocmd vimRc BufEnter * if &diff | call functions#diff_maps() | endif
+
+" external changes
+autocmd vimRc FocusGained,CursorHold * if !bufexists("[Command Line]") | checktime | GitGutter | endif
+
+" mkdir
+autocmd vimRc BufWritePre *
+    \ if !isdirectory(expand('%:h', v:true)) |
+    \   call mkdir(expand('%:h', v:true), 'p') |
+    \ endif
+
+" kepp cursor position
+autocmd vimRc BufReadPost *
+      \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+      \ |   exe "normal! g`\""
+      \ | endif
+
+" fugitive files
+autocmd vimRc FileType git setlocal nofoldenable
+
+" hlsearch
+autocmd vimRc CursorMoved,InsertLeave * call functions#highlight_current()
+autocmd vimRc InsertEnter * ClearCurrentSearch
+
+" filetype
+autocmd vimRc BufNewFile,BufRead *.jsx setlocal filetype=javascript
+autocmd vimRc BufReadPre,BufNewFile *.tsx setlocal filetype=typescript
+autocmd vimRc BufNewFile,BufRead *.twig setlocal filetype=html.twig
+autocmd vimRc BufRead,BufNewFile *.gitignore  setlocal filetype=gitignore
+autocmd vimRc BufReadPre,BufNewFile *.twig setlocal filetype=twig.html
+autocmd vimRc BufWinEnter *.json setlocal conceallevel=0 concealcursor=
+autocmd vimRc BufReadPre *.json setlocal conceallevel=0 concealcursor=
+autocmd vimRc BufReadPre *.json setlocal formatoptions=
+
+" commands
+command! -nargs=0 BO silent! execute "%bd|e#|bd#"
+command! BD setlocal bufhidden=delete | bnext
+command! -nargs=0 WS %s/\s\+$// | normal! ``
+command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+command! -nargs=0 Nixfmt Dispatch! nixfmt %
+command! -bang -nargs=* -complete=file Grep call functions#grep('grep<bang>',<q-args>)
+command! HL call functions#hl()
+
+syntax enable
+silent! colorscheme min
