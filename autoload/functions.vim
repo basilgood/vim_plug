@@ -110,3 +110,17 @@ function! functions#togglefixonsave() abort
     let g:ale_fix_on_save = !g:ale_fix_on_save
     echo g:ale_fix_on_save == 1 ? 'ale_fix_on_save enabled' : 'ale_fix_on_save disabled'
 endfunction
+
+" lsp
+function! functions#lspconfig() abort
+  setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  nnoremap <silent> <c-]>      <cmd>lua vim.lsp.buf.definition()<CR>
+  nnoremap <silent> <c-k>      <cmd>lua vim.lsp.buf.signature_help()<CR>
+  nnoremap <silent> K          <cmd>lua vim.lsp.buf.hover()<CR>
+  nnoremap <silent> gd         <cmd>lua vim.lsp.buf.declaration()<CR>
+  nnoremap <silent> g0         <cmd>lua vim.lsp.buf.document_symbol()<CR>
+  nnoremap <silent> gD         <cmd>lua vim.lsp.buf.implementation()<CR>
+  nnoremap <silent> 1gD        <cmd>lua vim.lsp.buf.type_definition()<CR>
+  nnoremap <silent><Leader>rf  <cmd>lua vim.lsp.buf.references({ includeDeclaration = true })<CR>
+  nnoremap <silent><Leader>fmt <cmd>lua vim.lsp.buf.formatting()<CR>
+endfunction

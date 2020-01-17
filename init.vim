@@ -36,7 +36,13 @@ NeoBundle 'dense-analysis/ale', {
       \ }
 
 NeoBundleLazy 'Shougo/deoplete.nvim', {
-      \   'on_i': 1,
+      \ 'on_i': 1,
+      \ }
+
+NeoBundle 'neovim/nvim-lsp'
+NeoBundleLazy 'Shougo/deoplete-lsp', {
+      \ 'depends': 'deoplete.nvim',
+      \ 'on_i': 1,
       \ }
 
 NeoBundleLazy 'sgur/vim-editorconfig'
@@ -52,12 +58,20 @@ NeoBundleLazy 'tpope/vim-surround', {
       \ }
 
 NeoBundle 'tomtom/tcomment_vim', {
-      \ 'lazy': 1,
       \ 'mappings': [['nx', 'gc', 'gC']],
       \ }
 
-NeoBundle 'markonm/hlyank.vim'
-NeoBundle 'stefandtw/quickfix-reflector.vim'
+NeoBundleLazy 'wellle/targets.vim', {
+      \ 'mappings': [['n', 'ci', 'ca', 'di', 'da', 'vi', 'va']],
+      \ }
+
+NeoBundleLazy 'markonm/hlyank.vim', {
+      \ 'mappings': [['n', 'y', 'yy']],
+      \ }
+
+NeoBundleLazy 'stefandtw/quickfix-reflector.vim', {
+      \ 'on_ft': 'qf'
+      \ }
 
 NeoBundleLazy 'pangloss/vim-javascript', {
       \ 'on_ft': 'javascript'
@@ -104,6 +118,17 @@ if neobundle#tap('LeaderF')
 
   call neobundle#untap()
 endif
+
+" lsp
+lua << EOF
+local nvim_lsp = require'nvim_lsp'
+
+nvim_lsp.tsserver.setup {
+  cmd = {'typescript-language-server', '--stdio'},
+  filetypes = { 'javascript' }
+}
+
+EOF
 
 if neobundle#tap('ale')
   let g:ale_set_signs = 1
@@ -216,6 +241,7 @@ set undofile
 set inccommand=nosplit
 set number
 set mouse=a
+set shortmess+=aoOtTIc
 set sidescrolloff=10
 set sidescroll=1
 set switchbuf+=useopen,usetab
@@ -472,6 +498,7 @@ autocmd vimRc CursorMoved,InsertLeave * call functions#highlight_current()
 autocmd vimRc InsertEnter * ClearCurrentSearch
 
 " filetype
+autocmd vimRc FileType javascript call functions#lspconfig()
 autocmd vimRc BufNewFile,BufRead *.jsx setlocal filetype=javascript
 autocmd vimRc BufReadPre,BufNewFile *.tsx setlocal filetype=typescript
 autocmd vimRc BufNewFile,BufRead *.twig setlocal filetype=html.twig
