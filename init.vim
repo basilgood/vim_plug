@@ -257,6 +257,7 @@ set pumheight=10
 set diffopt+=context:3,indent-heuristic,algorithm:patience
 set timeoutlen=3000
 set updatetime=50
+set wildmode=longest:full,full
 set wildignore=
       \*.png,
       \*.jpg,
