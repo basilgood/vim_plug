@@ -112,6 +112,21 @@ if dein#load_state(s:dein_dir)
   call dein#add('dNitro/vim-pug-complete', {
         \ 'on_ft': 'pug'
         \ })
+  call dein#add('rhysd/vim-fixjson', {
+        \ 'on_ft': 'json'
+        \ })
+  call dein#add('kchmck/vim-coffee-script', {
+        \ 'on_ft': 'coffee'
+        \ })
+  call dein#add('plasticboy/vim-markdown', {
+        \ 'on_ft': 'markdown'
+        \ })
+  call dein#add('lepture/vim-jinja', {
+        \ 'on_ft': 'jinja'
+        \ })
+  call dein#add('lumiliet/vim-twig', {
+        \ 'on_ft': 'twig'
+        \ })
 
   call dein#end()
   call dein#save_state()
@@ -275,7 +290,6 @@ if executable('ag')
 endif
 
 " statusline
-set laststatus=2
 set statusline=
 set statusline+=%<%{toupper(mode())}
 set statusline+=%4c
@@ -467,9 +481,9 @@ autocmd vimRc BufEnter * if &diff | call functions#diff_maps() | endif
 
 " mkdir
 autocmd vimRc BufWritePre *
-    \ if !isdirectory(expand('%:h', v:true)) |
-    \   call mkdir(expand('%:h', v:true), 'p') |
-    \ endif
+      \ if !isdirectory(expand('%:h', v:true)) |
+      \   call mkdir(expand('%:h', v:true), 'p') |
+      \ endif
 
 " kepp cursor position
 autocmd vimRc BufReadPost *
