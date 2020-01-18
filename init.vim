@@ -25,6 +25,7 @@ endif
 
 if dein#load_state(s:dein_dir)
   call dein#begin(s:dein_dir)
+
   call dein#add('neovim/nvim-lsp')
   call dein#add('tpope/vim-vinegar', {
         \ 'lazy' : 1,
@@ -70,6 +71,44 @@ if dein#load_state(s:dein_dir)
         \ 'lazy': 1,
         \ 'on_cmd': ['Dispatch', 'Make', 'Start']
         \ })
+  call dein#add('tpope/vim-surround', {
+        \ 'lazy' : 1,
+        \ 'on_event': 'BufReadPost'
+        \ })
+  call dein#add('tpope/vim-repeat')
+  call dein#add('tomtom/tcomment_vim', {
+        \ 'lazy' : 1,
+        \ 'on_event': 'BufReadPost'
+        \ })
+  call dein#add('wellle/targets.vim', {
+        \ 'lazy' : 1,
+        \ 'on_event': 'BufReadPost'
+        \ })
+  call dein#add('markonm/hlyank.vim', {
+        \ 'lazy' : 1,
+        \ 'on_event': 'BufReadPost'
+        \ })
+  call dein#add('stefandtw/quickfix-reflector.vim', {
+        \ 'on_ft': 'qf'
+        \ })
+  call dein#add('pangloss/vim-javascript', {
+        \ 'on_ft': 'javascript'
+        \ })
+  call dein#add('jonsmithers/vim-html-template-literals', {
+        \ 'branch': 'dev',
+        \ 'on_ft': 'javascript',
+        \ 'hook_add': 'let g:htl_all_templates = 1'
+        \ })
+  call dein#add('LnL7/vim-nix', {
+        \ 'on_ft': 'nix'
+        \ })
+  call dein#add('digitaltoad/vim-pug', {
+        \ 'on_ft': 'pug'
+        \ })
+  call dein#add('dNitro/vim-pug-complete', {
+        \ 'on_ft': 'pug'
+        \ })
+
   call dein#end()
   call dein#save_state()
 endif
@@ -77,50 +116,12 @@ endif
 if !has('vim_starting') && dein#check_install()
   call dein#install()
 endif
-"
-" NeoBundle 'tpope/vim-repeat'
-" NeoBundleLazy 'tpope/vim-surround', {
-"       \ 'mappings': [['n', 'ys', 'ds', 'cs'], ['x', 'S']],
-"       \ }
-"
-" NeoBundle 'tomtom/tcomment_vim', {
-"       \ 'mappings': [['nx', 'gc', 'gC']],
-"       \ }
-"
-" NeoBundleLazy 'wellle/targets.vim', {
-"       \ 'mappings': [['n', 'ci', 'ca', 'di', 'da', 'vi', 'va']],
-"       \ }
-"
-" NeoBundleLazy 'markonm/hlyank.vim', {
-"       \ 'mappings': [['n', 'y', 'yy']],
-"       \ }
-"
-" NeoBundleLazy 'stefandtw/quickfix-reflector.vim', {
-"       \ 'on_ft': 'qf'
-"       \ }
-"
-" NeoBundleLazy 'pangloss/vim-javascript', {
-"       \ 'on_ft': 'javascript'
-"       \ }
-"
-" NeoBundleLazy 'jonsmithers/vim-html-template-literals', {
-"       \ 'branch': 'dev',
-"       \ 'on_ft': 'javascript'
-"       \ }
-"
-" NeoBundleLazy 'LnL7/vim-nix', {
-"       \ 'on_ft': 'nix'
-"       \ }
-"
-" NeoBundleLazy 'digitaltoad/vim-pug', {
-"       \ 'on_ft': 'pug'
-"       \ }
-"
-" NeoBundleLazy 'dNitro/vim-pug-complete', {
-"       \ 'on_ft': 'pug'
-"       \ }
-"
-" call neobundle#end()
+
+let s:removed_plugins = dein#check_clean()
+if len(s:removed_plugins) > 0
+  call map(s:removed_plugins, "delete(v:val, 'rf')")
+  call dein#recache_runtimepath()
+endif
 filetype plugin indent on
 
 " lsp
@@ -137,6 +138,12 @@ nvim_lsp.vimls.setup {
   filetypes = { 'vim' }
 }
 EOF
+
+if dein#tap('vim-surround')
+  let g:netrw_bufsettings = 'nomodifiable nomodified relativenumber nowrap readonly nobuflisted'
+  let g:netrw_altfile             = 1
+  autocmd vimRc FileType netrw call functions#innetrw()
+endif
 
 if dein#tap('ale')
   let g:ale_set_signs = 1
@@ -168,12 +175,12 @@ if dein#tap('ale')
   nnoremap ]a :ALENextWrap<CR>
 endif
 
-" if neobundle#tap('vim-surround')
-"   let g:surround_no_insert_mappings = 1
-"   let surround_indent=1
-"   nmap S ysiw
-" endif
-"
+if dein#tap('vim-surround')
+  let g:surround_no_insert_mappings = 1
+  let surround_indent=1
+  nmap S ysiw
+endif
+
 if dein#tap('vim-editorconfig')
   let g:editorconfig_root_chdir = 1
   let g:editorconfig_verbose    = 1
@@ -196,21 +203,6 @@ if dein#tap('vim-fugitive')
   autocmd vimRc FileType fugitive call InFugitive()
 endif
 
-" if neobundle#tap('vim-gitgutter')
-"   if finddir('.git/') !=# ''
-"     NeoBundleSource vim-gitgutter
-"   endif
-"
-"   call neobundle#untap()
-" endif
-"
-" if neobundle#tap('vim-html-template-literals')
-"   let g:htl_all_templates = 1
-"   let g:htl_css_templates = 1
-"
-"   call neobundle#untap()
-" endif
-
 " better defaults
 set path& | let &path .= '**'
 set gdefault
@@ -232,6 +224,7 @@ set sidescroll=1
 set switchbuf+=useopen,usetab
 set splitbelow
 set splitright
+set nowrap
 set omnifunc=syntaxcomplete#Complete
 set completefunc=syntaxcomplete#Complete
 set completeopt-=preview
