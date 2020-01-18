@@ -20,7 +20,7 @@ hi Float                 ctermfg=204
 
 " programming statements
 hi Identifier            ctermfg=215    cterm=NONE
-hi Function              ctermfg=103    ctermbg=NONE cterm=italic
+hi Function              ctermfg=103    ctermbg=NONE cterm=NONE
 hi Statement             ctermfg=219    cterm=NONE
 hi Conditional           ctermfg=217    cterm=NONE
 hi Repeat                ctermfg=217    cterm=NONE
