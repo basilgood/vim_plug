@@ -88,6 +88,10 @@ if dein#load_state(s:dein_dir)
         \ 'lazy' : 1,
         \ 'on_event': 'BufReadPost'
         \ })
+  call dein#add('junegunn/vim-easy-align',{
+        \ 'on_map': '<Plug>(EasyAlign)',
+        \ 'on_cmd': 'EasyAlign'
+        \ })
   call dein#add('stefandtw/quickfix-reflector.vim', {
         \ 'on_ft': 'qf'
         \ })
@@ -203,6 +207,10 @@ if dein#tap('vim-fugitive')
   autocmd vimRc FileType fugitive call InFugitive()
 endif
 
+if dein#tap('vim-easy-align')
+  xmap ga <Plug>(EasyAlign)
+  nmap ga <Plug>(EasyAlign)
+endif
 " better defaults
 set path& | let &path .= '**'
 set gdefault
@@ -232,6 +240,7 @@ set completeopt+=menuone,noselect,noinsert
 set complete=.,w,b,u,U,t,i,d,k
 set pumheight=10
 set diffopt+=context:3,indent-heuristic,algorithm:patience
+set timeoutlen=3000
 set updatetime=50
 set wildignore=
       \*.png,
