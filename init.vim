@@ -95,6 +95,15 @@ if dein#load_state(s:dein_dir)
   call dein#add('stefandtw/quickfix-reflector.vim', {
         \ 'on_ft': 'qf'
         \ })
+  call dein#add('samoshkin/vim-mergetool', {
+        \ 'on_event': 'BufReadPost'
+        \ })
+  call dein#add('da-x/conflict-marker.vim', {
+        \ 'on_event': 'BufReadPost'
+        \ })
+  call dein#add('hotwatermorning/auto-git-diff', {
+        \ 'on_ft': 'gitrebase'
+        \ })
   call dein#add('pangloss/vim-javascript', {
         \ 'on_ft': 'javascript'
         \ })
