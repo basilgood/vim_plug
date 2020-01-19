@@ -487,7 +487,7 @@ autocmd vimRc InsertLeave * if &l:diff | diffupdate | endif
 autocmd vimRc BufEnter * if &diff | call functions#diff_maps() | endif
 
 " external changes
-" autocmd vimRc FocusGained,CursorHold * if !bufexists("[Command Line]") | checktime | GitGutter | endif
+autocmd vimRc FocusGained,CursorHold * if !bufexists("[Command Line]") | checktime | GitGutter | endif
 
 " mkdir
 autocmd vimRc BufWritePre *
