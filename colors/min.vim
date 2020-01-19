@@ -80,7 +80,7 @@ hi Title                 ctermfg=227    cterm=NONE
 hi DiffAdd               ctermbg=235    cterm=NONE
 hi DiffChange            ctermbg=235    cterm=NONE
 hi DiffDelete            ctermfg=238    ctermbg=244  cterm=NONE
-hi DiffText              ctermfg=255    ctermbg=167  cterm=NONE
+hi DiffText              ctermfg=208    ctermbg=234  cterm=NONE
 hi diffAdded             ctermfg=40     cterm=NONE
 hi diffRemoved           ctermfg=204    cterm=NONE
 
