@@ -44,7 +44,8 @@ if dein#load_state(s:dein_dir)
         \ 'let g:Lf_CommandMap = {"<C-K>": ["<Up>"], "<C-J>": ["<Down>"]}'], "\n")
         \ })
   call dein#add('Shougo/deoplete.nvim', {
-        \ 'lazy' : 1, 'on_i' : 1,
+        \ 'lazy' : 1,
+        \ 'on_i' : 1,
         \ 'hook_add': 'let g:deoplete#enable_at_startup = 1',
         \ })
   call dein#add('Shougo/deoplete-lsp', {
@@ -89,16 +90,23 @@ if dein#load_state(s:dein_dir)
         \ 'on_event': 'BufReadPost'
         \ })
   call dein#add('junegunn/vim-easy-align',{
+        \ 'lazy' : 1,
         \ 'on_map': '<Plug>(EasyAlign)',
         \ 'on_cmd': 'EasyAlign'
         \ })
   call dein#add('stefandtw/quickfix-reflector.vim', {
         \ 'on_ft': 'qf'
         \ })
+  call dein#add('arames/vim-async-grep', {
+        \ 'lazy' : 1,
+        \ 'on_event': 'BufReadPost'
+        \ })
   call dein#add('samoshkin/vim-mergetool', {
+        \ 'lazy' : 1,
         \ 'on_event': 'BufReadPost'
         \ })
   call dein#add('da-x/conflict-marker.vim', {
+        \ 'lazy' : 1,
         \ 'on_event': 'BufReadPost'
         \ })
   call dein#add('hotwatermorning/auto-git-diff', {
@@ -235,6 +243,7 @@ if dein#tap('vim-easy-align')
   xmap ga <Plug>(EasyAlign)
   nmap ga <Plug>(EasyAlign)
 endif
+
 " better defaults
 set path& | let &path .= '**'
 set gdefault
@@ -504,9 +513,11 @@ autocmd vimRc BufReadPost *
 " fugitive files
 autocmd vimRc FileType git setlocal nofoldenable
 
+" fix insert leave
+autocmd vimRc InsertLeave * call functions#insertleave()
+
 " hlsearch
 autocmd vimRc CursorMoved,InsertLeave * call functions#highlight_current()
-autocmd vimRc InsertEnter * ClearCurrentSearch
 
 " filetype
 autocmd vimRc FileType javascript call functions#lspconfig()
@@ -526,8 +537,6 @@ command! -nargs=0 BO silent! execute "%bd|e#|bd#"
 command! BD setlocal bufhidden=delete | bnext
 command! -nargs=0 WS %s/\s\+$// | normal! ``
 command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
-command! -nargs=0 Nixfmt Dispatch! nixfmt %
-command! -bang -nargs=* -complete=file Grep call functions#grep('grep<bang>',<q-args>)
 command! HL call functions#hl()
 
 syntax enable

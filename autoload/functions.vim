@@ -8,30 +8,6 @@ function! functions#innetrw() abort
   nmap <buffer> D .!rm -rf
 endfunction
 
-" grep.
-function! functions#grep(cmd, args) abort
-  let g:grepprg='ag --vimgrep'
-  let args = a:args
-  call s:SearchWithDispatch(a:cmd, args)
-endfunction
-
-function! s:SearchWithDispatch(cmd, args) abort
-  let l:makeprg_bak = &l:makeprg
-  let l:errorformat_bak = &l:errorformat
-
-  try
-    let &l:makeprg = g:grepprg . ' ' . a:args
-    let &l:errorformat = '%f:%l:%c:%m,%f:%l:%m'
-
-    execute 'silent Make'
-  finally
-    let &l:makeprg = l:makeprg_bak
-    let &l:errorformat = l:errorformat_bak
-  endtry
-  copen
-  redraw
-endfunction
-
 " highlight
 function! functions#hl() abort
   echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), '/')
