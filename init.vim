@@ -30,46 +30,36 @@ if dein#load_state(s:dein_dir)
   call dein#add('neoclide/coc-eslint', { 'build': 'yarn install --frozen-lockfile', 'merged': 0 })
   call dein#add('neoclide/coc-git', { 'build': 'yarn install --frozen-lockfile', 'merged': 0 })
   call dein#add('tpope/vim-vinegar', {
-        \ 'lazy' : 1,
         \ 'on_map': {'n': '-'}
         \ })
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
   call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
   call dein#add('sgur/vim-editorconfig', {
-        \ 'lazy': 1,
         \ 'on_event': 'BufReadPost'
         \ })
   call dein#add('sgur/vim-editorconfig', {
-        \ 'lazy': 1,
         \ 'on_event': 'BufReadPost'
         \ })
   call dein#add('tpope/vim-fugitive', {
-        \ 'lazy': 1,
         \ 'on_event': 'BufReadPost',
         \ })
   call dein#add('tpope/vim-dispatch', {
-        \ 'lazy': 1,
         \ 'on_cmd': ['Dispatch', 'Make', 'Start']
         \ })
   call dein#add('tpope/vim-surround', {
-        \ 'lazy' : 1,
         \ 'on_event': 'BufReadPost'
         \ })
   call dein#add('tpope/vim-repeat')
   call dein#add('tomtom/tcomment_vim', {
-        \ 'lazy' : 1,
         \ 'on_event': 'BufReadPost'
         \ })
   call dein#add('wellle/targets.vim', {
-        \ 'lazy' : 1,
         \ 'on_event': 'BufReadPost'
         \ })
   call dein#add('markonm/hlyank.vim', {
-        \ 'lazy' : 1,
         \ 'on_event': 'BufReadPost'
         \ })
   call dein#add('junegunn/vim-easy-align',{
-        \ 'lazy' : 1,
         \ 'on_map': '<Plug>(EasyAlign)',
         \ 'on_cmd': 'EasyAlign'
         \ })
@@ -77,15 +67,21 @@ if dein#load_state(s:dein_dir)
         \ 'on_ft': 'qf'
         \ })
   call dein#add('arames/vim-async-grep', {
-        \ 'lazy' : 1,
         \ 'on_event': 'BufReadPost'
         \ })
+  call dein#add('mbbill/undotree', {
+        \ 'on_cmd': 'UndotreeToggle'
+        \ })
+  call dein#add('michaeljsmith/vim-indent-object', {
+        \ 'on_event': 'BufReadPost'
+        \ })
+  call dein#add('terryma/vim-multiple-cursors', {
+        \ 'on_map': '<C-n>'
+        \ })
   call dein#add('samoshkin/vim-mergetool', {
-        \ 'lazy' : 1,
         \ 'on_event': 'BufReadPost'
         \ })
   call dein#add('da-x/conflict-marker.vim', {
-        \ 'lazy' : 1,
         \ 'on_event': 'BufReadPost'
         \ })
   call dein#add('hotwatermorning/auto-git-diff', {
@@ -205,6 +201,13 @@ if dein#tap('vim-easy-align')
   nmap ga <Plug>(EasyAlign)
 endif
 
+if dein#tap('undotree')
+  let g:undotree_CustomUndotreeCmd = 'vertical 50 new'
+  let g:undotree_CustomDiffpanelCmd= 'belowright 12 new'
+  let g:undotree_SetFocusWhenToggle = 1
+  let g:undotree_ShortIndicators = 1
+endif
+
 " better defaults
 set path& | let &path .= '**'
 set gdefault
@@ -306,12 +309,6 @@ inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr><CR> pumvisible() ? "\<C-Y>" : "\<CR>"
 
-" Smart <C-f>, <C-b>.
-nnoremap <expr> <C-f> max([winheight(0) - 2, 1])
-      \ . "\<C-d>" . (line('w$') >= line('$') ? "L" : "M")
-nnoremap <expr> <C-b> max([winheight(0) - 2, 1])
-      \ . "\<C-u>" . (line('w0') <= 1 ? "H" : "M")
-
 " windows
 nnoremap <silent> <Tab> <c-w>w
 nnoremap <silent> <S-Tab> <c-w>W
@@ -319,6 +316,9 @@ nnoremap <silent> <S-Tab> <c-w>W
 " prev and next buffer
 nnoremap ]b :bnext<cr>
 nnoremap [b :bprev<cr>
+
+" word select
+nnoremap vv viw
 
 " lists
 nnoremap ]l :lnext<cr>
@@ -339,9 +339,6 @@ onoremap <silent> il :<C-U>normal! ^vg_<cr>
 " entire
 xnoremap <silent> ie gg0oG$
 onoremap <silent> ie :<C-U>execute "normal! m`"<Bar>keepjumps normal! ggVG<cr>
-
-" Better x
-nnoremap x "_x
 
 " disable EX-mode
 nnoremap Q <Nop>
@@ -400,7 +397,7 @@ nnoremap <silent>n n
 nnoremap <silent>N N
 
 " star search
-nnoremap <silent> * *``
+nnoremap <silent> * *N
 function! s:VSetSearch(cmdtype)
   let temp = @s
   norm! gv"sy

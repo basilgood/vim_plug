@@ -22,7 +22,7 @@ hi VisualNOS cterm=underline guifg=fg gui=underline
 hi Folded ctermfg=252 ctermbg=236 cterm=NONE guifg=#c3d5ec guibg=#2a303b gui=NONE
 hi FoldColumn ctermfg=252 ctermbg=235 cterm=NONE guifg=#c3d5ec guibg=#1e222c gui=NONE
 hi Title ctermfg=162 ctermbg=NONE cterm=bold guifg=#e242ac guibg=NONE gui=bold
-hi StatusLine ctermfg=252 ctermbg=238 cterm=NONE guifg=#c3d5ec guibg=#3b4351 gui=NONE
+hi StatusLine ctermfg=252 ctermbg=238 cterm=NONE guifg=#140030 guibg=#c398fe gui=NONE
 hi StatusLineNC ctermfg=241 ctermbg=236 cterm=NONE guifg=#586374 guibg=#2a303b gui=NONE
 hi VertSplit ctermfg=236 ctermbg=236 cterm=NONE guifg=#2a303b guibg=#2a303b gui=NONE
 hi LineNr ctermfg=241 ctermbg=236 cterm=NONE guifg=#586374 guibg=#2a303b gui=NONE
@@ -30,9 +30,9 @@ hi CursorLineNr ctermfg=255 ctermbg=241 cterm=bold guifg=#edf5ff guibg=#586374 g
 hi SpecialKey ctermfg=44 ctermbg=44 cterm=bold guifg=#064253 guibg=#169ec4 gui=bold
 hi NonText ctermfg=241 ctermbg=235 cterm=NONE guifg=#586374 guibg=#1e222c gui=NONE
 hi MatchParen ctermfg=197 ctermbg=NONE cterm=bold guifg=#e91e63 guibg=NONE gui=bold
-hi Comment ctermfg=241 cterm=NONE guifg=#586374 gui=NONE
-hi Constant ctermfg=44 ctermbg=23 cterm=NONE guifg=#36c2c2 guibg=#134242 gui=NONE
-hi Number ctermfg=23 ctermbg=44 cterm=NONE guifg=#56c7ee guibg=#064253 gui=NONE
+hi Comment ctermfg=241 cterm=NONE guifg=#586374 gui=italic
+hi Constant ctermfg=44 ctermbg=NONE cterm=NONE guifg=#007878 guibg=NONE gui=NONE
+hi Number ctermfg=23 ctermbg=44 cterm=NONE guifg=#56c7ee guibg=NONE gui=NONE
 hi Identifier ctermfg=255 cterm=bold guifg=#edf5ff gui=bold
 hi Function ctermfg=255 cterm=bold guifg=#edf5ff gui=bold
 hi Statement ctermfg=68 cterm=bold guifg=#537dd5 gui=bold
@@ -48,8 +48,8 @@ hi Underlined cterm=underline guifg=fg gui=underline
 hi Ignore guifg=bg
 hi Error ctermfg=197 ctermbg=52 cterm=bold guifg=#e91e63 guibg=#681c36 gui=bold
 hi Todo ctermfg=252 ctermbg=235 cterm=bold guifg=#c3d5ec guibg=#1e222c gui=bold
-hi IncSearch ctermfg=235 ctermbg=44 cterm=bold guifg=#1e222c guibg=#169ec4 gui=bold
-hi Search ctermfg=235 ctermbg=23 cterm=NONE guifg=#1e222c guibg=#56c7ee gui=NONE
+hi IncSearch ctermfg=235 ctermbg=44 cterm=bold guifg=#c3d5ec guibg=#9e1197 gui=bold
+hi Search ctermfg=235 ctermbg=23 cterm=NONE guifg=#9e1197 guibg=#56c7ee gui=NONE
 hi Pmenu ctermfg=252 ctermbg=236 cterm=NONE guifg=#c3d5ec guibg=#2a303b gui=NONE
 hi PmenuSel ctermfg=255 ctermbg=238 cterm=bold guifg=#edf5ff guibg=#3b4351 gui=bold
 hi PmenuSbar ctermbg=236 cterm=NONE guibg=#2a303b gui=NONE
