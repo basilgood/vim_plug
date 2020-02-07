@@ -1,0 +1,77 @@
+{
+    "suggest.minTriggerInputLength": 2,
+    "suggest.timeout": 500,
+    "suggest.removeDuplicateItems": true,
+    "suggest.floatEnable": true,
+    "suggest.triggerCompletionWait": 100,
+    "diagnostic.errorSign": "✖",
+    "diagnostic.warningSign": "⚠",
+    "diagnostic.infoSign": "⚑",
+    "diagnostic.hintSign": "❇︎",
+    "diagnostic.signOffset": 9999999,
+    "signature.target": "echo",
+    "eslint.enable": true,
+    "typescript.suggestionActions.enabled": true,
+    "git.addedSign.hlGroup": "GitGutterAdd",
+    "git.changedSign.hlGroup": "GitGutterChange",
+    "git.removedSign.hlGroup": "GitGutterDelete",
+    "git.topRemovedSign.hlGroup": "GitGutterDelete",
+    "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete",
+    "eslint.filetypes": [
+        "javascript",
+        "javascript.jsx",
+        "javascriptreact"
+    ],
+    "typescript.preferences.quoteStyle": "single",
+    "javascript.format.enabled": true,
+    "javascript.preferences.quoteStyle": "single",
+    "languageserver": {
+        "viml": {
+            "command": "vim-language-server",
+            "args": [
+                "--stdio"
+            ],
+            "filetypes": [
+                "vim"
+            ]
+        },
+        "javascript": {
+            "command": "typescript-language-server",
+            "args": [
+                "--stdio"
+            ],
+            "filetypes": [
+                "javascript",
+                "typescript"
+            ]
+        },
+        "html": {
+            "command": "html-languageserver",
+            "args": [
+                "--stdio"
+            ],
+            "filetypes": [
+                "html"
+            ]
+        },
+        "css": {
+            "command": "css-languageserver",
+            "args": [
+                "--stdio"
+            ],
+            "filetypes": [
+                "css",
+                "scss"
+            ]
+        },
+        "nix": {
+            "command": "rnix-lsp",
+            "args": [
+                "--stdio"
+            ],
+            "filetypes": [
+                "nix"
+            ]
+        }
+    }
+}

@@ -26,43 +26,22 @@ endif
 if dein#load_state(s:dein_dir)
   call dein#begin(s:dein_dir)
 
-  call dein#add('neovim/nvim-lsp')
+  call dein#add('neoclide/coc.nvim', { 'build': 'yarn install --frozen-lockfile', 'merged': 0 })
+  call dein#add('neoclide/coc-eslint', { 'build': 'yarn install --frozen-lockfile', 'merged': 0 })
+  call dein#add('neoclide/coc-git', { 'build': 'yarn install --frozen-lockfile', 'merged': 0 })
   call dein#add('tpope/vim-vinegar', {
         \ 'lazy' : 1,
         \ 'on_map': {'n': '-'}
         \ })
-  call dein#add('Yggdroot/LeaderF', {
-        \ 'on_cmd': ['LeaderfFile', 'LeaderfBuffer'],
-        \ 'on_map': ['<Plug>', '<C-p>'],
-        \ 'hook_add': join(['let g:Lf_ShortcutF = "<C-p>"',
-        \ 'let g:Lf_ShortcutB = "<BS>"',
-        \ 'let g:Lf_WindowHeight = 0.25',
-        \ 'let g:Lf_PreviewInPopup = 1',
-        \ 'let g:Lf_PreviewHorizontalPosition = "center"',
-        \ 'let g:Lf_CursorBlink = 0',
-        \ 'let g:Lf_ShowHidden = 1',
-        \ 'let g:Lf_CommandMap = {"<C-K>": ["<Up>"], "<C-J>": ["<Down>"]}'], "\n")
-        \ })
-  call dein#add('Shougo/deoplete.nvim', {
-        \ 'lazy' : 1,
-        \ 'on_i' : 1,
-        \ 'hook_add': 'let g:deoplete#enable_at_startup = 1',
-        \ })
-  call dein#add('Shougo/deoplete-lsp', {
-        \ 'depends': 'deoplete.nvim',
-        \ 'on_i': 1,
-        \ })
-  call dein#add('dense-analysis/ale', {
-        \ 'lazy': 1,
-        \ 'on_ft': ['vim', 'javascript', 'nix', 'html', 'typescript'],
-        \ })
+  call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
+  call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
   call dein#add('sgur/vim-editorconfig', {
         \ 'lazy': 1,
         \ 'on_event': 'BufReadPost'
         \ })
-  call dein#add('airblade/vim-gitgutter', {
+  call dein#add('sgur/vim-editorconfig', {
         \ 'lazy': 1,
-        \ 'on_event': 'BufReadPost',
+        \ 'on_event': 'BufReadPost'
         \ })
   call dein#add('tpope/vim-fugitive', {
         \ 'lazy': 1,
@@ -160,55 +139,37 @@ if len(s:removed_plugins) > 0
 endif
 filetype plugin indent on
 
-" lsp
-lua << EOF
-local nvim_lsp = require'nvim_lsp'
+if dein#tap('coc.nvim')
+  nmap <silent> gld <Plug>(coc-definition)
+  nmap <silent> gli <Plug>(coc-implementation)
+  nmap <silent> glr <Plug>(coc-references)
+  nmap <silent> glc <Plug>(coc-codeaction)
+  nmap <silent> [g <Plug>(coc-diagnostic-prev)
+  nmap <silent> ]g <Plug>(coc-diagnostic-next)
+  nmap <silent> [c <Plug>(coc-git-prevchunk)
+  nmap <silent> ]c <Plug>(coc-git-nextchunk)
+  nnoremap <silent> K :call CocAction('doHover')<cr>
+  command! -nargs=0 Format :call CocAction('format')
+  command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
+endif
 
-nvim_lsp.tsserver.setup {
-  cmd = {'typescript-language-server', '--stdio'},
-  filetypes = { 'javascript', 'typescript' }
-}
+if dein#tap('fzf.vim')
+  let $FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+  let g:fzf_layout = { 'down': '~25%' }
+  let g:fzf_action = {
+        \ 'ctrl-t': 'tab split',
+        \ 'ctrl-s': 'split',
+        \ 'ctrl-v': 'vsplit',
+        \ 'ctrl-w': 'bdelete'}
+  nnoremap <c-p> :Files<cr>
+  nnoremap <c-h> :Files %:h<cr>
+  nnoremap <bs> :Buffers<cr>
+endif
 
-nvim_lsp.vimls.setup {
-  cmd = {'vim-language-server', '--stdio'},
-  filetypes = { 'vim' }
-}
-EOF
-
-if dein#tap('vim-surround')
+if dein#tap('vim-vinegar')
   let g:netrw_bufsettings = 'nomodifiable nomodified relativenumber nowrap readonly nobuflisted'
   let g:netrw_altfile             = 1
   autocmd vimRc FileType netrw call functions#innetrw()
-endif
-
-if dein#tap('ale')
-  let g:ale_set_signs = 1
-  let g:ale_lint_on_text_changed = 'normal'
-  let g:ale_lint_on_insert_leave = 1
-  let g:ale_lint_delay = 0
-  let g:ale_code_actions_enabled = 1
-  let g:ale_sign_info = '_i'
-  let g:ale_sign_error = '_e'
-  let g:ale_sign_warning = '_w'
-  let g:ale_set_balloons = 1
-  let g:ale_javascript_eslint_use_global = 1
-  let g:ale_javascript_eslint_executable = 'eslint_d'
-  let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5'
-  let g:ale_echo_msg_format = '%linter%: %s %severity%'
-  let g:ale_linters = {
-        \   'jsx': ['eslint'],
-        \   'javascript': ['eslint'],
-        \   'typescript': ['eslint'],
-        \}
-  let g:ale_fixers = {
-        \   'javascript': ['prettier', 'eslint'],
-        \   'html': ['prettier', 'eslint'],
-        \   'yaml': ['prettier'],
-        \   'nix': ['nixpkgs-fmt']
-        \}
-
-  nnoremap [a :ALEPreviousWrap<CR>
-  nnoremap ]a :ALENextWrap<CR>
 endif
 
 if dein#tap('vim-surround')
@@ -259,6 +220,7 @@ set undofile
 set inccommand=nosplit
 set number
 set mouse=a
+set termguicolors
 set shortmess+=aoOtTIc
 set sidescrolloff=10
 set sidescroll=1
@@ -496,7 +458,7 @@ autocmd vimRc InsertLeave * if &l:diff | diffupdate | endif
 autocmd vimRc BufEnter * if &diff | call functions#diff_maps() | endif
 
 " external changes
-autocmd vimRc FocusGained,CursorHold * if !bufexists("[Command Line]") | checktime | GitGutter | endif
+autocmd vimRc FocusGained,CursorHold * if !bufexists("[Command Line]") | checktime | endif
 
 " mkdir
 autocmd vimRc BufWritePre *
@@ -540,4 +502,4 @@ command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | d
 command! HL call functions#hl()
 
 syntax enable
-silent! colorscheme min
+silent! colorscheme hydrangea
