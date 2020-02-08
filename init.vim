@@ -37,9 +37,6 @@ if dein#load_state(s:dein_dir)
   call dein#add('sgur/vim-editorconfig', {
         \ 'on_event': 'BufReadPost'
         \ })
-  call dein#add('sgur/vim-editorconfig', {
-        \ 'on_event': 'BufReadPost'
-        \ })
   call dein#add('tpope/vim-fugitive', {
         \ 'on_event': 'BufReadPost',
         \ })
