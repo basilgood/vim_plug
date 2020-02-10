@@ -27,8 +27,12 @@ if dein#load_state(s:dein_dir)
   call dein#begin(s:dein_dir)
 
   call dein#add('neoclide/coc.nvim', { 'build': 'yarn install --frozen-lockfile', 'merged': 0 })
-  call dein#add('neoclide/coc-eslint', { 'build': 'yarn install --frozen-lockfile', 'merged': 0 })
-  call dein#add('neoclide/coc-git', { 'build': 'yarn install --frozen-lockfile', 'merged': 0 })
+  call dein#add('dense-analysis/ale', {
+        \ 'on_ft': ['vim', 'javascript', 'nix', 'html', 'typescript'],
+        \ })
+  call dein#add('airblade/vim-gitgutter', {
+        \ 'on_if': 'finddir(".git") == ".git"',
+        \ })
   call dein#add('tpope/vim-vinegar', {
         \ 'on_map': {'n': '-'}
         \ })
@@ -38,7 +42,7 @@ if dein#load_state(s:dein_dir)
         \ 'on_event': 'BufReadPost'
         \ })
   call dein#add('tpope/vim-fugitive', {
-        \ 'on_event': 'BufReadPost',
+        \ 'on_if': 'finddir(".git") == ".git"',
         \ })
   call dein#add('tpope/vim-dispatch', {
         \ 'on_cmd': ['Dispatch', 'Make', 'Start']
@@ -73,13 +77,12 @@ if dein#load_state(s:dein_dir)
         \ 'on_event': 'BufReadPost'
         \ })
   call dein#add('terryma/vim-multiple-cursors', {
-        \ 'on_map': '<C-n>'
-        \ })
+        \ 'on_map' : {'n' : ['<C-n>', '<C-p>'], 'x' : '<C-n>'}})
   call dein#add('samoshkin/vim-mergetool', {
-        \ 'on_event': 'BufReadPost'
+        \ 'on_cmd': 'MergeToolStart'
         \ })
   call dein#add('da-x/conflict-marker.vim', {
-        \ 'on_event': 'BufReadPost'
+        \ 'on_if': 'finddir(".git") == ".git"',
         \ })
   call dein#add('hotwatermorning/auto-git-diff', {
         \ 'on_ft': 'gitrebase'
@@ -124,13 +127,13 @@ endif
 if !has('vim_starting') && dein#check_install()
   call dein#install()
 endif
+filetype plugin indent on
 
 let s:removed_plugins = dein#check_clean()
 if len(s:removed_plugins) > 0
   call map(s:removed_plugins, "delete(v:val, 'rf')")
   call dein#recache_runtimepath()
 endif
-filetype plugin indent on
 
 if dein#tap('coc.nvim')
   nmap <silent> gld <Plug>(coc-definition)
@@ -144,6 +147,36 @@ if dein#tap('coc.nvim')
   nnoremap <silent> K :call CocAction('doHover')<cr>
   command! -nargs=0 Format :call CocAction('format')
   command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')
+endif
+
+if dein#tap('ale')
+  let g:ale_set_signs = 1
+  let g:ale_lint_on_text_changed = 'normal'
+  let g:ale_lint_on_insert_leave = 1
+  let g:ale_lint_delay = 0
+  let g:ale_code_actions_enabled = 1
+  let g:ale_sign_info = '_i'
+  let g:ale_sign_error = '_e'
+  let g:ale_sign_warning = '_w'
+  let g:ale_set_balloons = 1
+  let g:ale_javascript_eslint_use_global = 1
+  let g:ale_javascript_eslint_executable = 'eslint_d'
+  let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5'
+  let g:ale_echo_msg_format = '%linter%: %s %severity%'
+  let g:ale_linters = {
+        \   'jsx': ['eslint'],
+        \   'javascript': ['eslint'],
+        \   'typescript': ['eslint'],
+        \}
+  let g:ale_fixers = {
+        \   'javascript': ['prettier', 'eslint'],
+        \   'html': ['prettier', 'eslint'],
+        \   'yaml': ['prettier'],
+        \   'nix': ['nixpkgs-fmt']
+        \}
+
+  nnoremap [a :ALEPreviousWrap<CR>
+  nnoremap ]a :ALENextWrap<CR>
 endif
 
 if dein#tap('fzf.vim')
@@ -409,7 +442,7 @@ xnoremap # :<C-u>call <SID>VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
 nnoremap <silent><expr> <C-l> empty(get(b:, 'current_syntax'))
       \ ? "\<C-l>"
       \ : "\<C-l>:syntax sync fromstart\<cr>:nohlsearch<cr>"
-nnoremap <silent> <space>n :Nohlsearch<cr>
+nnoremap <silent> <esc> :nohlsearch<cr><esc>
 
 " toggles
 nnoremap cos
@@ -469,16 +502,10 @@ autocmd vimRc BufReadPost *
 " fugitive files
 autocmd vimRc FileType git setlocal nofoldenable
 
-" fix insert leave
-autocmd vimRc InsertLeave * call functions#insertleave()
-
 " hlsearch
 autocmd vimRc CursorMoved,InsertLeave * call functions#highlight_current()
 
 " filetype
-autocmd vimRc FileType javascript call functions#lspconfig()
-autocmd vimRc FileType typescript call functions#lspconfig()
-autocmd vimRc FileType vim call functions#lspconfig()
 autocmd vimRc BufNewFile,BufRead *.jsx setlocal filetype=javascript
 autocmd vimRc BufReadPre,BufNewFile *.tsx setlocal filetype=typescript
 autocmd vimRc BufNewFile,BufRead *.twig setlocal filetype=html.twig
@@ -497,3 +524,5 @@ command! HL call functions#hl()
 
 syntax enable
 silent! colorscheme hydrangea
+
+set secure

@@ -1,30 +1,17 @@
 {
+    "coc.preferences.colorSupport": true,
+    "coc.preferences.extensionUpdateCheck": "never",
     "suggest.minTriggerInputLength": 2,
     "suggest.timeout": 500,
     "suggest.removeDuplicateItems": true,
     "suggest.floatEnable": true,
     "suggest.triggerCompletionWait": 100,
-    "diagnostic.errorSign": "✖",
-    "diagnostic.warningSign": "⚠",
-    "diagnostic.infoSign": "⚑",
-    "diagnostic.hintSign": "❇︎",
-    "diagnostic.signOffset": 9999999,
-    "signature.target": "echo",
-    "eslint.enable": true,
+    "diagnostic": {
+        "displayByAle": true,
+        "virtualText": true
+    },
+    "javascript.suggestionActions.enabled": false,
     "typescript.suggestionActions.enabled": true,
-    "git.addedSign.hlGroup": "GitGutterAdd",
-    "git.changedSign.hlGroup": "GitGutterChange",
-    "git.removedSign.hlGroup": "GitGutterDelete",
-    "git.topRemovedSign.hlGroup": "GitGutterDelete",
-    "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete",
-    "eslint.filetypes": [
-        "javascript",
-        "javascript.jsx",
-        "javascriptreact"
-    ],
-    "typescript.preferences.quoteStyle": "single",
-    "javascript.format.enabled": true,
-    "javascript.preferences.quoteStyle": "single",
     "languageserver": {
         "viml": {
             "command": "vim-language-server",
@@ -33,7 +20,11 @@
             ],
             "filetypes": [
                 "vim"
-            ]
+            ],
+            "initializationOptions": {
+                "vimlcodeCompletionEnabled": true,
+                "lintTool": "vint"
+            }
         },
         "javascript": {
             "command": "typescript-language-server",
@@ -62,15 +53,6 @@
             "filetypes": [
                 "css",
                 "scss"
-            ]
-        },
-        "nix": {
-            "command": "rnix-lsp",
-            "args": [
-                "--stdio"
-            ],
-            "filetypes": [
-                "nix"
             ]
         }
     }
