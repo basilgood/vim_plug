@@ -76,7 +76,7 @@ if (has('termguicolors') && &termguicolors) || has('gui_running')
   hi CursorColumn guifg=NONE guibg=#2f3037 guisp=NONE gui=NONE cterm=NONE
   hi CursorLine guifg=NONE guibg=#2f3037 guisp=NONE gui=NONE cterm=NONE
   hi QuickFixLine guifg=#dfdfe0 guibg=#1266ca guisp=NONE gui=NONE cterm=NONE
-  hi StatusLine guifg=#dfdfe0 guibg=#414453 guisp=NONE gui=NONE cterm=NONE
+  hi StatusLine guifg=#dfdfe0 guibg=#40614f guisp=NONE gui=NONE cterm=NONE
   hi StatusLineNC guifg=#7f8c98 guibg=#393b44 guisp=NONE gui=NONE cterm=NONE
   hi VertSplit guifg=#393b44 guibg=#393b44 guisp=NONE gui=NONE cterm=NONE
   hi WildMenu guifg=#dfdfe0 guibg=#1266ca guisp=NONE gui=NONE cterm=NONE
