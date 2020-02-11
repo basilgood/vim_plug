@@ -76,6 +76,9 @@ if dein#load_state(s:dein_dir)
   call dein#add('michaeljsmith/vim-indent-object', {
         \ 'on_event': 'BufReadPost'
         \ })
+  call dein#add('jiangmiao/auto-pairs', {
+        \ 'on_event': 'BufReadPost'
+        \ })
   call dein#add('terryma/vim-multiple-cursors', {
         \ 'on_map' : {'n' : ['<C-n>', '<C-p>'], 'x' : '<C-n>'}})
   call dein#add('samoshkin/vim-mergetool', {
@@ -177,6 +180,10 @@ if dein#tap('ale')
 
   nnoremap [a :ALEPreviousWrap<CR>
   nnoremap ]a :ALENextWrap<CR>
+endif
+
+if dein#tap('vim-gitgutter')
+  autocmd vimRc FocusGained,CursorHold * if !bufexists("[Command Line]") | checktime | GitGutter | endif
 endif
 
 if dein#tap('fzf.vim')
@@ -523,6 +530,6 @@ command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | d
 command! HL call functions#hl()
 
 syntax enable
-silent! colorscheme hydrangea
+silent! colorscheme xcodedark
 
 set secure
