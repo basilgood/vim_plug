@@ -79,9 +79,6 @@ if dein#load_state(s:dein_dir)
   call dein#add('dhruvasagar/vim-pairify', {
         \ 'on_i': 1
         \ })
-  call dein#add('osyo-manga/vim-over', {
-        \ 'on_event': 'BufReadPost',
-        \ })
   call dein#add('samoshkin/vim-mergetool', {
         \ 'on_cmd': 'MergeToolStart'
         \ })
@@ -90,6 +87,10 @@ if dein#load_state(s:dein_dir)
         \ })
   call dein#add('hotwatermorning/auto-git-diff', {
         \ 'on_ft': 'gitrebase'
+        \ })
+  call dein#add('rhysd/git-messenger.vim', {
+        \ 'on_cmd': 'GitMessenger',
+        \ 'on_map': '<Plug>(git-messenger',
         \ })
   call dein#add('pangloss/vim-javascript', {
         \ 'on_ft': 'javascript'
@@ -237,11 +238,6 @@ endif
 if dein#tap('vim-easy-align')
   xmap ga <Plug>(EasyAlign)
   nmap ga <Plug>(EasyAlign)
-endif
-
-if dein#tap('vim-over')
-  let g:over_command_line_prompt = ':'
-  nnoremap <c-k> :OverCommandLine<cr>
 endif
 
 if dein#tap('undotree')
@@ -420,11 +416,11 @@ nnoremap <space>b :ls<cr>:bd<space>
 nnoremap [subst] <Nop>
 nmap   s [subst]
 xmap   s [subst]
-nnoremap [subst]s :OverCommandLine<cr>%s/
-nnoremap [subst]l :OverCommandLine<cr>s//<left>
-xnoremap [subst]  :OverCommandLine<cr>s/
-nnoremap [subst]a :OverCommandLine<cr><c-u>%s/\C\<<c-r><c-w>\>/<c-r><c-w>
-nnoremap [subst]w :OverCommandLine<cr><C-u>%s/\C\<<C-R><C-w>\>//g<Left><Left>
+nnoremap [subst]s :%s/
+nnoremap [subst]l :s//<left>
+xnoremap [subst]  :s/
+nnoremap [subst]a :<c-u>%s/\C\<<c-r><c-w>\>/<c-r><c-w>
+nnoremap [subst]w :<C-u>%s/\C\<<C-R><C-w>\>//g<Left><Left>
 nnoremap [subst]n *``cgn
 
 " zoom
