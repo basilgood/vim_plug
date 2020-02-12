@@ -76,11 +76,11 @@ if dein#load_state(s:dein_dir)
   call dein#add('michaeljsmith/vim-indent-object', {
         \ 'on_event': 'BufReadPost'
         \ })
-  call dein#add('jiangmiao/auto-pairs', {
-        \ 'on_event': 'BufReadPost'
+  call dein#add('dhruvasagar/vim-pairify', {
+        \ 'on_i': 1
         \ })
   call dein#add('terryma/vim-multiple-cursors', {
-        \ 'on_map' : {'n' : ['<C-n>', '<C-p>'], 'x' : '<C-n>'}})
+        \ 'on_map' : {'n' : ['<C-n>', '<C-p>', '<M-n>'], 'x' : '<C-n>'}})
   call dein#add('samoshkin/vim-mergetool', {
         \ 'on_cmd': 'MergeToolStart'
         \ })
