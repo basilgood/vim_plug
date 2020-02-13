@@ -79,6 +79,9 @@ if dein#load_state(s:dein_dir)
   call dein#add('dhruvasagar/vim-pairify', {
         \ 'on_i': 1
         \ })
+  call dein#add('sgur/cmdline-completion', {
+        \ 'on_event': 'CmdlineEnter'
+        \ })
   call dein#add('samoshkin/vim-mergetool', {
         \ 'on_cmd': 'MergeToolStart'
         \ })
@@ -417,7 +420,7 @@ nnoremap [subst] <Nop>
 nmap   s [subst]
 xmap   s [subst]
 nnoremap [subst]s :%s/
-nnoremap [subst]l :s//<left>
+nnoremap [subst]l :s/
 xnoremap [subst]  :s/
 nnoremap [subst]a :<c-u>%s/\C\<<c-r><c-w>\>/<c-r><c-w>
 nnoremap [subst]w :<C-u>%s/\C\<<C-R><C-w>\>//g<Left><Left>
