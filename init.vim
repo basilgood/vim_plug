@@ -169,7 +169,7 @@ if dein#tap('ale')
   let g:ale_set_balloons = 1
   let g:ale_javascript_eslint_use_global = 1
   let g:ale_javascript_eslint_executable = 'eslint_d'
-  let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5'
+  let g:ale_javascript_prettier_options = '--single-quote'
   let g:ale_echo_msg_format = '%linter%: %s %severity%'
   let g:ale_linters = {
         \   'jsx': ['eslint'],
