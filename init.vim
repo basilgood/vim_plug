@@ -3,62 +3,16 @@ augroup vimRc
   autocmd!
 augroup end
 
-function! s:install_packer() abort
-  exe '!git clone https://github.com/kristijanhusak/vim-packager ~/.config/nvim/pack/packager/opt/vim-packager'
-endfunction
-command! -nargs=0 InstallPacker call s:install_packer()
-function! s:packager_init() abort
-  packadd vim-packager
-  call packager#init()
-  call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
-  call packager#add('neovim/nvim-lspconfig', { 'type': 'opt' })
-  call packager#add('nvim-lua/completion-nvim')
-  call packager#add('nvim-telescope/telescope.nvim', { 'type': 'opt' })
-  call packager#add('nvim-lua/popup.nvim', { 'type': 'opt' })
-  call packager#add('nvim-lua/plenary.nvim', { 'type': 'opt' })
-  call packager#add('neomake/neomake')
-  call packager#add('vimwiki/vimwiki', { 'type': 'opt' })
-  call packager#add('tomtom/tcomment_vim', { 'type': 'opt' })
-  call packager#add('tpope/vim-surround', { 'type': 'opt' })
-  call packager#add('tpope/vim-repeat', { 'type': 'opt' })
-  call packager#add('tpope/vim-fugitive', { 'type': 'opt' })
-  call packager#add('editorconfig/editorconfig-vim', { 'type': 'opt' })
-  call packager#add('haya14busa/vim-asterisk', { 'type': 'opt' })
-  call packager#add('stefandtw/quickfix-reflector.vim')
-  call packager#add('airblade/vim-gitgutter', { 'type': 'opt' })
-  call packager#add('hotwatermorning/auto-git-diff', { 'type': 'opt' })
-  call packager#add('whiteinge/diffconflicts', { 'type': 'opt' })
-  call packager#add('basilgood/smarttab.vim', { 'type': 'opt' })
-  call packager#add('mbbill/undotree', { 'type': 'opt' })
-  call packager#add('hauleth/asyncdo.vim')
-  call packager#add('romgrk/searchReplace.vim')
-  call packager#add('romgrk/winteract.vim')
-  call packager#add('wellle/targets.vim', { 'type': 'opt' })
-  call packager#add('sheerun/vim-polyglot')
-  call packager#add('basilgood/min.vim', { 'type': 'opt' })
-endfunction
-command! -nargs=0 PackagerInstall call s:packager_init() | call packager#install()
-command! -bang PackagerUpdate call s:packager_init() | call packager#update({ 'force_hooks': '<bang>' })
-command! PackagerClean call s:packager_init() | call packager#clean()
-command! PackagerStatus call s:packager_init() | call packager#status()
-
-" plug config
-lua vim.cmd('packadd! tcomment_vim')
-lua vim.cmd('packadd! vim-surround')
-lua vim.cmd('packadd! vim-repeat')
-lua vim.cmd('packadd! editorconfig-vim')
-lua vim.cmd('packadd! vim-asterisk')
-lua vim.cmd('packadd! vim-fugitive')
-lua vim.cmd('packadd! vim-gitgutter')
-lua vim.cmd('packadd! auto-git-diff')
-lua vim.cmd('packadd! targets.vim')
-lua vim.cmd('packadd! smarttab.vim')
-lua vim.cmd('packadd! vimwiki')
+" plug and config
+lua require('plugins')
+lua require('plugadd')
+lua require('plug-lualine')
+lua require('fzf')
+lua require('lspfuzzy').setup {}
 
 autocmd vimRc CmdlineEnter *
       \ packadd undotree |
-      \ packadd diffconflicts |
-      \ packadd vim-async-grep
+      \ packadd diffconflicts
 
 " completion and lsp
 lua << EOF
@@ -88,22 +42,6 @@ let g:completion_chain_complete_list = {
 
 " interactive
 nmap gw :InteractiveWindow<CR>
-
-" telescope
-lua vim.cmd('packadd telescope.nvim')
-lua vim.cmd('packadd popup.nvim')
-lua vim.cmd('packadd plenary.nvim')
-nnoremap <c-p> <cmd>lua require('telescope.builtin').find_files
-      \ { find_command = { 'fd', '--type', 'f', '--hidden', '--follow', '--exclude', '.git' } }<cr>
-nnoremap <bs> <cmd>lua require('telescope.builtin').buffers
-      \ { show_all_buffers = true, shorten_path = true }<cr>
-nnoremap <leader>g <cmd>lua require('telescope.builtin').live_grep{}<cr>
-command! Oldfiles lua require'telescope.builtin'.oldfiles{}<CR>
-command! Commits lua require'telescope.builtin'.git_commits{}<CR>
-command! BCommits lua require'telescope.builtin'.git_bcommits{}<CR>
-command! Branches lua require'telescope.builtin'.git_branches{}<CR>
-command! Commands lua require'telescope.builtin'.commands()
-command! History lua require'telescope.builtin'.command_history()
 
 " neomake
 let g:neomake_virtualtext_current_error = 0
@@ -156,83 +94,18 @@ autocmd vimRc FileType netrw call s:innetrw()
 nnoremap <silent> -
       \ :Explore <bar> :silent! /<c-r>=expand("%:t")<cr><cr>:nohl<cr>
 
+" undotree
+let g:undotree_WindowLayout = 4
+let g:undotree_SetFocusWhenToggle = 1
+let g:undotree_ShortIndicators = 1
+
+" polyglot
+let g:polyglot_disabled = ['autoindent', 'sensible']
+
 " personal options my editor
-set lazyredraw
-set path& | let &path .= '**'
-set gdefault
-set copyindent
-set preserveindent
-set expandtab
-set tabstop=2
-let &shiftwidth = &tabstop
-set softtabstop=-1
-set shiftround
-set noswapfile
-set nobackup
-set undofile
-set inccommand=nosplit
-set number
-set mouse=a
-set shortmess+=aoOtTIc
-set sidescrolloff=10
-set sidescroll=1
-set switchbuf=useopen,usetab
-set splitbelow
-set splitright
-set nowrap
-set omnifunc=syntaxcomplete#Complete
-set completefunc=syntaxcomplete#Complete
-set completeopt-=preview
-set completeopt+=menuone,noselect,noinsert
-set complete=.,w,b,u,U,t,i,d,k
-set pumheight=10
-set diffopt+=context:3,indent-heuristic,algorithm:patience,iwhite
-function! Tabline() abort
-  let s = ''
-  for i in range(tabpagenr('$'))
-    let tab = i + 1
-    let winnr = tabpagewinnr(tab)
-    let buflist = tabpagebuflist(tab)
-    let bufnr = buflist[winnr - 1]
-    let bufname = bufname(bufnr)
-    let bufmodified = getbufvar(bufnr, '&mod')
-    let s .= '%' . tab . 'T'
-    let s .= (tab == tabpagenr() ? '%#StatusLine#' : '%#StatusLineNC#')
-    let s .= ' ' . tab .':'
-    let s .= (bufname !=# '' ? fnamemodify(bufname, ':t') . ' ' : 'No Name ')
-    if bufmodified
-      let s .= '[+] '
-    endif
-  endfor
-  let s .= '%#TabLineFill#'
-  if (exists('g:tablineclosebutton'))
-    let s .= '%=%999XX'
-  endif
-  return s
-endfunction
-set tabline=%!Tabline()
-set list
-set listchars=tab:┊\ ,trail:•,extends:»,precedes:«,nbsp:⣿
-autocmd vimRc InsertEnter * set listchars-=trail:•
-autocmd vimRc InsertLeave * set listchars+=trail:•
-set ttimeout timeoutlen=1000 ttimeoutlen=0
-set updatetime=50
-if executable('rg')
-  set grepprg=rg\ --vimgrep\ --no-heading
-endif
-set grepformat^=%f:%l:%c:%m
-set wildmode=longest:full,full
-set wildignore+=*/tmp/*
-set wildignore+=*/node_modules/*
-set wildignore+=*/bower_components/*
-set wildignore+=*/pack/*
-set wildignore+=*/.git/*
-set wildcharm=<C-Z>
-set laststatus=2
-set statusline=%<%f\ %h%#error#%m%*%r%=%-14.(%l\:%c%)%{&filetype}
+lua require('options')
 
 " mappings
-cabbrev grep grep!
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <CR>    pumvisible() ? "\<C-Y>" : "\<CR>"
@@ -247,7 +120,6 @@ inoremap <C-a> <Home>
 inoremap <C-e> <End>
 nnoremap } }zz
 nnoremap { {zz
-nnoremap vv viw
 nnoremap ]q :cnext<cr>
 nnoremap [q :cprevious<cr>
 nnoremap ]Q :clast<cr>
@@ -256,6 +128,8 @@ nnoremap ]l :lnext<cr>
 nnoremap [l :lprevious<cr>
 nnoremap ]L :llast<cr>
 nnoremap [L :lfirst<cr>
+" copy paragraph
+nnoremap cp yap<S-}>p
 " objects: block. line, entire
 xnoremap <expr> I (mode()=~#'[vV]'?'<C-v>^o^I':'I')
 xnoremap <expr> A (mode()=~#'[vV]'?'<C-v>0o$A':'A')
@@ -293,7 +167,6 @@ nnoremap <silent><expr> <C-l> empty(get(b:, 'current_syntax'))
 " execute macro
 nnoremap Q <Nop>
 nnoremap Q @q
-" run macro on selected lines
 vnoremap Q :norm Q<cr>
 " find and buffers
 nnoremap [Space]f :find<space>
@@ -371,11 +244,10 @@ command! -nargs=0 BO silent! execute "%bd|e#|bd#"
 command BD bp | bd #
 command! -nargs=0 WS %s/\s\+$// | normal! ``
 command! -nargs=0 WT %s/[^\t]\zs\t\+/ / | normal! ``
-function! Hlgroup() abort
-  echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), '/')
-endfunction
-command! HL call Hlgroup()
-command! W w !sudo tee % > /dev/null
+command! HL echo 'hi<' . synIDattr(synID(line('.'),col('.'),1),'name') . '> trans<'
+      \ . synIDattr(synID(line('.'),col('.'),0),'name') . '> lo<'
+      \ . synIDattr(synIDtrans(synID(line('.'),col('.'),1)),'name') . '>'
+command! WW w !sudo tee % > /dev/null
 command! -nargs=1 TV
       \ call system('tmux split-window -h '.<q-args>)
 command! TA TV tig --all
@@ -390,15 +262,18 @@ command! -bang -nargs=+ -complete=file Grep
       \ call feedkeys(":let &hlsearch=1\<CR>", "n") |
       \ copen |
       \ redraw!
+command! -nargs=0 InstallPaq call functions#install_paq()
+command! InitPaq :lua require'plugins'.init_paq()
 
-" functions
 " sessions
-let g:session_dir = '~/.cache/nvim'
-exec 'nnoremap <Leader>ss :mks! ' . g:session_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'
-exec 'nnoremap <Leader>sr :so ' . g:session_dir. '/*.vim<C-D><BS><BS><BS><BS><BS>'
-autocmd vimRc VimLeave * exec ':mks! ' . g:session_dir . '/' . fnamemodify(getcwd(), ':t')
+if(argc() == 0)
+  autocmd vimRc VimLeave * :call functions#makesession(1)
+else
+  autocmd vimRc VimLeave * :call functions#makesession(0)
+endif
+command! -nargs=0 SS :call functions#loadsession()
 
-
-colorscheme min
+set termguicolors
+colorscheme hydrangea
 
 set secure
