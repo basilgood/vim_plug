@@ -29,7 +29,7 @@ function! functions#install_paq() abort
 endfunction
 
 function! functions#makesession(overwrite) abort
-  let b:sessiondir = $HOME . '/.cache/nvim/sessions' . getcwd()
+  let b:sessiondir = $HOME . '/.local/share/nvim/sessions' . getcwd()
   if (filewritable(b:sessiondir) != 2)
     exe 'silent !mkdir -p ' b:sessiondir
     redraw!
@@ -51,3 +51,26 @@ function! functions#loadsession() abort
   endif
 endfunction
 
+function! functions#listjump(list_type, direction, wrap) abort
+  try
+    exe a:list_type . a:direction
+  catch /E553/ " wrap around last item
+    exe a:list_type . a:wrap
+  catch /E42/
+    return
+  catch /E163/
+    return
+  endtry
+  normal! zz
+endfunction
+
+function! functions#innetrw() abort
+  nmap <buffer><silent> <right> <cr>
+  nmap <buffer><silent> <left> -
+  nmap <buffer> <TAB> mf
+  nmap <buffer> <S-TAB> mF
+  nmap <buffer> <c-x> mfmx
+  hi! link netrwSymLink Comment
+  hi! link netrwPlain Comment
+  hi netrwDir guifg=#8961b7
+endfunction

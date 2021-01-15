@@ -1,6 +1,19 @@
+local vim = vim
+
+vim.g.netrw_bufsettings = 'noma nomod nocul nowrap ro nobl'
+vim.g.netrw_banner = 0
+vim.g.netrw_altfile = 1
+vim.g.netrw_altv = 1
+vim.g.netrw_preview = 1
+vim.g.netrw_alto = 0
+vim.g.netrw_use_errorwindow = 0
+vim.g.netrw_list_hide = [[^\.\.\=/\=$]]
 vim.o.path = vim.o.path..'**'
 vim.o.swapfile = false
+vim.o.writebackup = false
 vim.o.undofile = true
+vim.o.autowrite = true
+vim.o.autowriteall = true
 vim.o.termguicolors = true
 vim.o.lazyredraw = true
 vim.o.gdefault = true
@@ -9,10 +22,13 @@ vim.o.showbreak = string.rep(' ', 3)
 vim.o.breakindent = true
 vim.o.breakindentopt = 'sbr'
 vim.o.mouse = 'a'
-if vim.fn.executable("rg") then
-  vim.o.grepprg = "rg --vimgrep --no-heading"
-  vim.o.grepformat = "%f:%l:%c:%m"
+if vim.fn.executable('rg') then
+  vim.g.grepprg = 'rg'
+  vim.o.grepprg = vim.g.grepprg .. ' --vimgrep'
+  vim.o.grepformat = '%f:%l:%c:%m'
 end
+vim.o.errorformat = vim.o.errorformat .. ",%f,"
+vim.o.regexpengine = 1
 vim.o.incsearch = true
 vim.o.completeopt = 'menuone,noinsert,noselect'
 vim.o.shortmess = vim.o.shortmess .. 'aoOtTIc'
@@ -21,12 +37,18 @@ vim.o.sidescrolloff = 5
 vim.o.sidescroll = 1
 vim.o.splitbelow = true
 vim.o.splitright = true
+vim.o.switchbuf = 'useopen,uselast'
 vim.o.smarttab = true
 vim.o.tabstop = 2
+vim.bo.tabstop = 2
+vim.o.softtabstop = 2
+vim.bo.softtabstop = 2
 vim.o.shiftwidth = 2
-vim.o.softtabstop = -1
-vim.o.shiftround = true
+vim.bo.shiftwidth = 2
+vim.o.autoindent = true
+vim.bo.autoindent = true
 vim.o.expandtab = true
+vim.bo.expandtab = true
 vim.o.smartindent = true
 vim.o.confirm = true
 vim.o.inccommand = 'nosplit'
@@ -38,9 +60,12 @@ vim.o.ttimeoutlen = 0
 vim.o.wildcharm = 9
 vim.o.wildignorecase = true
 vim.o.wildignore = '*/node_modules/*,*.git/*,*/bower_components/*'
-vim.o.diffopt = 'context:3,algorithm:patience,indent-heuristic,iwhite'
+vim.o.diffopt = vim.o.diffopt..',vertical,context:3,algorithm:patience,indent-heuristic'
 vim.wo.list = true
-vim.o.listchars = 'tab:┊ ,trail:•,extends:»,precedes:«,nbsp:⣿'
+vim.o.listchars = 'tab:┊ ,trail:•,nbsp:␣,extends:↦,precedes:↤'
 vim.wo.number = true
 vim.wo.wrap = false
-vim.o.tabline = "%!functions#tabline()"
+vim.o.tabline = '%!functions#tabline()'
+vim.o.statusline="%{winnr().':'} %f%m" ..
+"%#LineNR# %h%w%q%r %{exists('g:asyncdo')?'runing':''}" ..
+"%= %{&filetype} %#StatusLineNC# %4l %3c %{''}"
