@@ -1,13 +1,8 @@
 vim.api.nvim_exec([[
-  augroup vimRc
-    autocmd!
-  augroup end
   augroup highlight_yank
     autocmd!
     au TextYankPost * silent! lua vim.highlight.on_yank{higroup="Visual", timeout=500}
   augroup END
-  " netrw
-  autocmd vimRc FileType netrw call functions#innetrw()
   " qf and help keep widow full width
   autocmd vimRc FileType qf wincmd J
   autocmd vimRc BufWinEnter * if &ft == 'help' | wincmd J | end
@@ -18,7 +13,7 @@ vim.api.nvim_exec([[
   " kepp cursor position
   autocmd vimRc BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit' |   exe "normal! g`\"" | endif
   " external changes
-  autocmd vimRc FocusGained,CursorHold * if !bufexists("[Command Line]") | checktime
+  autocmd vimRc FocusGained,CursorHold * if !bufexists("[Command Line]") | checktime | if exists('g:loaded_gitgutter') | call gitgutter#all(1) | endif
   " nopaste
   autocmd vimRc InsertLeave * set nopaste
 
@@ -38,13 +33,12 @@ vim.api.nvim_exec([[
   autocmd TermOpen * if &buftype ==# 'terminal' | startinsert | endif
   autocmd BufLeave term://* stopinsert
   autocmd TermClose term://* if (expand('<afile>') !~ "fzf") | call nvim_input('<CR>') | endif
+  autocmd vimRc Filetype * if &omnifunc == "" | setlocal omnifunc=syntaxcomplete#Complete | endif
 
   " format
-  autocmd vimRc FileType nix setlocal formatprg=nixpkgs-fmt
-  autocmd vimRc BufRead,BufNewFile *.nix command! F silent call system('nixpkgs-fmt ' . expand('%'))
-  autocmd vimRc BufRead,BufNewFile *.js,*.jsx,*.ts,*.tsx command! F silent call system('prettier --single-quote --write ' . expand('%'))
   autocmd vimRc BufRead,BufNewFile *.js,*.jsx command! Fix silent call system('eslint --fix ' . expand('%'))
-  autocmd vimRc FileType yaml command! F silent call system('prettier --write ' . expand('%'))
   autocmd vimRc FileType sh command! F silent call system('shfmt -i 2 -ci -w ' . expand('%'))
-  autocmd vimRc VimLeave * if argc() == 0 | call functions#makesession(1) | else | autocmd vimRc VimLeave * call functions#makesession(0) | endif
+
+  " sessions
+  autocmd vimRc VimLeave * call functions#makesession(1)
 ]], false)
