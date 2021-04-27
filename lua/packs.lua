@@ -22,17 +22,14 @@ paq {'LoricAndre/oneterm', opt = true}
 paq {'airblade/vim-gitgutter', opt = true}
 paq {'tpope/vim-fugitive', opt = true}
 paq {'junegunn/gv.vim', opt = true}
-paq {'svermeulen/vimpeccable', opt = true}
-paq 'norcalli/nvim-colorizer.lua'
 paq {'kevinhwang91/nvim-bqf', opt = true}
-paq 'hauleth/asyncdo.vim'
-paq 'lambdalisue/edita.vim'
+paq {'hauleth/asyncdo.vim', opt = true}
 paq 'maxmellon/vim-jsx-pretty'
 paq 'yuezk/vim-js'
 paq 'LnL7/vim-nix'
 paq {'editorconfig/editorconfig-vim', opt = true}
 paq {'vim-scripts/cmdline-completion', opt = true}
-paq {'tomtom/tcomment_vim', opt = true}
+paq {'terrortylor/nvim-comment', opt = true}
 paq {'tpope/vim-surround', opt = true}
 paq {'tpope/vim-repeat', opt = true}
 paq {'gotchane/vim-git-commit-prefix', opt = true}
@@ -42,7 +39,6 @@ paq {'haya14busa/vim-asterisk', opt = true}
 paq {'mbbill/undotree', opt = true}
 paq {'wellle/targets.vim', opt = true}
 paq {'michaeljsmith/vim-indent-object', opt = true}
-paq {'kana/vim-niceblock', opt = true}
 paq {'romgrk/winteract.vim', opt = true}
 paq {'basilgood/vim-system-copy', opt = true}
 paq {'romainl/vim-cool', opt = true}
@@ -50,10 +46,8 @@ paq {'antoinemadec/FixCursorHold.nvim', opt = true}
 paq {'chaoren/vim-expandtab', opt = true}
 paq {'numtostr/FTerm.nvim', opt = true}
 paq {'lukas-reineke/format.nvim', opt = true}
-paq {'kh3phr3n/tabline', opt = true}
-paq {'ashwinravianandan/vimNotes', opt = true}
 paq {'norcalli/nvim-colorizer.lua', opt = true}
-paq {'norcalli/nvim-base16.lua', opt = true}
+paq {'basilgood/tokyodark.nvim', opt = true}
 
 Paq.install()
 Paq.update()

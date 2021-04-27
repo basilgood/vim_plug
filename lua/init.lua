@@ -1,4 +1,5 @@
--- encodings
+-- init
+require'utils'
 vim.o.fileencoding = 'utf-8'
 vim.bo.fileencoding = 'utf-8'
 vim.api.nvim_exec([[
@@ -21,14 +22,15 @@ require 'mappings'
 require 'autocmds'
 require 'commands'
 
-vim.cmd 'packadd nvim-base16.lua'
-local base16 = require 'base16'
-base16(base16.themes['onedark'], true)
-vim.cmd 'hi Search gui=underline guifg=#282a36 guibg=#606580 guisp=#dda882'
-vim.cmd 'hi IncSearch guifg=#282a36 guibg=#eb4d97 guisp=#eb4d97'
-vim.cmd 'hi StatusLine guifg=#171717 guibg=#536991'
-vim.cmd 'hi StatusLineNC guifg=#606580 guibg=#192224'
--- vim.cmd [[highlight! Normal guibg=NONE]]
+-- sessions
+if fn.empty(fn.glob('~/.cache/sessions')) > 0 then
+  os.execute 'mkdir -p ~/.cache/sessions'
+end
+cmd 'autocmd! VimLeavePre * execute "mksession! ~/.cache/sessions/" . split(getcwd(), "/")[-1] . ".vim"'
+com([[command! -nargs=0 SS :execute 'source ~/.cache/sessions/' .  split(getcwd(), '/')[-1] . '.vim']])
+
+cmd 'packadd! tokyodark.nvim'
+cmd 'colorscheme tokyodark'
 
 vim.o.exrc = true
 vim.o.secure = true

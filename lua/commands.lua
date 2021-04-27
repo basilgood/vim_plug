@@ -16,5 +16,4 @@ com(
     [[command! -bang -nargs=* -complete=file LMake call asyncdo#lrun(1, &makeprg, <f-args>)]])
 com([[command! -bang -nargs=+ -complete=file ]] ..
         [[Grep call asyncdo#run(1, {'job': &grepprg, 'errorformat': &grepformat}, <f-args>) ]] ..
-        [[| let @/=split("<args>")[0] | call feedkeys(":let &hlsearch=1\<CR>", "n") | copen | redraw!]])
-com([[command! -nargs=0 SS :call functions#loadsession()]])
+        [[| let @/=split("<args>")[0] | call feedkeys(":let &hlsearch=1\<CR>", "n")]])

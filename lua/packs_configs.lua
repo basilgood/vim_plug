@@ -1,10 +1,7 @@
-vim.cmd('packadd vimpeccable')
-local vimp = require 'vimp'
-local com = vim.api.nvim_command
-local cmd = vim.cmd
+require'utils'
 
--- netrw
-vim.cmd('packadd! vim-vinegar')
+--- netrw
+cmd('packadd! vim-vinegar')
 cmd 'autocmd FileType netrw nmap <buffer><silent> <right> <cr>'
 cmd 'autocmd FileType netrw nmap <buffer><silent> <left> -'
 cmd 'autocmd FileType netrw nmap <buffer> <TAB> mf'
@@ -12,24 +9,28 @@ cmd 'autocmd FileType netrw nmap <buffer> <S-TAB> mF'
 cmd 'autocmd FileType netrw nmap <buffer> <c-x> mfmx'
 
 -- oneterm
-vim.g.oneterm_yank = true
-vim.g.oneterm_ignore = {'.git/', 'node_modules/'}
-vim.g.oneterm_options = {border = 'single'}
-vimp.nnoremap('<c-p>', ':OneTerm<CR>')
-vimp.nnoremap('<bs>', ':OneTerm buffers<CR>')
-vimp.nnoremap('<leader>o', ':OneTerm oldfiles<CR>')
-vimp.nnoremap('<leader>g', ':OneTerm rg<CR>')
-vimp.nnoremap('<leader>r', ':OneTerm references<CR>')
-vimp.nnoremap('<leader>s', ':OneTerm symbols<CR>')
-vimp.nnoremap('<leader>w', ':OneTerm ws_symbols<CR>')
-vimp.nnoremap('<leader>h', ':OneTerm history<CR>')
+g.oneterm_yank = true
+g.oneterm_ignore = {'.git/', 'node_modules/'}
+g.oneterm_options = {border = 'single'}
+g.oneterm_width = 0.8
+g.oneterm_height = 0.8
+g.oneterm_x_pos = 0.5
+g.oneterm_y_pos = 0.5
+map('n', '<c-p>', ':OneTerm<CR>')
+map('n', '<bs>', ':OneTerm buffers<CR>')
+map('n', '<leader>o', ':OneTerm oldfiles<CR>')
+map('n', '<leader>g', ':OneTerm rg<CR>')
+map('n', '<leader>r', ':OneTerm references<CR>')
+map('n', '<leader>s', ':OneTerm symbols<CR>')
+map('n', '<leader>w', ':OneTerm ws_symbols<CR>')
+map('n', '<leader>h', ':OneTerm history<CR>')
 
 -- lsp
-vim.cmd('packadd nvim-lspconfig')
-vim.cmd('packadd! nvim-ale-diagnostic')
+cmd('packadd nvim-lspconfig')
+cmd('packadd! nvim-ale-diagnostic')
 local lspconfig = require('lspconfig')
 local on_attach = function()
-  vim.cmd('packadd! lsp_signature.nvim')
+  cmd('packadd! lsp_signature.nvim')
   require'lsp_signature'.on_attach()
   print('LSP started.');
   require('nvim-ale-diagnostic')
@@ -40,90 +41,85 @@ local on_attach = function()
         signs = true,
         update_in_insert = false
       })
-  vimp.nnoremap({'buffer', 'silent'}, 'gd',
-                '<Cmd>lua vim.lsp.buf.definition()<CR>')
-  vimp.nnoremap({'buffer', 'silent'}, 'gr',
-                '<cmd>lua vim.lsp.buf.references()<CR>')
-  vimp.nnoremap({'buffer', 'silent'}, 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
-  vimp.nnoremap({'buffer', 'silent'}, 'ca',
-                '<cmd>lua vim.lsp.buf.code_action()<CR>')
+      map('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
+      map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+      map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
+      map('n', 'ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
 end
 lspconfig.tsserver.setup {on_attach = on_attach}
 
 -- compe
-vim.cmd 'packadd! nvim-compe'
+cmd 'packadd nvim-compe'
 require'compe'.setup {
   enabled = true,
   debug = false,
   min_length = 2,
-  preselect = 'disable',
+  preselect = "disable",
   allow_prefix_unmatch = false,
   throttle_time = 120,
   source_timeout = 200,
   incomplete_delay = 400,
   source = {path = true, buffer = true, nvim_lsp = true}
 }
-vimp.inoremap({'silent', 'expr'}, '<CR>', 'compe#confirm(\'<CR>\')')
-vimp.inoremap({'expr'}, '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]])
-vimp.inoremap({'expr'}, '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
+map('i', '<CR>', 'compe#confirm(\'<CR>\')', {expr = true})
+map('i', '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]], {expr = true})
+map('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], {expr = true})
 
 -- ale
-vim.cmd('packadd! ale')
-vim.g.ale_disable_lsp = 1
-vim.g.ale_sign_error = '✖'
-vim.g.ale_sign_warning = '!'
-vim.g.ale_set_highlights = 0
-vim.g.ale_lint_on_text_changed = 'normal'
-vim.g.ale_lint_on_insert_leave = 1
-vim.g.ale_lint_delay = 0
-vim.g.ale_echo_msg_format = '%s'
-vim.g.ale_linters = {
+cmd('packadd! ale')
+g.ale_disable_lsp = 1
+g.ale_sign_error = '• '
+g.ale_sign_warning = '• '
+g.ale_set_highlights = 0
+g.ale_lint_on_text_changed = 'normal'
+g.ale_lint_on_insert_leave = 1
+g.ale_lint_delay = 0
+g.ale_echo_msg_format = '%s'
+g.ale_linters = {
   jsx = {'eslint'},
   javascript = {'eslint'},
   typescript = {'eslint'}
 }
-vim.g.ale_fixers = {
+g.ale_fixers = {
   jsx = {'eslint'},
   javascript = {'eslint'},
   typescript = {'eslint'},
   nix = {'nixpkgs-fmt'}
 }
-vim.api.nvim_exec([[
-nmap <silent> [a <Plug>(ale_previous_wrap)
-nmap <silent> ]a <Plug>(ale_next_wrap)
-]], false)
+map('n', '[a', '<Plug>(ale_previous_wrap)', {noremap = false})
+map('n', ']a', '<Plug>(ale_next_wrap)', {noremap = false})
 
 -- gitgutter
-vim.cmd('packadd! vim-gitgutter')
-vim.g.gitgutter_sign_priority = 8
-vim.g.gitgutter_override_sign_column_highlight = 0
-vimp.nmap('ghs', '<Plug>(GitGutterStageHunk)')
-vimp.nmap('ghu', '<Plug>(GitGutterUndoHunk)')
-vimp.nmap('ghp', '<Plug>(GitGutterPreviewHunk)')
+cmd('packadd! vim-gitgutter')
+g.gitgutter_sign_priority = 8
+g.gitgutter_override_sign_column_highlight = 0
+map('n', 'ghs', '<Plug>(GitGutterStageHunk)', {noremap = false})
+map('n', 'ghu', '<Plug>(GitGutterUndoHunk)', {noremap = false})
+map('n', 'ghp', '<Plug>(GitGutterPreviewHunk)', {noremap = false})
 
 -- asterisk
-vim.cmd('packadd! vim-asterisk')
-vimp.nmap('*', '<Plug>(asterisk-z*)')
-vimp.vmap('*', '<Plug>(asterisk-z*)')
+cmd('packadd! vim-asterisk')
+map('n', '*', '<Plug>(asterisk-z*)', {noremap = false})
+map('v', '*', '<Plug>(asterisk-z*)', {noremap = false})
 
 -- nvim-cursor-hold
-vim.cmd('packadd! FixCursorHold.nvim')
-vim.g.cursorhold_updatetime = 100
+cmd('packadd! FixCursorHold.nvim')
+g.cursorhold_updatetime = 100
 
 -- toggle term
-vim.cmd('packadd! FTerm.nvim')
+cmd('packadd! FTerm.nvim')
 require'FTerm'.setup()
 local term = require('FTerm.terminal')
 local tig = term:new()
 tig:setup({cmd = 'tig --all'})
 function _G.__fterm_tig() tig:toggle() end
 com([[command! Tig lua __fterm_tig()]])
-vimp.tnoremap('<c-q>', [[<C-\><C-n>]])
-vimp.nmap([[<C-\>]], ':FTermToggle<cr>')
-vimp.tnoremap([[<C-\>]], '<C-\\><C-n>:FTermToggle<cr>')
+map('t', '<c-q>', [[<C-\><C-n>]])
+map('n', [[<C-\>]], ':lua require"FTerm".toggle()<cr>')
+map('t', [[<C-\>]], '<C-\\><C-n>:lua require"FTerm".toggle()<cr>')
 
 -- formatter
-vim.cmd('packadd! format.nvim')
+cmd('packadd! format.nvim')
 require'format'.setup {
   ['*'] = {{cmd = {'sed -i \'s/[ \t]*$//\''}}},
   lua = {
@@ -152,20 +148,11 @@ require'format'.setup {
   }
 }
 
--- notes
-vim.g.NotesDir = '~/.notes'
-vim.g.HtmlDir = '~/.notes/html-notes'
-vim.g.NoteSuffix = '.md'
-vim.cmd('packadd! vimNotes')
-vim.cmd('command! NN call NewNoteWithPath()')
-vim.cmd('command! NF call FindNote()')
-vim.cmd('command! NS call FindInNote()')
-
 -- template html
-vim.g.vim_jsx_pretty_template_tags = {'html', 'css', 'style = '}
+g.vim_jsx_pretty_template_tags = {'html', 'css', 'style = '}
 
 -- treesitter
-vim.cmd 'packadd! nvim-treesitter'
+cmd 'packadd! nvim-treesitter'
 local ts_config = require('nvim-treesitter.configs')
 ts_config.setup {
   ensure_installed = {
@@ -175,35 +162,37 @@ ts_config.setup {
 }
 
 -- undotree
-vim.cmd('packadd! undotree')
-vim.g.undotree_WindowLayout = 4
-vim.g.undotree_SetFocusWhenToggle = 1
-vim.g.undotree_ShortIndicators = 1
+cmd('packadd! undotree')
+g.undotree_WindowLayout = 4
+g.undotree_SetFocusWhenToggle = 1
+g.undotree_ShortIndicators = 1
 
 -- colorizer
 vim.o.termguicolors = true
-vim.cmd('packadd! nvim-colorizer.lua | lua require"colorizer".setup()')
+cmd('packadd! nvim-colorizer.lua | lua require"colorizer".setup()')
 
 -- git
 com('autocmd CmdlineEnter * packadd vim-fugitive')
 com('autocmd CmdlineEnter * packadd gv.vim')
 
+-- commentary
+cmd('packadd! nvim-comment')
+require('nvim_comment').setup({comment_empty = false})
+
 -- packs
-vim.cmd('packadd! oneterm')
-vim.cmd('packadd! nvim-bqf')
-vim.cmd('packadd! tcomment_vim')
-vim.cmd('packadd! vim-surround')
-vim.cmd('packadd! vim-repeat')
-vim.cmd('packadd! editorconfig-vim')
-vim.cmd('packadd! vim-git-commit-prefix')
-vim.cmd('packadd! auto-git-diff')
-vim.cmd('packadd! diffconflicts')
-vim.cmd('packadd! targets.vim')
-vim.cmd('packadd! vim-indent-object')
-vim.cmd('packadd! winteract.vim')
-vim.cmd('packadd! vim-cool')
-vim.cmd('packadd! cmdline-completion')
-vim.cmd('packadd! vim-system-copy')
-vim.cmd('packadd! vim-niceblock')
-vim.cmd('packadd! vim-expandtab')
-vim.cmd('packadd! tabline')
+cmd 'packadd! oneterm'
+cmd 'packadd! nvim-bqf'
+cmd 'packadd! vim-surround'
+cmd 'packadd! vim-repeat'
+cmd 'packadd! editorconfig-vim'
+cmd 'packadd! vim-git-commit-prefix'
+cmd 'packadd! auto-git-diff'
+cmd 'packadd! diffconflicts'
+cmd 'packadd! targets.vim'
+cmd 'packadd! vim-indent-object'
+cmd 'packadd! winteract.vim'
+cmd 'packadd! vim-cool'
+cmd 'packadd! cmdline-completion'
+cmd 'packadd! vim-system-copy'
+cmd 'packadd! vim-expandtab'
+cmd 'packadd! asyncdo.vim'
