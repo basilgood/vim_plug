@@ -9,21 +9,10 @@ cmd 'autocmd FileType netrw nmap <buffer> <S-TAB> mF'
 cmd 'autocmd FileType netrw nmap <buffer> <c-x> mfmx'
 
 -- oneterm
-g.oneterm_yank = true
-g.oneterm_ignore = {'.git/', 'node_modules/'}
-g.oneterm_options = {border = 'single'}
-g.oneterm_width = 0.8
-g.oneterm_height = 0.8
-g.oneterm_x_pos = 0.5
-g.oneterm_y_pos = 0.5
-map('n', '<c-p>', ':OneTerm<CR>')
-map('n', '<bs>', ':OneTerm buffers<CR>')
-map('n', '<leader>o', ':OneTerm oldfiles<CR>')
-map('n', '<leader>g', ':OneTerm rg<CR>')
-map('n', '<leader>r', ':OneTerm references<CR>')
-map('n', '<leader>s', ':OneTerm symbols<CR>')
-map('n', '<leader>w', ':OneTerm ws_symbols<CR>')
-map('n', '<leader>h', ':OneTerm history<CR>')
+cmd 'packadd! fzf.vim'
+cmd 'packadd! fzf'
+map('n', '<c-p>', ':Files<CR>')
+map('n', '<bs>', ':Buffers<CR>')
 
 -- lsp
 cmd('packadd nvim-lspconfig')
@@ -49,8 +38,8 @@ end
 lspconfig.tsserver.setup {on_attach = on_attach}
 
 -- compe
-cmd 'packadd nvim-compe'
-require'compe'.setup {
+cmd'packadd nvim-compe'
+com([[autocmd InsertCharPre * lua require'compe'.setup {
   enabled = true,
   debug = false,
   min_length = 2,
@@ -60,7 +49,7 @@ require'compe'.setup {
   source_timeout = 200,
   incomplete_delay = 400,
   source = {path = true, buffer = true, nvim_lsp = true}
-}
+}]])
 map('i', '<CR>', 'compe#confirm(\'<CR>\')', {expr = true})
 map('i', '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]], {expr = true})
 map('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], {expr = true})
@@ -175,24 +164,37 @@ cmd('packadd! nvim-colorizer.lua | lua require"colorizer".setup()')
 com('autocmd CmdlineEnter * packadd vim-fugitive')
 com('autocmd CmdlineEnter * packadd gv.vim')
 
+-- cmdline-completion
+cmd 'autocmd CmdlineEnter * packadd cmdline-completion'
+
 -- commentary
 cmd('packadd! nvim-comment')
 require('nvim_comment').setup({comment_empty = false})
 
+-- smarttab
+com('autocmd InsertEnter * packadd smarttab.vim')
+
+-- qf
+com('autocmd FileType qf packadd nvim-bqf')
+
+-- git commit
+com('autocmd CmdlineEnter * packadd vim-git-commit-prefix')
+com('autocmd FileType gitcommit setlocal spell tw=72 colorcolumn+=51')
+
+-- git rebase
+com('autocmd FileType gitrebase packadd auto-git-diff')
+
+-- git conflicts
+com('autocmd CmdlineEnter * packadd diffconflicts')
+
 -- packs
-cmd 'packadd! oneterm'
-cmd 'packadd! nvim-bqf'
 cmd 'packadd! vim-surround'
 cmd 'packadd! vim-repeat'
 cmd 'packadd! editorconfig-vim'
-cmd 'packadd! vim-git-commit-prefix'
-cmd 'packadd! auto-git-diff'
-cmd 'packadd! diffconflicts'
 cmd 'packadd! targets.vim'
 cmd 'packadd! vim-indent-object'
 cmd 'packadd! winteract.vim'
 cmd 'packadd! vim-cool'
-cmd 'packadd! cmdline-completion'
 cmd 'packadd! vim-system-copy'
-cmd 'packadd! vim-expandtab'
 cmd 'packadd! asyncdo.vim'
+cmd 'packadd! barow'

@@ -7,9 +7,6 @@ com([[command! -nargs=0 WT %s/[^\t]\zs\t\+/ / | normal! ``]])
 com([[command! -bar HL echo synIDattr(synID(line('.'),col('.'),0),'name')]] ..
         [[synIDattr(synIDtrans(synID(line('.'),col('.'),1)),'name')]])
 com([[command! WW w !sudo tee % > /dev/null]])
-com([[command! -nargs=1 TV call system('tmux split-window -h '.<q-args>)]])
-com([[command! TA FloatermNew tig --all]])
-com([[command! TS FloatermNew tig status]])
 com(
     [[command! -bang -nargs=* -complete=file Make call asyncdo#run(1, &makeprg, <f-args>)]])
 com(

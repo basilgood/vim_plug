@@ -18,7 +18,8 @@ paq {'ray-x/lsp_signature.nvim', opt = true}
 paq {'nvim-treesitter/nvim-treesitter', opt = true}
 paq {'dense-analysis/ale', opt = true}
 paq {'nathunsmitty/nvim-ale-diagnostic', opt = true}
-paq {'LoricAndre/oneterm', opt = true}
+paq {'junegunn/fzf', opt = true}
+paq {'junegunn/fzf.vim', opt = true}
 paq {'airblade/vim-gitgutter', opt = true}
 paq {'tpope/vim-fugitive', opt = true}
 paq {'junegunn/gv.vim', opt = true}
@@ -43,10 +44,11 @@ paq {'romgrk/winteract.vim', opt = true}
 paq {'basilgood/vim-system-copy', opt = true}
 paq {'romainl/vim-cool', opt = true}
 paq {'antoinemadec/FixCursorHold.nvim', opt = true}
-paq {'chaoren/vim-expandtab', opt = true}
+paq {'basilgood/smarttab.vim', opt = true}
 paq {'numtostr/FTerm.nvim', opt = true}
 paq {'lukas-reineke/format.nvim', opt = true}
 paq {'norcalli/nvim-colorizer.lua', opt = true}
+paq {'basilgood/barow', opt = true}
 paq {'basilgood/tokyodark.nvim', opt = true}
 
 Paq.install()
